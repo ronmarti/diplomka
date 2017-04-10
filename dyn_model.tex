@@ -1,0 +1,28 @@
+
+%!TEX ROOT=ctutest.tex
+
+\chapter{Dynamický model}
+
+Pro výpočet spotřeby je nutné řešit inverzní dynamickou úlohu, kdy z průběhů poloh, rychlostí a zrychlení na jednotlivých osách robota se vypočítají točivé momenty, kterými působí motory. Moment síly motoru je závislý na proudu protékajícím jeho vinutím. Tuto závislost je často možné aproximovat lineární závislostí. Poté je již snadné z momentů na motorech určit jejich proudy a tím i elektrický výkon.
+
+Aby bylo možné řešit inverzní dynamickou úlohu, je potřeba mít dynamický model robotického systému. Jedná se o soustavu nelineárních diferenciálních rovnic druhého řádu. Počet rovnic odpovídá počtu aktuátorů. Rovnice je možné zapsat v maticovém tvaru jako
+\begin{equation}
+T = M(\dot{\theta},\theta)\ddot{\theta} + C(\dot{\theta},\theta)\dot{\theta} + G(\theta) + f_v\dot{\theta} + f_csign(\dot{\theta})
+\label{dyn_rovnice_eq}
+\end{equation}
+kde
+\begin{description}
+\item[$T = {\big[T_1  \dotsm  T_n\big]}^{T}$] je vektor momentů 
+\item[$\ddot \theta = {\big[\ddot \theta_1  \dotsm  \ddot \theta_n\big]}^{T}$] je vektor úhlových zrychlení
+\item[$\dot \theta = {\big[\dot \theta_1  \dotsm  \dot \theta_n\big]}^{T}$] je vektor úhlových rychlostí
+\item[$M\big(\dot \theta, \theta\big)$] je matice setrvačnosti tvořena tenzory setrvačnosti jednotlivých os
+\item[$C\big(\dot \theta, \theta\big)$] je matice Coriolisových a odstředivých sil
+\item[$G\big(\theta\big)$] je matice gravitačních sil
+\item[$f_v$] je vektor koeficientů viskózního tření
+\item[$f_c$] je vektor koeficientů Coulombova tření 
+\item[$n$] je počet os
+\end{description}
+
+V tomto případě se jedná o soustavu 6 rovnic o celkem 24 neznámých (moment, poloha, rychlost a zrychlení pro každou osu). Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti byl použit skript pro matematický nástroj MATLAB využívající solver ReDySim Symbolic\cite{redysim}. Tento nástroj byl vyvinutý na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os. Vstupními parametry jsou DH-parametry robota a fyzické parametry s numerickými nebo symbolickými hodnotami. 
+
+
