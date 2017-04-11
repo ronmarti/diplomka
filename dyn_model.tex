@@ -3,26 +3,57 @@
 
 \chapter{Dynamický model}
 
-Pro výpočet spotřeby je nutné řešit inverzní dynamickou úlohu, kdy z průběhů poloh, rychlostí a zrychlení na jednotlivých osách robota se vypočítají točivé momenty, kterými působí motory. Moment síly motoru je závislý na proudu protékajícím jeho vinutím. Tuto závislost je často možné aproximovat lineární závislostí. Poté je již snadné z momentů na motorech určit jejich proudy a tím i elektrický výkon.
+Pro výpočet a predikci spotřeby elektrické energie je potřeba vytvořit matematický dynamický model robota. 
+V případě 6-ti osového manipulátoru se jedná o systém se šesti stupni volnosti. K popisu jeho dynamiky je proto potřeba 6 rovnic druhého řádu. Celkově se tedy jedná o systém dvanáctého řádu. 
 
-Aby bylo možné řešit inverzní dynamickou úlohu, je potřeba mít dynamický model robotického systému. Jedná se o soustavu nelineárních diferenciálních rovnic druhého řádu. Počet rovnic odpovídá počtu aktuátorů. Rovnice je možné zapsat v maticovém tvaru jako
+K odvození těchto rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu. 
+
+Newton-Eulerova metoda je založena na přístupu k systému jako k soustavě jednotlivých jeho částí a vyžaduje určení pohybových rovnic každé jednotlivé osy. Protože jsou jednotlivé osy vzájemně kinematicky propojeny, jsou i pohybové rovnice jednotlivých os závislé na pohybu ostatních os. Euler-Lagrangeova metoda naopak přistupuje k systému jako k celku a je založena na určení jeho celkové kinetické a potenciální energie. 
+
+Oba přístupy nakonec vedou ke stejným rovnicím. Protože jsou jednotlivé polohy a dynamika systému popisovány pomocí úhlů na jednotlivých osách, jsou tyto rovnice silně nelineární. V případě robota KR5 se jedná o soustavu 6 rovnic o celkem 24 neznámých (moment, poloha, rychlost a zrychlení pro každou osu). 
+
+Rovnice systému je možné zapsat v následujícím maticovém tvaru jako 
+
 \begin{equation}
 T = M(\dot{\theta},\theta)\ddot{\theta} + C(\dot{\theta},\theta)\dot{\theta} + G(\theta) + f_v\dot{\theta} + f_csign(\dot{\theta})
 \label{dyn_rovnice_eq}
 \end{equation}
+
 kde
+
 \begin{description}
-\item[$T = {\big[T_1  \dotsm  T_n\big]}^{T}$] je vektor momentů 
-\item[$\ddot \theta = {\big[\ddot \theta_1  \dotsm  \ddot \theta_n\big]}^{T}$] je vektor úhlových zrychlení
-\item[$\dot \theta = {\big[\dot \theta_1  \dotsm  \dot \theta_n\big]}^{T}$] je vektor úhlových rychlostí
+\item[$T = {\big[T_1  \dotsm  T_n\big]}^{T}$] je vektor momentů sil působících na jednotlivé osy robota
+\item[$\ddot \theta = {\big[\ddot \theta_1  \dotsm  \ddot \theta_n\big]}^{T}$] je vektor úhlových zrychlení na jednotlivých osách
+\item[$\dot \theta = {\big[\dot \theta_1  \dotsm  \dot \theta_n\big]}^{T}$] je vektor úhlových rychlostí na jednotlivých osách
 \item[$M\big(\dot \theta, \theta\big)$] je matice setrvačnosti tvořena tenzory setrvačnosti jednotlivých os
-\item[$C\big(\dot \theta, \theta\big)$] je matice Coriolisových a odstředivých sil
-\item[$G\big(\theta\big)$] je matice gravitačních sil
-\item[$f_v$] je vektor koeficientů viskózního tření
-\item[$f_c$] je vektor koeficientů Coulombova tření 
+\item[$C\big(\dot \theta, \theta\big)$] je matice Coriolisových a odstředivých sil působících na jednotlivé osy
+\item[$G\big(\theta\big)$] je matice gravitačních sil působících na jednotlivé osy
+\item[$f_v$] je vektor koeficientů viskózního tření v jednotlivých osách
+\item[$f_c$] je vektor koeficientů Coulombova suchého tření v jednotlivých osách
 \item[$n$] je počet os
 \end{description}
 
-V tomto případě se jedná o soustavu 6 rovnic o celkem 24 neznámých (moment, poloha, rychlost a zrychlení pro každou osu). Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti byl použit skript pro matematický nástroj MATLAB využívající solver ReDySim Symbolic\cite{redysim}. Tento nástroj byl vyvinutý na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os. Vstupními parametry jsou DH-parametry robota a fyzické parametry s numerickými nebo symbolickými hodnotami. 
+K výpočtu okamžité spotřeby elektrické energie je nutné řešit inverzní dynamickou úlohu, kdy se z okamžitých poloh, rychlostí a zrychlení na jednotlivých osách robota vypočítají točivé momenty, kterými působí motory. Moment síly motoru je závislý na proudu protékajícím jeho vinutím. Tuto závislost je často možné aproximovat lineární závislostí a psát jako
+\begin{equation}
+T\big(t\big) = KI\big(t\big)
+\label{torque_current_eq}
+\end{equation}
+
+kde
+
+\begin{description}
+\item[$T\big(t\big) {\big[Nm\big]}$] moment síly motoru 
+\item[$K {\big[Nm/A\big]}$] momentová konstanta 
+\item[$I\big(t\big) {\big[A\big]}$] proud protékající motorem 
+\end{description}
+
+Momentové konstanty jednotlivých motorů je možné zjistit v jejich dokumentaci. Nástroj TRACE robotu KUKA KR5 takto počítá momenty sil jednotlivých motorů. 
+
+\section{Elektrický výkon}
+Poté je již snadné z momentů na motorech určit jejich proudy a tím i elektrický výkon.
+
+\section{Solver ReDySim}
+
+Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případné rozšíení použití i na jiný typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver ReDySim Symbolic\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os. Vstupními parametry jsou DH-parametry robota a fyzické parametry s numerickými nebo symbolickými hodnotami. 
 
 

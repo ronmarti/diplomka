@@ -4,8 +4,7 @@
 \chapter{Robotický systém}
 
 
-
-Měření průběhů dynamických parametrů se provádí na průmyslovém robotu KUKA KR5 Arc \cite{kuka_url} od společnosti KUKA Roboter GmbH (obr. \ref{kuka_kr5_pic}). Jedná se o 6-ti osového robota, který má 6 rotačních os poháněných servomotory. Osy robota jsou uspořádány tak, že jsou schopny napodobit stavbu a pohyb lidské paže. Konfigurace os robota je zobrazena na obrázku \ref{kuka_kr5_axes_pic}. 
+Identifikace byla provedena na průmyslovém robotu KUKA KR5 Arc \cite{kuka_url} od společnosti KUKA Roboter GmbH (obr. \ref{kuka_kr5_pic}). Jedná se o 6-ti osového robota, který má 6 rotačních os poháněných servomotory. Osy robota jsou uspořádány tak, že jsou schopny napodobit stavbu a pohyb lidské paže. Konfigurace os robota je zobrazena na obrázku \ref{kuka_kr5_axes_pic}.  
 
 \begin{figure}[ht]
 \includegraphics[width=0.45\textwidth]{PR_KR5_arc_02}
@@ -13,7 +12,7 @@ Měření průběhů dynamických parametrů se provádí na průmyslovém robot
 \label{kuka_kr5_pic}
 \end{figure}
 
-Tento robot s hmotností 127 kg a základní nosností 5 kg patří mezi lehčí průmyslové roboty. Byl vyvinut primárně pro aplikace vyžadující vysokou přesnost polohování, jako je obloukové svařování a přesná manipulace s lehkými pevnými předměty. Je určen pro montáž na zem ve vnitřních prostorách.
+Tento robot s hmotností 127 kg a základní nosností 5 kg patří mezi lehčí průmyslové roboty. Byl vyvinut primárně pro aplikace vyžadující vysokou přesnost polohování, jako je obloukové svařování a přesná manipulace s lehkými pevnými předměty. Je určen pro montáž na zem nebo strop ve vnitřních prostorách.
 
 \begin{figure}[ht]
 \includegraphics[width=0.65\textwidth]{kuka_kr5_axes}
@@ -21,4 +20,8 @@ Tento robot s hmotností 127 kg a základní nosností 5 kg patří mezi lehčí
 \label{kuka_kr5_axes_pic}
 \end{figure}
 
-Jako pohony os jsou použity synchronní servopohony s permanentními magnety (PMSM). Pro zvýšení točivého momentu motorů a přesnosti polohování jsou motory opatřeny převodovkou. Podrobnější informace je možné nalézt v katalogovém listu \cite{kuka_datasheet_url}.
+Jako pohony os jsou použity třífázové synchronní servopohony s permanentními magnety (PMSM). Pro zvýšení točivého momentu motorů a přesnosti polohování jsou motory opatřeny převodovkou. 
+
+Součástí robota je i řídící systém zajišťující napájení a řízení robota a poskytující uživatelské rozhraní (HMI) pro jeho programování a ovládání. Pohyb robota je programován v jazyce KRL (KUKA Robot Language). Součástí řídícího systému je i užitečný nástroj TRACE, umožňující sledování vnitřních stavů robota jako jsou polohy, rychlosti a zrychlení jednotlivých os, jejich momenty, protékající proudy a mnoho dalších. 
+
+Celý systém je napájen z třífázové sítě elektrické energie. Podrobnější informace je možné nalézt v katalogovém listu. \cite{kuka_datasheet_url}.
