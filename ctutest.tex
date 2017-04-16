@@ -28,8 +28,8 @@
 %	subfieldofstudy-english = {Mathematical Modelling},
 %	fieldofstudy-czech = {Matematcké inženýrství},
 %	subfieldofstudy-czech = {Matematické modelování},
-	keywords-czech = {robot, identifikace, průmysl, energie, spotřeba, databáze},
-    keywords-english = {robot, identification, industry, energy, consumption, database},
+	keywords-czech = {robot, model, identifikace, průmysl, energie, spotřeba, databáze},
+    keywords-english = {robot, model, identification, industry, energy, consumption, database},
 	day = 24,
 	month = 5,
 	year = 2017,
@@ -76,7 +76,8 @@
 \newtheorem*{remark*}{Remark}
 \newtheorem{remark}[theorem]{Remark}
 
-\setlength{\parskip}{5ex plus 0.2ex minus 0.2ex}
+%\setlength{\parskip}{5ex plus 0.2ex minus 0.2ex}
+\setlength{\parskip}{2ex plus 0.2ex minus 0.2ex}
 
 % Abstract in Czech
 \begin{abstract-czech}
@@ -91,14 +92,16 @@ Text abstraktu anglicky
 
 % Acknowledgements / Podekovani
 \begin{thanks}
-bla bla bla
+Díky
 \end{thanks}
 
 % Declaration / Prohlaseni
 \begin{declaration}
 Prohlašuji, že jsem předloženou práci vypracoval samostatně, a že jsem uvedl veškerou použitou literaturu.
 
-V Praze, \ctufield{day}.~\monthinlanguage{title}~\ctufield{year}
+V Praze, \ctufield{day}.~\monthinlanguage{title}~\ctufield{year}\\
+\\\hbox{}
+\dotfill\hfill
 \end{declaration}
 
 % Only for testing purposes
@@ -111,6 +114,10 @@ V Praze, \ctufield{day}.~\monthinlanguage{title}~\ctufield{year}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{newunicodechar}
+\usepackage{siunitx}
+\usepackage{wrapfig}
+
 
 \begin{document}
 
@@ -132,8 +139,10 @@ V Praze, \ctufield{day}.~\monthinlanguage{title}~\ctufield{year}
 \input{dyn_model}
 \input{identifikace}
 \input{simulace}
+\input{mereni_vykonu}
+\input{srovnani_vysledku}
 \input{program}
-\input{databaze}
+\input{zaver}
 
 
 %\part{Your Party}

@@ -6,9 +6,13 @@
 Pro výpočet a predikci spotřeby elektrické energie je potřeba vytvořit matematický dynamický model robota. 
 V případě 6-ti osového manipulátoru se jedná o systém se šesti stupni volnosti. K popisu jeho dynamiky je proto potřeba 6 rovnic druhého řádu. Celkově se tedy jedná o systém dvanáctého řádu. 
 
-K odvození těchto rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu. 
+\section{Pohybové rovnice}
 
-Newton-Eulerova metoda je založena na přístupu k systému jako k soustavě jednotlivých jeho částí a vyžaduje určení pohybových rovnic každé jednotlivé osy. Protože jsou jednotlivé osy vzájemně kinematicky propojeny, jsou i pohybové rovnice jednotlivých os závislé na pohybu ostatních os. Euler-Lagrangeova metoda naopak přistupuje k systému jako k celku a je založena na určení jeho celkové kinetické a potenciální energie. 
+K odvození pohybových rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu. 
+
+Newton-Eulerova metoda je založena na přístupu k systému jako k soustavě jednotlivých jeho částí a vyžaduje určení pohybových rovnic každé jednotlivé osy. Protože jsou jednotlivé osy vzájemně kinematicky propojeny, jsou i pohybové rovnice jednotlivých os závislé na pohybu ostatních os. 
+
+Euler-Lagrangeova metoda naopak přistupuje k systému jako k celku a je založena na určení Lagrangianu, který je definován jako rozdíl jeho celkové kinetické a potenciální energie. Dynamické rovnice systému se poté odvodí vypočtením Lagrangeových rovnic druhého druhu pro všechny stupně volnosti.
 
 Oba přístupy nakonec vedou ke stejným rovnicím. Protože jsou jednotlivé polohy a dynamika systému popisovány pomocí úhlů na jednotlivých osách, jsou tyto rovnice silně nelineární. V případě robota KR5 se jedná o soustavu 6 rovnic o celkem 24 neznámých (moment, poloha, rychlost a zrychlení pro každou osu). 
 
@@ -49,11 +53,104 @@ kde
 
 Momentové konstanty jednotlivých motorů je možné zjistit v jejich dokumentaci. Nástroj TRACE robotu KUKA KR5 takto počítá momenty sil jednotlivých motorů. 
 
-\section{Elektrický výkon}
-Poté je již snadné z momentů na motorech určit jejich proudy a tím i elektrický výkon.
-
 \section{Solver ReDySim}
 
-Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případné rozšíení použití i na jiný typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver ReDySim Symbolic\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os. Vstupními parametry jsou DH-parametry robota a fyzické parametry s numerickými nebo symbolickými hodnotami. 
+Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim)\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os a to jak pro rotační, tak lineární osy. 
 
+Jeho vstupními parametry jsou modifikované DH (Denavit-Hartenbergovy) parametry robota a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté skript pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robota.  
+
+\section{Modifikované DH parametry robota}
+
+Modifikované Denavit-Hartenbergovy (DH) parametry jsou parametry, pomocí nichž je možné kompletně popsat geometrii a kinematiku sériového robota. Jedná se o čtyři parametry pro každou osu robota, které definují vzájemnou polohu a konfiguraci sousedících os. 
+
+Parametr $a_i [m]$ popisuje délku ramena $i$, $b_i [m]$ udává odsazení ramena $i$ podél osy rotace ramena $i-1$, parametr $\alpha_i [\si{\degree}]$ určuje vzájemný úhel natočení mezi osou $i+1$ a osou $i$ a poslední parametr $\theta_i [\si{\degree}]$ udává okamžitý úhel natočení osy $i$.
+
+V tabulce č.\ref{tab_DH_kuka} je DH parametrizace robota KUKA KR5 Arc použita v nástroji ReDySim.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Tabulka DH parametrů KUKA KR5 Arc.}
+    \begin{tabular}{c|cccccccccc}
+    \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$a_{i} [m]$} & \multicolumn{1}{c}{$b_{i} [m]$} & \multicolumn{1}{c}{$\alpha_{i} [\si{\degree}]$} & \multicolumn{1}{c}{$\theta_i [\si{\degree}]$} \\
+    \hline
+    1     &   0.18  &  0.4   &  90     &   -    &  \\
+    2     &   0.6   &  0     &  180    &   -    &  \\
+    3     &   0.12  &  0     &  -90    &   -    &  \\
+    4     &   0     &  0.62  &  -90    &   -    &  \\
+    5     &   0     &  0     &  90     &   -    &  \\
+    6     &   0     &  0.115 &  0      &   -    &  \\
+    \end{tabular}%
+  \label{tab_DH_kuka}%
+\end{table}% 
+
+Přesné délky jednotlivých ramen a vzájemné polohy jednotlivých os robota je možné nalézt v jeho dokumentaci.
+
+Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cite{roboanalyzer}], který byl vyvinut společně se solverem ReDySim pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat jednoduché pohyby robota s až 7 osami a vykreslovat průběhy stavů jako jsou polohy, rychlosti, zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
+
+\begin{figure}[ht]
+\includegraphics[width=0.85\textwidth]{pic_dh_kuka}
+\caption{Vizualizace DH parametrizace robota KUKA KR5 Arc.}
+\label{dh_kuka_pic}
+\end{figure}
+
+\section{Elektrický výkon}
+\subsection{Obecný vztah}
+Okamžitý elektrický výkon v je definován jako součin okamžitého napětí a okamžitého proudu v obvodu jako
+
+\begin{equation}
+p\big(t\big) = u\big(t\big)i\big(t\big)
+\label{el_power_eq}
+\end{equation}
+
+kde v případě harmonického střídavého napětí a proudu platí
+
+\begin{equation}
+\begin{split}
+u\big(t\big) = U_m cos\big(\omega t + \phi\big) \\
+i\big(t\big) = I_m cos\big(\omega t + \phi + \psi\big)
+\end{split}
+\label{harm_curr_volt_eq}
+\end{equation}  
+
+kde $U_m$ je maximální amplituda napětí, $I_m$ je maximální amplituda proudu, $\omega$ je frekvence, $\phi$ je počáteční fáze proudu a napětí a $\psi$ je fázový posun mezi napětím a proudem.
+
+Pokud je fázový posun $\psi$ mezi napětím a proudem nenulový, je potřeba rozdělit elektrický výkon na činnou a jalovou složku. Činná složka výkonu je výkon, který je přenášen ze zdroje do spotřebiče a který je schopen konat práci. Pro činnou složku výkonu platí následující vztah
+
+\begin{equation}
+P = \frac{1}{T} \int_{t_0}^{t_0 + T} p(t)dt = UI cos\phi
+\label{act_power_eq}
+\end{equation}  
+
+kde $U$ je efektivní hodnota napětí a $I$ je efektivní hodnota proudu.
+
+V případě třífázové soustavy je její celkový výkon roven součtu výkonů na jednotlivých fázích. Platí tedy
+\begin{equation}
+P = P_U + P_V + P_W
+\label{3ph_power_eq}
+\end{equation}  
+kde $U,V,W$ jsou jednotlivé fáze v třífázové soustavě.
+
+\subsection{Elektrický výkon synchronního motoru}
+
+V případě výpočtu výkonu elektrického motoru je potřeba vytvořit model jeho vinutí. Synchronní motor s permanentními magnety je možné zjednodušeně modelovat jako stejnosměrný (DC) motor. Jeho elektrické schéma je na obrázku \ref{schema_motoru_pic}.  
+
+\begin{figure}[ht]
+\includegraphics[width=0.45\textwidth]{obvod_motoru}
+\caption{Elektrické schéma vinutí synchronního motoru.}
+\label{schema_motoru_pic}
+\end{figure}
+
+$R$ je vnitřní elektrický odpor vinutí a $L$ je jeho indukčnost. Tyto hodnoty jsou zpravidla udávány v datasheetech k motorům.
+
+Okamžitý elektrický výkon motoru je poté možné z měření okamžité efektivní hodnoty proudu vypočítat jako 
+\begin{equation}
+p(t) = i(t)u(t) = i(t)\left(i(t)R + L\frac{di(t)}{dt}\right)
+\label{motor_power_eq}
+\end{equation} 
+Celkový okamžitý elektrický výkon při pohybu robota je poté dán jako součet okamžitých výkonů na všech jeho motorech
+\begin{equation}
+P(t) = \sum_{i=1}^{N} p_i(t)
+\label{robot_motor_power_eq}
+\end{equation} 
+kde $N$ je počet motorů.
 

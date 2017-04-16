@@ -5,9 +5,11 @@
 
 U robotického manipulátoru zpravidla nejsou zcela známy informace o dynamických parametrech robota, jako jsou momenty setrvačnosti, hmotnosti nebo koeficienty tření jednotlivých os. Tyto informace nejsou v běžných situacích poskytovány ani samotnými výrobci robotů. Je to hlavně proto, že pro zákazníka nejsou tyto údaje důležité, protože se robotické manipulátory dodávají jako hotové uzavřené systémy připravené k použití. Jejich řízení je již implementováno v řídícím systému robota.
 
+\section{Způsoby identifikace}
+
 Z toho důvodu je nutné tyto parametry nějakým způsobem odvodit. Toho je možné docílit několika hlavními způsoby.
 
-\section{Z přímého měření součástí robota}
+\subsection{Z přímého měření součástí robota}
 
 Dynamické parametry je možné určit rozebráním robota na menší součásti a přímým měřením jejich dynamických vlastností. Tento způsob se jeví jako nejpřirozenější.
 
@@ -16,7 +18,7 @@ Určení parametrů takovýmto způsobem je ale možné pouze u jednoduchých la
 Další nevýhodou je nemožnost zobecnění tohoto způsobu na více typů robotů. Každý typ robota by se musel rozebrat a změřit, i kdyby se jednalo o robota podobné konstrukce.
 Proto se tato práce tímto postupem dále nezabývá.    
 
-\section{Z 3D modelu}
+\subsection{Z 3D modelu}
 
 Výrobce poskytuje k robotu KUKA KR5 3D model. Ten je možné analyzovat v nástrojích CAD jako je například AutoCAD nebo Siemens NX, které jsou schopny počítat momenty setrvačnosti a hmotnosti libovolně složitých objektů. Výhodou tohoto postupu je jeho rychlost a jednoduchost. Navíc je takto možné získat hledané parametry bez nutnosti přístupu k opravdovému fyzickému robotu. Je také možné tento postup zobecnit na libovolný typ robota.
    
@@ -24,7 +26,7 @@ Výrobce poskytuje k robotu KUKA KR5 3D model. Ten je možné analyzovat v nást
 odhadnout z celkové hmotnosti robota udávané v datasheetu, tento postup ale dává jen velmi hrubý odhad dynamických parametrů. Navíc z 3D modelu není možné získat informace o koeficientech tření os. 
 Tento postup je zde použit pouze pro účely porovnání určených hodnot.
 
-\section{Z rovnic}
+\subsection{Z rovnic}
 
 Přestože jsou dynamické rovnice robota \ref{dyn_rovnice_eq} nelineární vůči zobecněným souřadnicím, jsou lineární vůči jednotlivým složkám dynamických parametrů. Proto je možné je přepsat do tvaru
 \begin{equation}
