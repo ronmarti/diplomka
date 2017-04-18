@@ -3,7 +3,8 @@
 
 \chapter{Dynamický model}
 
-Pro výpočet a predikci spotřeby elektrické energie je potřeba vytvořit matematický dynamický model robota. 
+Pro výpočet a predikci spotřeby elektrické energie je nezbytné vytvořit matematický dynamický model robota. 
+
 V případě 6-ti osového manipulátoru se jedná o systém se šesti stupni volnosti. K popisu jeho dynamiky je proto potřeba 6 rovnic druhého řádu. Celkově se tedy jedná o systém dvanáctého řádu. 
 
 \section{Pohybové rovnice}
@@ -37,7 +38,9 @@ kde
 \item[$n$] je počet os
 \end{description}
 
-K výpočtu okamžité spotřeby elektrické energie je nutné řešit inverzní dynamickou úlohu, kdy se z okamžitých poloh, rychlostí a zrychlení na jednotlivých osách robota vypočítají točivé momenty, kterými působí motory. Moment síly motoru je závislý na proudu protékajícím jeho vinutím. Tuto závislost je často možné aproximovat lineární závislostí a psát jako
+K výpočtu okamžité spotřeby elektrické energie je nutné řešit inverzní dynamickou úlohu, kdy se z okamžitých poloh, rychlostí a zrychlení na jednotlivých osách robota vypočítají točivé momenty, kterými působí motory. 
+
+Moment síly motoru je závislý na proudu protékajícím jeho vinutím. Tuto závislost je často možné aproximovat lineární závislostí a psát jako
 \begin{equation}
 T\big(t\big) = KI\big(t\big)
 \label{torque_current_eq}
@@ -86,7 +89,7 @@ V tabulce č.\ref{tab_DH_kuka} je DH parametrizace robota KUKA KR5 Arc použita 
 Přesné délky jednotlivých ramen a vzájemné polohy jednotlivých os robota je možné nalézt v jeho dokumentaci.
 
 Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cite{roboanalyzer}], který byl vyvinut společně se solverem ReDySim pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat jednoduché pohyby robota s až 7 osami a vykreslovat průběhy stavů jako jsou polohy, rychlosti, zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
-
+\\
 \begin{figure}[ht]
 \includegraphics[width=0.85\textwidth]{pic_dh_kuka}
 \caption{Vizualizace DH parametrizace robota KUKA KR5 Arc.}
@@ -94,7 +97,7 @@ Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cit
 \end{figure}
 
 \section{Elektrický výkon}
-\subsection{Obecný vztah}
+\subsection{Elektrický výkon v třífázové soustavě}
 Okamžitý elektrický výkon v je definován jako součin okamžitého napětí a okamžitého proudu v obvodu jako
 
 \begin{equation}
@@ -135,18 +138,20 @@ kde $U,V,W$ jsou jednotlivé fáze v třífázové soustavě.
 V případě výpočtu výkonu elektrického motoru je potřeba vytvořit model jeho vinutí. Synchronní motor s permanentními magnety je možné zjednodušeně modelovat jako stejnosměrný (DC) motor. Jeho elektrické schéma je na obrázku \ref{schema_motoru_pic}.  
 
 \begin{figure}[ht]
-\includegraphics[width=0.45\textwidth]{obvod_motoru}
+\includegraphics[width=0.55\textwidth]{obvod_motoru}
 \caption{Elektrické schéma vinutí synchronního motoru.}
 \label{schema_motoru_pic}
 \end{figure}
 
 $R$ je vnitřní elektrický odpor vinutí a $L$ je jeho indukčnost. Tyto hodnoty jsou zpravidla udávány v datasheetech k motorům.
 
-Okamžitý elektrický výkon motoru je poté možné z měření okamžité efektivní hodnoty proudu vypočítat jako 
+Okamžitý elektrický výkon motoru je poté možné z měření okamžité efektivní hodnoty proudu vypočítat jako
+ 
 \begin{equation}
 p(t) = i(t)u(t) = i(t)\left(i(t)R + L\frac{di(t)}{dt}\right)
 \label{motor_power_eq}
 \end{equation} 
+
 Celkový okamžitý elektrický výkon při pohybu robota je poté dán jako součet okamžitých výkonů na všech jeho motorech
 \begin{equation}
 P(t) = \sum_{i=1}^{N} p_i(t)

@@ -3,66 +3,78 @@
 
 \chapter{Identifikace systému}
 
-U robotického manipulátoru zpravidla nejsou zcela známy informace o dynamických parametrech robota, jako jsou momenty setrvačnosti, hmotnosti nebo koeficienty tření jednotlivých os. Tyto informace nejsou v běžných situacích poskytovány ani samotnými výrobci robotů. Je to hlavně proto, že pro zákazníka nejsou tyto údaje důležité, protože se robotické manipulátory dodávají jako hotové uzavřené systémy připravené k použití. Jejich řízení je již implementováno v řídícím systému robota.
+U robotického manipulátoru zpravidla nejsou zcela známy informace o dynamických parametrech robota, jako jsou momenty setrvačnosti, hmotnosti nebo koeficienty tření jednotlivých os. Tyto informace nejsou v běžných situacích poskytovány ani samotnými výrobci robotů. Je to hlavně proto, že pro zákazníka nejsou tyto údaje důležité, protože se robotické manipulátory dodávají jako hotové uzavřené systémy připravené k použití a jejich řízení je již výrobcem implementováno v jejich řídícím systému.
 
 \section{Způsoby identifikace}
 
-Z toho důvodu je nutné tyto parametry nějakým způsobem odvodit. Toho je možné docílit několika hlavními způsoby.
+Protože zpravidla nejsou známy všechny dynamické parametry, je pro vytvoření dynamického modelu nutné tyto parametry nějakým způsobem získat nebo odvodit. Toho je možné docílit několika hlavními způsoby.
 
 \subsection{Z přímého měření součástí robota}
 
 Dynamické parametry je možné určit rozebráním robota na menší součásti a přímým měřením jejich dynamických vlastností. Tento způsob se jeví jako nejpřirozenější.
 
-Určení parametrů takovýmto způsobem je ale možné pouze u jednoduchých laboratorních modelů robota tvořených malým počtem součástí. U větších a složitějších robotů je tento způsob náročný časově i způsobem provedení. Jednotlivé linky sestávají z více komponent, jako jsou převodovky motorů, napájecí a komunikační vedení motorů atd. Ty dále sestávají z dalších komponent.
+Určení parametrů takovýmto způsobem je ale možné pouze u jednoduchých laboratorních modelů robota tvořených malým počtem součástí. U větších a složitějších robotů jako jsou průmyslové manipulátory je tento způsob náročný časově i způsobem provedení. Jednotlivá ramena sestávají z více komponent, jako jsou samotné kostry ramen, převodovky motorů, napájecí a komunikační vedení motorů atd. Ty mohou dále sestávat z dalších součástek. Rozebrání robota navíc může způsobit ztrátu podpory a záruky ze strany výrobce.
 
-Další nevýhodou je nemožnost zobecnění tohoto způsobu na více typů robotů. Každý typ robota by se musel rozebrat a změřit, i kdyby se jednalo o robota podobné konstrukce.
-Proto se tato práce tímto postupem dále nezabývá.    
+Další nevýhodou je nemožnost zobecnění tohoto způsobu na více typů robotů. Každý typ robota by se musel rozebrat a změřit, i kdyby se jednalo o robota podobného typu a konstrukce. Proto se tato práce tímto postupem dále nezabývá.    
 
 \subsection{Z 3D modelu}
 
-Výrobce poskytuje k robotu KUKA KR5 3D model. Ten je možné analyzovat v nástrojích CAD jako je například AutoCAD nebo Siemens NX, které jsou schopny počítat momenty setrvačnosti a hmotnosti libovolně složitých objektů. Výhodou tohoto postupu je jeho rychlost a jednoduchost. Navíc je takto možné získat hledané parametry bez nutnosti přístupu k opravdovému fyzickému robotu. Je také možné tento postup zobecnit na libovolný typ robota.
-   
-3D model ale popisuje pouze povrchovou geometrii jednotlivých komponent robota a neobsahuje informace o jejich vnitřní konstrukci ani hustotě použitých materiálů. Je sice možné považovat jednotlivá ramena robota za homogenní a hmotnost
-odhadnout z celkové hmotnosti robota udávané v datasheetu, tento postup ale dává jen velmi hrubý odhad dynamických parametrů. Navíc z 3D modelu není možné získat informace o koeficientech tření os. 
-Tento postup je zde použit pouze pro účely porovnání určených hodnot.
+Výrobci často poskytují ke stažení 3D modely svých robotů. Ty je možné analyzovat v nástrojích CAD jako je například AutoCAD nebo Siemens NX, které jsou schopny počítat momenty setrvačnosti a hmotnosti libovolně složitých objektů. Výhodou tohoto postupu je jeho rychlost a jednoduchost. Navíc je takto možné získat požadované parametry i bez nutnosti přístupu k opravdovému fyzickému robotu. Tento postup je také možné zobecnit na libovolný typ robota. Stačí k němu jen mít jeho odpovídající 3D model. 3D model robota KUKA KR5 Arc v prostředí Siemens NX 10.0 je na obrázku \ref{kuka_3d_pic}.
+
+\begin{figure}[ht]
+    \includegraphics[width=0.8\textwidth]{kuka_3d}
+    \caption{3D model robota KUKA KR5 Arc v prostředí Siemens NX 10.0.}
+    \label{kuka_3d_pic}
+\end{figure}
+
+3D model ale zpravidla popisuje pouze povrchovou geometrii jednotlivých komponent robota a neobsahuje informace o jejich vnitřní konstrukci ani typu použitých materiálů, jejich skutečné hmotnosti nebo jejich hustoty. Je sice možné považovat jednotlivá ramena robota za homogenní a hmotnost odhadnout z celkové hmotnosti robota udávané v jeho datasheetu, tento postup ale dává jen velmi hrubý odhad dynamických parametrů. 
+
+Navíc z 3D modelu není možné získat informace o koeficientech tření v jednotlivých osách. Tento postup je zde použit pouze pro účely porovnání určených hodnot.
+
 
 \subsection{Z rovnic}
 
-Přestože jsou dynamické rovnice robota \ref{dyn_rovnice_eq} nelineární vůči zobecněným souřadnicím, jsou lineární vůči jednotlivým složkám dynamických parametrů. Proto je možné je přepsat do tvaru
+Neznámé dynamické parametry je možné přesně vypočítat pomocí dynamických rovnic robota. 
+
+Přestože jsou dynamické rovnice robota \ref{dyn_rovnice_eq} nelineární vůči jednotlivým zobecněným souřadnicím, jsou lineární vůči jednotlivým složkám dynamických parametrů [\cite{}][\cite{}]. Proto je tyto rovnice možné je přepsat do tvaru
+
 \begin{equation}
-T = H(\ddot{\theta},\dot{\theta},\theta)P
+T(t) = H(\ddot{\theta}(t),\dot{\theta}(t),\theta(t))P
 \label{eq_lin_par}
 \end{equation}
 kde
 \begin{description}
-\item[$T = {\big[T_1  \dotsm  T_n\big]}^{T}$] je vektor momentů 
+\item[$T(t) = {\big[T_1(t)  \dotsm  T_n(t)\big]}^{T}$] je vektor momentů sil na osách v čase $t$ 
 \item[$P = {\big[P_1  \dotsm  P_n\big]}^{T}$] je vektor neznámých dyn. parametrů jednotlivých os
+\item[$n$] je počet os
 \end{description} \noindent
-a \ \ \ \ \ \ $P_i = {\big[I_{ixx} \ I_{ixy} \ I_{iyy} \ I_{iyz} \ I_{izz} \ I_{izx} \ m_ir_{ix} \ m_ir_{iy} \ m_ir_{iz} \ m_i f_{vi} \ f_{ci}\big]}^{T}$ \\
+a \ \ \ \ \ \ $P_i = {\big[I_{ixx} \ I_{ixy} \ I_{iyy} \ I_{iyz} \ I_{izz} \ I_{izx} \ m_ir_{ix} \ m_ir_{iy} \ m_ir_{iz} \ m_i \ f_{vi} \ f_{ci}\big]}^{T}$ \\
 \\
 \\
 kde
 \noindent
 \begin{description}
 \item[$I_{ijk}$] je složka setrvačnosti pro link $i$ vůči souřadnicím $j$ a $k$
-\item[$r_{ij}$] je složka vektoru těžiště linku $i$ vyjádřená v souřadnici $x$
+\item[$r_{ij}$] je složka vektoru těžiště linku $i$ vyjádřená v souřadnici $j$
 \item[$m_{i}$] je hmotnost linku $i$
 \item[$f_{vi}$] je koeficient viskózního tření linku $i$
 \item[$f_{ci}$] je koeficient Coulombova tření linku $i$
 \end{description}
 
-Počet neznámých je možné zredukovat, protože některé parametry dynamiku robota neovlivní. Je to způsobeno tím, že se některé linky mohou otáčet jen kolem některé z os. Příkladem může být osa 1 (spojená se zemí), která se v prostoru může otáčet jen kolem jedné osy. Zároveň je možné si model zjednodušit uvažováním pouze prvků na hlavní diagonále tenzorů setrvačnost a zanedbáním prvků mimo ni.
+Neznámých parametrů pro jedno rameno odpovídá počtu složek vektoru $P_i$. Ten je roven 12. U průmyslového manipulátoru se šesti rotačními osami je tedy neznámých parametrů celkem 72. 
 
-V následující tabulce (tabulka \ref{tab_hled_param}) je přehled hledaných neznámých dynamických parametrů.   
+Počet neznámých parametrů je možné zredukovat. Je to dáno tím, že některé parametry dynamiku robota neovlivní. Důvodem je to, že se některé linky mohou otáčet pouze kolem některé z os. Příkladem může být osa 1 (spojená se zemí, viz schéma \ref{kuka_kr5_axes_pic}), která se v prostoru může otáčet jen kolem vertikální osy. Tím je možné zanedbat momenty setrvačnosti mimo tuto vertikální osu a také její hmotnost a polohu jejího těžiště. Zároveň je možné si model zjednodušit uvažováním pouze prvků na hlavní diagonále tenzorů setrvačnost a zanedbáním prvků mimo ni.
+
+Díky tomu klesne počet neznámých parametrů v případě šestiosového robota na číslo 48. V následující tabulce (tabulka \ref{tab_hled_param}) je přehled výsledných neznámých dynamických parametrů robota KUKA KR5 Arc.
 \\
 
-\begin{table}[htbp]
+\begin{table}[ht]
   \centering
-  \caption{Tabulka nezámých parametrů}
+  \caption{Tabulka nezámých parametrů robota KUKA KR5 Arc.}
     \begin{tabular}{c|lllllllll}
     \multicolumn{1}{c|}{Osa} & \multicolumn{9}{c}{Neznámé parametry}  \\
     \hline
-    1 &       	  &	          &           &          &          &          & $I_{1z}$& $f_{v1}$ & $f_{c1}$ \\
+    1 &       	  &	          & $I_{1zz}$ &          &          &          & & $f_{v1}$ & $f_{c1}$ \\
     2 & $I_{2xx}$ & $I_{2yy}$ & $I_{2zz}$ & $d_{2x}$ & $d_{2y}$ & $d_{2z}$ & $m_{2}$ & $f_{v2}$ & $f_{c2}$ \\
     3 & $I_{3xx}$ & $I_{3yy}$ & $I_{3zz}$ & $d_{3x}$ & $d_{3y}$ & $d_{3z}$ & $m_{3}$ & $f_{v3}$ & $f_{c3}$ \\
     4 & $I_{4xx}$ & $I_{4yy}$ & $I_{4zz}$ & $d_{4x}$ & $d_{4y}$ & $d_{4z}$ & $m_{4}$ & $f_{v4}$ & $f_{c4}$ \\
@@ -72,23 +84,35 @@ V následující tabulce (tabulka \ref{tab_hled_param}) je přehled hledaných n
   \label{tab_hled_param}%
 \end{table}%
 
+Hledané parametry je poté možné vypočítat z rovnice \ref{eq_lin_par} jejich vyjádřením ve tvaru
 
-Naměřením průběhů momentů, poloh, rychlostí a zrychlení na jednotlivých osách a jejich dosazením do lineární rovnice \ref{eq_lin_par} lze pak tuto rovnici řešit ve tvaru 
 \begin{equation}
-P = H(\ddot{\theta},\dot{\theta},\theta)^{-1}T
+P = H\big(\ddot{\theta}(t),\dot{\theta}(t),\theta(t)\big)^{-1}T(t)
 \label{eq_lin_par_inv}
 \end{equation}
-Důležité je na trajektorii mít tolik bodů, aby z rovnice \ref{eq_lin_par} vznikla rovnice přeurčená. Takovou rovnici je poté možné řešit například použitím metody nejmenších čtverců. Ta minimalizuje střední odchylku mezi skutečnými a odhadnutými parametry. 
+
+K výpočtu vektoru $P$ neznámých parametrů je nejprve potřebné vykonat pohyb na robotu po nějaké trajektorii a měřit polohy, úhlové rychlostí, úhlová zrychlení a momenty sil na jednotlivých osách. Do matice $H$ se poté dosadí polohy, úhlové rychlosti a úhlová zrychlení jednotlivých os v čase $t$ a do vektoru $T(t)$ změřené momenty sil v čase $t$. 
+
+Protože je ale neznámých parametrů více než rovnic, nelze tuto rovnici vyřešit jednoznačně. Tento problém lze jednoduše vyřešit naměřením na trajektorii více bodů a jejich následným dosazením do rovnice \ref{eq_lin_par_inv} v různých časech. Důležité je na trajektorii mít tolik bodů, aby z této rovnice vznikla rovnice přeurčená. Takovou rovnici je poté možné řešit například použitím metody nejmenších čtverců, která minimalizuje střední odchylku mezi skutečnými a odhadnutými parametry a navíc je schopna eliminovat vliv šumu měření. 
 
 \section{Excitační trajektorie}
 
-Aby bylo možné robota takto identifikovat, je potřeba s robotem provést takové pohyby, aby byly vybuzeny všechny dynamické složky robota, tzn. aby se projevily všechny neznámé parametry. Ve vědeckých článcích a v jiných publikacích např. \cite{clos_dyn_par}\cite{dyn_mod_ind}\cite{dyn_ind_mits} se na jednotlivých osách doporučují průběhy, které je možné popsat konečnou Fourierovou řadou. Jejich výhodou je, že díky vlastnostem harmonické funkce jsou poté jak polohy, tak i rychlosti a zrychlení rovněž kombinací harmonických průběhů a tím se minimalizuje vliv šumu měření. 
+Odhadované parametry vypočítané výše popsaným postupem jsou ale silně závislé na zvolené trajektorii, na které jsou měřeny dynamické veličiny. 
 
-Protože se robot používá převážně pro polohování, jeho řídící systém zpravidla neumožňuje na osách provádět čistě harmonické průběhy. Řídící systém robota KUKA KR5 umožňuje pouze nastavit požadované koncové polohy os a rychlosti/zrychlení, s jakými jich má robot dosáhnout. Z toho důvodu je nutné robotu poskytnout sérii bodů popisujících harmonický průběh. Výsledná trajektorie robota poté bude pouze aproximací harmonického průběhu.  
+Aby se tímto způsobem správně odhadly všechny neznámé parametry, je potřeba s robotem provést pohyby po takové trajektorii, na které by byly vybuzeny všechny dynamické složky robota, tzn. aby se do dynamiky promítly všechny neznámé parametry. 
 
-Bohužel takové průběhy momentálně nejsou k dispozici a kvůli odstavení robota je v tuto chvíli nelze naměřit. Identifikace tedy byla zatím provedena na dříve naměřených průbězích, kdy robot postupně 10x zahýbal osou 1, poté se zastavil, zahýbal osou 2 a tak pokračoval až k poslední ose. 
+Ve vědeckých článcích a v jiných publikacích např. \cite{clos_dyn_par}\cite{dyn_mod_ind}\cite{dyn_ind_mits} se na jednotlivých osách doporučují trajektorie, které je možné popsat konečnou Fourierovou řadou. Jejich výhodou je, že díky vlastnostem harmonické funkce jsou poté jednotlivé polohy, rychlosti i zrychlení rovněž kombinací harmonických průběhů. Tím se maximalizuje vliv hledaných dynamických parametrů a minimalizuje vliv šumu měření. 
+
+Protože se průmyslové manipulátory používají převážně pro polohování, jejich řídící systémy zpravidla neumožňují na osách provádět čistě harmonické průběhy. Řídící systém robota KUKA KR5 Arc umožňuje pouze nastavit sadu požadovaných poloh os, kterých musí osy dosáhnout a rychlosti/zrychlení, s jakými se má tento pohyb vykonat. Z toho důvodu je nutné robotu poskytnout sérii bodů popisujících harmonický průběh. Výsledná trajektorie robota je poté pouze aproximací harmonického průběhu.  
+
 
 \section{Postup identifikace}
+
+Pro účely identifikace robota KUKA KR5 Arc byl vytvořen skript pro použití v MATLABu, který umožňuje vytvoření dynamického modelu, identifikaci parametrů a simulaci výsledků.
+
+
+
+...
 
 Při identifikaci parametrů se postupovalo od poslední, šesté osy (konečného linku) k první. Nejprve se pevně zafixovaly ostatní osy a z průběhů na šesté ose se metodou nejmenších čtverců pomocí rovnice \ref{eq_lin_par_inv} určily její dynamické parametry. Poté se tento postup zopakoval pro předchozí osu až k ose první.   
 
