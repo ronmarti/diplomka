@@ -56,45 +56,7 @@ kde
 
 Momentové konstanty jednotlivých motorů je možné zjistit v jejich dokumentaci. Nástroj TRACE robotu KUKA KR5 takto počítá momenty sil jednotlivých motorů. 
 
-\section{Solver ReDySim}
-
-Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim)\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os a to jak pro rotační, tak lineární osy. 
-
-Jeho vstupními parametry jsou modifikované DH (Denavit-Hartenbergovy) parametry robota a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté skript pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robota.  
-
-\section{Modifikované DH parametry robota}
-
-Modifikované Denavit-Hartenbergovy (DH) parametry jsou parametry, pomocí nichž je možné kompletně popsat geometrii a kinematiku sériového robota. Jedná se o čtyři parametry pro každou osu robota, které definují vzájemnou polohu a konfiguraci sousedících os. 
-
-Parametr $a_i [m]$ popisuje délku ramena $i$, $b_i [m]$ udává odsazení ramena $i$ podél osy rotace ramena $i-1$, parametr $\alpha_i [\si{\degree}]$ určuje vzájemný úhel natočení mezi osou $i+1$ a osou $i$ a poslední parametr $\theta_i [\si{\degree}]$ udává okamžitý úhel natočení osy $i$.
-
-V tabulce č.\ref{tab_DH_kuka} je DH parametrizace robota KUKA KR5 Arc použita v nástroji ReDySim.
-
-\begin{table}[htbp]
-  \centering
-  \caption{Tabulka DH parametrů KUKA KR5 Arc.}
-    \begin{tabular}{c|cccccccccc}
-    \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$a_{i} [m]$} & \multicolumn{1}{c}{$b_{i} [m]$} & \multicolumn{1}{c}{$\alpha_{i} [\si{\degree}]$} & \multicolumn{1}{c}{$\theta_i [\si{\degree}]$} \\
-    \hline
-    1     &   0.18  &  0.4   &  90     &   -    &  \\
-    2     &   0.6   &  0     &  180    &   -    &  \\
-    3     &   0.12  &  0     &  -90    &   -    &  \\
-    4     &   0     &  0.62  &  -90    &   -    &  \\
-    5     &   0     &  0     &  90     &   -    &  \\
-    6     &   0     &  0.115 &  0      &   -    &  \\
-    \end{tabular}%
-  \label{tab_DH_kuka}%
-\end{table}% 
-
-Přesné délky jednotlivých ramen a vzájemné polohy jednotlivých os robota je možné nalézt v jeho dokumentaci.
-
-Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cite{roboanalyzer}], který byl vyvinut společně se solverem ReDySim pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat jednoduché pohyby robota s až 7 osami a vykreslovat průběhy stavů jako jsou polohy, rychlosti, zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
-\\
-\begin{figure}[ht]
-\includegraphics[width=0.85\textwidth]{pic_dh_kuka}
-\caption{Vizualizace DH parametrizace robota KUKA KR5 Arc.}
-\label{dh_kuka_pic}
-\end{figure}
+\section{Tření}
 
 \section{Elektrický výkon}
 \subsection{Elektrický výkon v třífázové soustavě}
@@ -154,8 +116,48 @@ p(t) = i(t)u(t) = i(t)\left(i(t)R + L\frac{di(t)}{dt}\right)
 
 Celkový okamžitý elektrický výkon při pohybu robota je poté dán jako součet okamžitých výkonů na všech jeho motorech
 \begin{equation}
-P(t) = \sum_{i=1}^{N} p_i(t)
+P(t) = \sum_{i=1}^{n} p_i(t)
 \label{robot_motor_power_eq}
 \end{equation} 
-kde $N$ je počet motorů.
+kde $n$ je počet motorů.
+
+\section{Solver ReDySim}
+
+Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim)\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os a to jak pro rotační, tak lineární osy. 
+
+Jeho vstupními parametry jsou modifikované DH (Denavit-Hartenbergovy) parametry robota a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté skript pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robota.  
+
+\section{Modifikované DH parametry robota}
+
+Modifikované Denavit-Hartenbergovy (DH) parametry jsou parametry, pomocí nichž je možné kompletně popsat geometrii a kinematiku sériového robota. Jedná se o čtyři parametry pro každou osu robota, které definují vzájemnou polohu a konfiguraci sousedících os. 
+
+Parametr $a_i [m]$ popisuje délku ramena $i$, $b_i [m]$ udává odsazení ramena $i$ podél osy rotace ramena $i-1$, parametr $\alpha_i [\si{\degree}]$ určuje vzájemný úhel natočení mezi osou $i+1$ a osou $i$ a poslední parametr $\theta_i [\si{\degree}]$ udává okamžitý úhel natočení osy $i$.
+
+V tabulce č.\ref{tab_DH_kuka} je DH parametrizace robota KUKA KR5 Arc použita v nástroji ReDySim.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Tabulka DH parametrů KUKA KR5 Arc.}
+    \begin{tabular}{c|cccccccccc}
+    \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$a_{i} [m]$} & \multicolumn{1}{c}{$b_{i} [m]$} & \multicolumn{1}{c}{$\alpha_{i} [\si{\degree}]$} & \multicolumn{1}{c}{$\theta_i [\si{\degree}]$} \\
+    \hline
+    1     &   0.18  &  0.4   &  90     &   -    &  \\
+    2     &   0.6   &  0     &  180    &   -    &  \\
+    3     &   0.12  &  0     &  -90    &   -    &  \\
+    4     &   0     &  0.62  &  -90    &   -    &  \\
+    5     &   0     &  0     &  90     &   -    &  \\
+    6     &   0     &  0.115 &  0      &   -    &  \\
+    \end{tabular}%
+  \label{tab_DH_kuka}%
+\end{table}% 
+
+Přesné délky jednotlivých ramen a vzájemné polohy jednotlivých os robota je možné nalézt v jeho dokumentaci.
+
+Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cite{roboanalyzer}], který byl vyvinut společně se solverem ReDySim pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat jednoduché pohyby robota s až 7 osami a vykreslovat průběhy stavů jako jsou polohy, rychlosti, zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
+\\
+\begin{figure}[ht]
+\includegraphics[width=0.95\textwidth]{pic_dh_kuka}
+\caption{Vizualizace DH parametrizace robota KUKA KR5 Arc.}
+\label{dh_kuka_pic}
+\end{figure}
 
