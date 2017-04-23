@@ -8,7 +8,7 @@ Pro výpočet a predikci spotřeby elektrické energie je nezbytné vytvořit ma
 V případě 6-ti osového manipulátoru se jedná o systém se šesti stupni volnosti. K popisu jeho dynamiky je proto potřeba 6 rovnic druhého řádu. Celkově se tedy jedná o systém dvanáctého řádu. 
 
 \section{Pohybové rovnice}
-
+\label{pohybove_rovnice_sec}
 K odvození pohybových rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu. 
 
 Newton-Eulerova metoda je založena na přístupu k systému jako k soustavě jednotlivých jeho částí a vyžaduje určení pohybových rovnic každé jednotlivé osy. Protože jsou jednotlivé osy vzájemně kinematicky propojeny, jsou i pohybové rovnice jednotlivých os závislé na pohybu ostatních os. 
@@ -20,7 +20,7 @@ Oba přístupy nakonec vedou ke stejným rovnicím. Protože jsou jednotlivé po
 Rovnice systému je možné zapsat v následujícím maticovém tvaru jako 
 
 \begin{equation}
-T = M(\dot{\theta},\theta)\ddot{\theta} + C(\dot{\theta},\theta)\dot{\theta} + G(\theta) + f_v\dot{\theta} + f_csign(\dot{\theta})
+T = M(\dot{\theta},\theta)\ddot{\theta} + C(\dot{\theta},\theta)\dot{\theta} + G(\theta)
 \label{dyn_rovnice_eq}
 \end{equation}
 
@@ -31,10 +31,8 @@ kde
 \item[$\ddot \theta = {\big[\ddot \theta_1  \dotsm  \ddot \theta_n\big]}^{T}$] je vektor úhlových zrychlení na jednotlivých osách
 \item[$\dot \theta = {\big[\dot \theta_1  \dotsm  \dot \theta_n\big]}^{T}$] je vektor úhlových rychlostí na jednotlivých osách
 \item[$M\big(\dot \theta, \theta\big)$] je matice setrvačnosti tvořena tenzory setrvačnosti jednotlivých os
-\item[$C\big(\dot \theta, \theta\big)$] je matice Coriolisových a odstředivých sil působících na jednotlivé osy
+\item[$C\big(\dot \theta, \theta\big)$] je matice Coriolisových a odstředivých momentů sil působících na jednotlivé osy
 \item[$G\big(\theta\big)$] je matice gravitačních sil působících na jednotlivé osy
-\item[$f_v$] je vektor koeficientů viskózního tření v jednotlivých osách
-\item[$f_c$] je vektor koeficientů Coulombova suchého tření v jednotlivých osách
 \item[$n$] je počet os
 \end{description}
 
@@ -49,25 +47,83 @@ T\big(t\big) = KI\big(t\big)
 kde
 
 \begin{description}
-\item[$T\big(t\big) {\big[Nm\big]}$] moment síly motoru 
-\item[$K {\big[Nm/A\big]}$] momentová konstanta 
-\item[$I\big(t\big) {\big[A\big]}$] proud protékající motorem 
+\item[$T\big(t\big) {\big[Nm\big]}$] je moment síly motoru 
+\item[$K {\big[Nm/A\big]}$] je momentová konstanta 
+\item[$I\big(t\big) {\big[A\big]}$] je proud protékající motorem 
 \end{description}
 
 Momentové konstanty jednotlivých motorů je možné zjistit v jejich dokumentaci. Nástroj TRACE robotu KUKA KR5 takto počítá momenty sil jednotlivých motorů. 
 
 \section{Tření}
 
-\section{Elektrický výkon}
-\subsection{Elektrický výkon v třífázové soustavě}
-Okamžitý elektrický výkon v je definován jako součin okamžitého napětí a okamžitého proudu v obvodu jako
+Odvozené rovnice dynamiky robota popsané výše v sekci \ref{pohybove_rovnice_sec} popisují pouze ideální model, ve kterém nedochází k žádným ztrátám energie. V reálných motorech a převodovkách ale dochází k energetickým ztrátám v důsledku tření v ložiscích motorů, rotačních os a tření v převodovkách.
+
+Kompletní popis tření os je relativně komplikovaný. Proto se zpravidla pro jeho modelování používá zjednodušený model popisující tření jako kombinaci viskózního a Coulombova tření \cite{}. 
+
+Viskózní tření je tření, které je lineárně závislé na rychlosti rotace. Při nulové rychlosti je třecí moment síly nulový a s rostoucí rychlostí se zvyšuje.
+
+Coulombovo tření je naopak nezávislé na rychlosti rotace. V systému je přítomno vždy a se stejnou magnitudou. Mění se pouze se změnou směru otáčení, kdy mění znaménko.
+
+Tento model je popsán rovnicí 
 
 \begin{equation}
-p\big(t\big) = u\big(t\big)i\big(t\big)
-\label{el_power_eq}
+T_f = f_v\dot{\theta} + f_csign(\dot{\theta})
+\label{fric_eq}
 \end{equation}
 
-kde v případě harmonického střídavého napětí a proudu platí
+kde
+
+\begin{description}
+\item[$T_f$] je moment síly generovaný třením 
+\item[$f_v$] je koeficient viskózního tření 
+\item[$f_c$] je koeficient coulombova tření 
+\end{description}
+
+Na následujícím obrázku (obr. \ref{treni_pic}) je znázorněn model tření včetně jeho jednotlivých složek. Na vodorovné ose je uvedena rychlost otáčení, na vertikální ose je třecí moment síly.
+
+\begin{figure}[ht]
+\includegraphics[width=0.65\textwidth]{treni}
+\caption{Model tření os}
+\label{treni_pic}
+\end{figure}
+
+Doplněním rovnice \ref{fric_eq} do dynamických rovnic robota \ref{dyn_rovnice_eq} se získají celkové rovnice dynamiky robota ve tvaru
+
+\begin{equation}
+T = M(\dot{\theta},\theta)\ddot{\theta} + C(\dot{\theta},\theta)\dot{\theta} + G(\theta) + F_v\dot{\theta} + F_csign(\dot{\theta})
+\label{celkova_dyn_rovnice_eq}
+\end{equation}
+
+kde
+
+\begin{description}
+\item[$F_v$] je vektor koeficientů viskózního tření v jednotlivých osách
+\item[$F_c$] je vektor koeficientů Coulombova suchého tření v jednotlivých osách
+\end{description}
+
+\section{Elektrický výkon}
+
+Výkon je obecně definován jako práce vykonaná za jednotku času a platí rovnice
+
+\begin{equation}
+P = \frac{W}{t}
+\end{equation}
+
+Protože v tomto případě se jedná o elektrickou práci, je tato práce definovaná jako celkový náboj $q$ přenesený mezi dvěma místy s napětím $u$. Platí tedy vztah
+
+\begin{equation}
+P = \frac{uq}{t}
+\end{equation}
+
+Pro okamžitý výkon je poté možné tento vzorec upravit na
+
+\begin{equation}
+p(t) = u(t)\frac{dq}{dt} = u(t)i(t)
+\end{equation}
+
+\subsection{Elektrický výkon v třífázové soustavě}
+
+V případě harmonického střídavého napětí a proudu platí
 
 \begin{equation}
 \begin{split}
@@ -76,8 +132,14 @@ i\big(t\big) = I_m cos\big(\omega t + \phi + \psi\big)
 \end{split}
 \label{harm_curr_volt_eq}
 \end{equation}  
-
-kde $U_m$ je maximální amplituda napětí, $I_m$ je maximální amplituda proudu, $\omega$ je frekvence, $\phi$ je počáteční fáze proudu a napětí a $\psi$ je fázový posun mezi napětím a proudem.
+kde
+\begin{description}
+\item[$U_m$] je maximální amplituda napětí
+\item[$I_m$] je maximální amplituda proudu
+\item[$\omega$] je úhlová frekvence
+\item[$\phi$] je počáteční fáze proudu a napětí
+\item[$\psi$] je fázový posun mezi napětím a proudem
+\end{description}
 
 Pokud je fázový posun $\psi$ mezi napětím a proudem nenulový, je potřeba rozdělit elektrický výkon na činnou a jalovou složku. Činná složka výkonu je výkon, který je přenášen ze zdroje do spotřebiče a který je schopen konat práci. Pro činnou složku výkonu platí následující vztah
 
@@ -88,11 +150,15 @@ P = \frac{1}{T} \int_{t_0}^{t_0 + T} p(t)dt = UI cos\phi
 
 kde $U$ je efektivní hodnota napětí a $I$ je efektivní hodnota proudu.
 
-V případě třífázové soustavy je její celkový výkon roven součtu výkonů na jednotlivých fázích. Platí tedy
+Jalová složka výkonu je část výkonu, která je spotřebičem vracená zpět do zdroje a ve spotřebiči tedy žádnou práci nevykonává.
+
+V případě třífázové soustavy je její celkový výkon roven součtu výkonů v jednotlivých fázích. Platí tedy
+
 \begin{equation}
 P = P_U + P_V + P_W
 \label{3ph_power_eq}
 \end{equation}  
+
 kde $U,V,W$ jsou jednotlivé fáze v třífázové soustavě.
 
 \subsection{Elektrický výkon synchronního motoru}
@@ -106,6 +172,13 @@ V případě výpočtu výkonu elektrického motoru je potřeba vytvořit model 
 \end{figure}
 
 $R$ je vnitřní elektrický odpor vinutí a $L$ je jeho indukčnost. Tyto hodnoty jsou zpravidla udávány v datasheetech k motorům.
+
+Pro okamžité napětí $u(t)$ ze schématu platí 
+
+\begin{equation}
+u(t) = i(t)R + L\frac{di(t)}{dt}
+\label{motor_voltage_eq}
+\end{equation}  
 
 Okamžitý elektrický výkon motoru je poté možné z měření okamžité efektivní hodnoty proudu vypočítat jako
  
@@ -139,14 +212,14 @@ V tabulce č.\ref{tab_DH_kuka} je DH parametrizace robota KUKA KR5 Arc použita 
   \centering
   \caption{Tabulka DH parametrů KUKA KR5 Arc.}
     \begin{tabular}{c|cccccccccc}
-    \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$a_{i} [m]$} & \multicolumn{1}{c}{$b_{i} [m]$} & \multicolumn{1}{c}{$\alpha_{i} [\si{\degree}]$} & \multicolumn{1}{c}{$\theta_i [\si{\degree}]$} \\
+    \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$a_{i} [m]$} & \multicolumn{1}{c}{$b_{i} [m]$} & \multicolumn{1}{c}{$\alpha_{i} [\si{\degree}]$} \\
     \hline
-    1     &   0.18  &  0.4   &  90     &   -    &  \\
-    2     &   0.6   &  0     &  180    &   -    &  \\
-    3     &   0.12  &  0     &  -90    &   -    &  \\
-    4     &   0     &  0.62  &  -90    &   -    &  \\
-    5     &   0     &  0     &  90     &   -    &  \\
-    6     &   0     &  0.115 &  0      &   -    &  \\
+    1     &   0.18  &  0.4   &  90     &     \\
+    2     &   0.6   &  0     &  180    &     \\
+    3     &   0.12  &  0     &  -90    &     \\
+    4     &   0     &  0.62  &  -90    &     \\
+    5     &   0     &  0     &  90     &     \\
+    6     &   0     &  0.115 &  0      &     \\
     \end{tabular}%
   \label{tab_DH_kuka}%
 \end{table}% 

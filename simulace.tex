@@ -7,7 +7,7 @@ Postupem popsaným v sekci \ref{postup_identifikace_ch} se podařilo identifikov
 \\
 \begin{table}[htbp]
   \centering
-  \caption{Tabulka identifikovaným parametrů z rovnic}
+  \caption{Tabulka identifikovaných parametrů z rovnic}
     \begin{tabular}{c|cccccccccc}
     \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$I_{xx}$} & \multicolumn{1}{c}{$I_{yy}$} & \multicolumn{1}{c}{$I_{zz}$} & \multicolumn{1}{c}{$d_x$} & \multicolumn{1}{c}{$d_y$} & \multicolumn{1}{c}{$d_z$} & \multicolumn{1}{c}{$m$} & \multicolumn{1}{c}{$f_v$} & \multicolumn{1}{c}{$f_c$} \\
     \hline
@@ -23,7 +23,7 @@ Postupem popsaným v sekci \ref{postup_identifikace_ch} se podařilo identifikov
 
 \begin{table}[htbp]
   \centering
-  \caption{Tabulka identifikovaným parametrů z 3D modelu}
+  \caption{Tabulka identifikovaných parametrů z 3D modelu}
     \begin{tabular}{c|cccccccccc}
     \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$I_{xx}$} & \multicolumn{1}{c}{$I_{yy}$} & \multicolumn{1}{c}{$I_{zz}$} & \multicolumn{1}{c}{$d_x$} & \multicolumn{1}{c}{$d_y$} & \multicolumn{1}{c}{$d_z$} & \multicolumn{1}{c}{$m$} & \multicolumn{1}{c}{$f_v$} & \multicolumn{1}{c}{$f_c$} \\
     \hline
@@ -41,40 +41,92 @@ Porovnáním hodnot v obou tabulkách je patrné, že se většina parametrů, s
 
 \section{Simulace odvozených parametrů}
 
-Na následujících obrázcích jsou odsimulované točivé momenty s odvozenými parametry pro osy 4 až 6. Pro další osy simulace provedeny nebyly, protože se pro ně nepodařilo správně odvodit všechny jejich dynamické parametry.
+Na následujících obrázcích (obr. \ref{osa_1_sim_pic} až \ref{osa_6_sim_pic}) jsou odsimulované průběhy točivých momentů s odvozenými parametry všech šesti os. Jsou v nich odsimulované průběhy s parametry odvozenými pomocí rovnic a z 3D modelu. Ty jsou srovnány se skutečnými naměřenými momenty sil. 
 
-Na obrázku \ref{osa6_prub_a} je porovnání mezi skutečným naměřeným momentem a vypočítaným z odvozených parametrů pro osu 6. Na druhém obrázku \ref{osa6_prub_b} je poté zobrazena okamžitá a průměrná odchylka mezi naměřeným a vypočítaným momentem. 
+Protože z 3D modelu není možné získat koeficienty tření os, je zde možnost uvažovat tyto koeficienty jako nulové a tím je v modelu zanedbat. Tento model je ale velmi nepřesný (viz průběhy níže). Na průbězích je vidět, že vychází opravdu velmi vysoké odchylky od naměřených dat. Tření os hraje v dynamice robota významnou roli, proto ho není možné tímto způsobem zanedbat.
 
-\begin{figure}[!h]
-  \centering
-  \subfloat[Srovnání naměřených a vypočítaných momentů]{\includegraphics[width=0.6\textwidth]{Osa_6}\label{osa6_prub_a}}
-  \hfill
-  \subfloat[Okamžitá a průměrná odchylka]{\includegraphics[width=0.5\textwidth]{Osa_6_odch}\label{osa6_prub_b}}
-  \caption{Točivé momenty pro osu 6.}
-  \label{osa6_prub}
+Odvozené parametry z 3D modelu je možné využít tak, že se budou v dynamických rovnicích uvažovat jako známé a z rovnic se odvodí pouze neznámé koeficienty tření. Na průbězích níže jsou pro srovnání odsimulované průběhy s parametry získanými tímto způsobem. 
+
+\hfill
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\textwidth]{Osa_1_sim}
+        \caption{Osa 1}
+        \label{osa_1_sim_pic}
+        \end{subfigure}
+\end{figure}
+\begin{figure}\ContinuedFloat    
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\textwidth]{Osa_2_sim}
+        \caption{Osa 2}
+        \label{osa_2_sim_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\textwidth]{Osa_3_sim}
+        \caption{Osa 3}
+        \label{osa_3_sim_pic}
+    \end{subfigure}
+\end{figure}
+\begin{figure}\ContinuedFloat
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\textwidth]{Osa_4_sim}
+        \caption{Osa 4}
+        \label{osa_4_sim_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\textwidth]{Osa_5_sim}
+        \caption{Osa 5}
+        \label{osa_5_sim_pic}
+    \end{subfigure}
 \end{figure}
 
-Stejné průběhy pro osu 5 jsou na obrázku \ref{osa5_prub} a pro osu 4 na obr. \ref{osa4_prub}.
+\clearpage
 
-\begin{figure}[!h]
-  \centering
-  \subfloat[Srovnání naměřených a vypočítaných momentů]{\includegraphics[width=0.5\textwidth]{Osa_5}\label{osa5_prub_a}}
-  \hfill
-  \subfloat[Okamžitá a průměrná odchylka]{\includegraphics[width=0.5\textwidth]{Osa_5_odch}\label{osa5_prub_b}}
-  \caption{Točivé momenty pro osu 5.}
-  \label{osa5_prub}
-\end{figure}
-\newpage
-
-\begin{figure}[!h]
-  \centering
-  \subfloat[Srovnání naměřených a vypočítaných momentů]{\includegraphics[width=0.5\textwidth]{Osa_4}\label{osa4_prub_a}}
-  \hfill
-  \subfloat[Okamžitá a průměrná odchylka]{\includegraphics[width=0.5\textwidth]{Osa_4_odch}\label{osa4_prub_b}}
-  \caption{Točivé momenty pro osu 4.}
-  \label{osa4_prub}
+\begin{figure}\ContinuedFloat
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\textwidth]{Osa_6_sim}
+        \caption{Osa 6}
+        \label{osa_6_sim_pic}
+    \end{subfigure}
+    \caption{Srovnání měření se simulacemi s odvozenými parametry}\label{osy_sim_pic}
 \end{figure}
 
 Z výše uvedených průběhů je patrné, že vypočítané a naměření průběhy si poměrně odpovídají. Ve všech případech se průměrná odchylka pohybuje kolem jedné desetiny Nm a maximální okamžitá odchylka nepřesahuje šest desetin Nm. 
 
- 
+\clearpage
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{Osa_1_sim}
+        \caption{Osa 1}
+        \label{osa_1_sim_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{Osa_2_sim}
+        \caption{Osa 2}
+        \label{osa_2_sim_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{Osa_3_sim}
+        \caption{Osa 3}
+        \label{osa_3_sim_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{Osa_4_sim}
+        \caption{Osa 4}
+        \label{osa_4_sim_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{Osa_5_sim}
+        \caption{Osa 5}
+        \label{osa_5_sim_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{Osa_6_sim}
+        \caption{Osa 6}
+        \label{osa_6_sim_pic}
+    \end{subfigure}
+    \caption{Srovnání měření se simulacemi s odvozenými parametry}\label{osy_sim_pic}
+\end{figure}
