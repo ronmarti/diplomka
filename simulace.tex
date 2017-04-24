@@ -41,13 +41,14 @@ Porovnáním hodnot v obou tabulkách je patrné, že se většina parametrů, s
 
 \section{Simulace odvozených parametrů}
 
-Na následujících obrázcích (obr. \ref{osa_1_sim_pic} až \ref{osa_6_sim_pic}) jsou odsimulované průběhy točivých momentů s odvozenými parametry všech šesti os. Jsou v nich odsimulované průběhy s parametry odvozenými pomocí rovnic a z 3D modelu. Ty jsou srovnány se skutečnými naměřenými momenty sil. 
+Na následujících obrázcích (obr. \ref{osa_1_sim_pic} až \ref{osa_6_sim_pic}) jsou odsimulované průběhy točivých momentů s odvozenými parametry všech šesti os. Jsou v nich odsimulované průběhy s parametry odvozenými pomocí rovnic a z 3D modelu. 
+
+Simulace je provedena tak, že se s robotem vykonal pohyb po určité trajektorii. Přitom byly měřeny průběhy pozic, úhlových rychlostí, úhlových zrychlení a momentů sil. Polohy, rychlosti a zrychlení byly následně dosazeny do odvozených identifikovaných modelů a výsledné momenty sil byly porovnány se změřenými.
 
 Protože z 3D modelu není možné získat koeficienty tření os, je zde možnost uvažovat tyto koeficienty jako nulové a tím je v modelu zanedbat. Tento model je ale velmi nepřesný (viz průběhy níže). Na průbězích je vidět, že vychází opravdu velmi vysoké odchylky od naměřených dat. Tření os hraje v dynamice robota významnou roli, proto ho není možné tímto způsobem zanedbat.
 
 Odvozené parametry z 3D modelu je možné využít tak, že se budou v dynamických rovnicích uvažovat jako známé a z rovnic se odvodí pouze neznámé koeficienty tření. Na průbězích níže jsou pro srovnání odsimulované průběhy s parametry získanými tímto způsobem. 
 
-\hfill
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{1\textwidth}
@@ -92,41 +93,68 @@ Odvozené parametry z 3D modelu je možné využít tak, že se budou v dynamick
     \caption{Srovnání měření se simulacemi s odvozenými parametry}\label{osy_sim_pic}
 \end{figure}
 
-Z výše uvedených průběhů je patrné, že vypočítané a naměření průběhy si poměrně odpovídají. Ve všech případech se průměrná odchylka pohybuje kolem jedné desetiny Nm a maximální okamžitá odchylka nepřesahuje šest desetin Nm. 
+Z výše uvedených průběhů je patrné, že v případě zanedbání tření os je získaný model robota nepoužitelný. Nejlepších výsledků tento model dosahuje na ose 2 kde mají na dynamiku kromě tření velký vliv také hmotnosti a pozice těžišť následujících ramen, jejichž hmotnost osa 2 nese. Naopak například pro osy 4 a 6 je vliv ostatních parametrů vůči tření na této trajektorii zanedbatelný, proto jsou predikované momenty na těchto osách téměř nulové. Z toho důvodu se nadále již model se zanedbaným třením neuvažuje.
 
-\clearpage
+Naopak modely s identifikovanými parametry z rovnic a z 3D modelu se třením dávají poměrně přesné předpovědi. Ve většině případů jsou predikované hodnoty z modelu téměř totožné s těmi změřenými. Na následujících obrázcích (\ref{osa_1_odch_pic} až \ref{osa_6_odch_pic}) je srovnání přesností obou modelů. V grafech je znázorněna okamžitá a průměrná odchylka mezi modely a měřením.
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\textwidth]{Osa_1_sim}
+    \begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{Osa_1_odch}
         \caption{Osa 1}
-        \label{osa_1_sim_pic}
+        \label{osa_1_odch_pic}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\textwidth]{Osa_2_sim}
+    \begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{Osa_2_odch}
         \caption{Osa 2}
-        \label{osa_2_sim_pic}
+        \label{osa_2_odch_pic}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\textwidth]{Osa_3_sim}
+    \begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{Osa_3_odch}
         \caption{Osa 3}
-        \label{osa_3_sim_pic}
+        \label{osa_3_odch_pic}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\textwidth]{Osa_4_sim}
-        \caption{Osa 4}
-        \label{osa_4_sim_pic}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\textwidth]{Osa_5_sim}
-        \caption{Osa 5}
-        \label{osa_5_sim_pic}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\textwidth]{Osa_6_sim}
-        \caption{Osa 6}
-        \label{osa_6_sim_pic}
-    \end{subfigure}
-    \caption{Srovnání měření se simulacemi s odvozenými parametry}\label{osy_sim_pic}
 \end{figure}
+\begin{figure}\ContinuedFloat
+    \begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{Osa_4_odch}
+        \caption{Osa 4}
+        \label{osa_4_odch_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{Osa_5_odch}
+        \caption{Osa 5}
+        \label{osa_5_odch_pic}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{Osa_6_odch}
+        \caption{Osa 6}
+        \label{osa_6_odch_pic}
+    \end{subfigure}
+    \caption{Srovnání odchylek modelů a měření}\label{osy_odch_pic}
+\end{figure}
+
+\clearpage
+
+Z grafů je patrné, že oba modely jsou podobně přesné. Na osách 1, 5 a 6 se průměrné odchylky obou metod překrývají. Z průběhů je možné také vypozorovat, že model identifikovaný z rovnic dokáže lépe modelovat ostré špičky na momentech. Pro přesnější srovnání jsou v tabulce \ref{tab_srov_odch} uvedeny přesné hodnoty průměrných odchylek na jednotlivých osách.
+
+\hfill
+\begin{table}[htbp]
+  \centering
+  \caption{Srovnání průměrných odchylek modelů vůči měření}
+    \begin{tabular}{c|c|c}
+       Osa   & \multicolumn{1}{c|}{Z rovnic [Nm]} & \multicolumn{1}{c}{Z 3D modelu [Nm]} \\
+    \hline
+    1     & 9,75 & 11,81  \\
+    2     & 34,62 & 19,23 \\
+    3     & 9,43 & 13,14  \\
+    4     & 1,93 & 4,88   \\
+    5     & 1,63 & 1,64   \\
+    6     & 0,47 & 0,53   \\
+    \end{tabular}%
+  \label{tab_srov_odch}%
+\end{table}%
+
+Porovnáním odchylek těchto dvou metod identifikace v tabulce \ref{tab_srov_odch} je možné říct, že obě metody dávají srovnatelné modely. Podle předpokladů má metoda identifikace z rovnic nižší odchylky od změřených hodnot na většině osách. Výjimkou je osa 2. Odchylky na osách 5 a 6 jsou prakticky stejné pro obě metody. Největší nepřesnost je na ose 2, kde model identifikovaný z 3D modelu dosahuje lepších výsledků. Důvodem větší nepřesnosti metody z rovnic může být pro osu 2 nedostatečně excitující identifikační trajektorie.
+
+Identifikace z rovnic pomocí excitační trajektorie tedy obecně dává přesnější model robota. Navíc k tomu aby metoda identifikace z 3D modelu dávala rozumně přesný model, je k němu nutné pomocí rovnic identifikovat koeficienty tření. Proto je dále pro modelování spotřeby robota použit model identifikovaný pomocí rovnic.

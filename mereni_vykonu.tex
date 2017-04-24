@@ -28,7 +28,9 @@ Změřené veličiny posílá karta přímo na vstupy připojeného PLC, které 
 
 \section{PLC Siemens S7-300}
 
-Průmyslové PLC Siemens S7-300 CPU 315-2PN/DP [\cite{siemens_plc}] zpracovává změřená data, která jsou posílána kartou WAGO 750. PLC tato data cyklicky čte ze vstupů a převádí je do 32-bitového hexadecimálního tvaru. Následně jsou 32-bitová data rozdělena na horních a spodních 16 bitů a opatřena identifikátory. Všechna přečtená data s příslušnými identifikátory jsou poté spojena do jedné zprávy, která je poté ještě opatřena časovou známkou udávající čas o tom, kdy byla data vytvořena. Celá zpráva je poté poslána jako jeden paket pomocí protokolu UDP v síti Profinet.  
+Průmyslové PLC Siemens S7-300 CPU 315-2PN/DP [\cite{siemens_plc}] zpracovává změřená data, která jsou posílána kartou WAGO 750. PLC tato data cyklicky čte ze vstupů a převádí je do 32-bitového hexadecimálního tvaru. Následně jsou 32-bitová data rozdělena na horních a spodních 16 bitů a opatřena identifikátory. 
+
+Všechna přečtená data s příslušnými identifikátory jsou poté spojena do jedné zprávy, která je poté ještě opatřena časovou známkou udávající čas o tom, kdy byla data vytvořena. Celá zpráva je poté poslána jako jeden paket pomocí protokolu UDP v síti Profinet.  
 
 Kompletní program pro sběr měřených dat a jejich odesílání v síti Profinet byl vytvořen Ing. Vojtěchem Pavlíkem v rámci jeho diplomové práce [\cite{vojtech_pavlik}]. 
 
