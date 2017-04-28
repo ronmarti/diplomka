@@ -5,19 +5,26 @@
 
 \section{Motivace}
 
-\section{}
+Průmyslové robotické manipulátory jsou dnes již nedílnou součástí průmyslové sféry. Na rozdíl od jednoduchých jednoúčelových průmyslových strojů, které jsou úzce specializované pouze na jeden typ operace, jsou průmyslové roboty zamýšleny jako víceúčelové stroje, které jsou schopny vykovávat téměř libovolnou operaci. Spektrum možných operací průmyslových robotů je omezeno pouze vlastní geometrií robotů, uspořádáním pracovního prostoru ve které jsou provozovány a mechanickými vlastnostmi aktuátorů a jednotlivých prvků robota. Díky těmto vlastnostem je jeden průmyslový robot schopen vykovávat operace, ke kterým by jinak bylo potřeba více strojů, a to jen změnou programu. Dnes se roboty v průmyslu používají pro mnoho typů operací. Patří mezi ně svařování, montáž, manipulace s materiálem, lakování, vrtání a mnoho dalších.
+
+Rozšiřování automatizačních technologií a použití robotů v průmyslu přispívá ke stálému zvyšování produktivity podnikání, urychlování a zpřesňování výrobních procesů, standardizaci výrobních postupů a zvyšování bezpečnosti pracovníků. Na druhou stranu ale toto navyšování počtu průmyslových strojů a automatických systémů má za následek neustále se zvětšující energetickou náročnost a zátěž průmyslových subjektů. Tento nárůst spotřeby energie má exponenciální charakter a je možné s jistotou říct, že bude takto pokračovat i v budoucnu.
+Se zvyšováním množství spotřebované energie navíc roste její cena.
+
+Z těchto důvodů a také z důvodu ekologie vzniká snaha o maximální možné snížení spotřeby energie a o maximální možné zefektivnění jejího využití. Snižování produkce není kvůli narůstající poptávce zákazníků možným řešením. Proto se hledají další způsoby, jak snížit energetickou spotřebu. Jedním z možných řešení je optimalizace procesů s ohledem na jejich energetickou náročnost. Dále je možné provádět analýzy spotřeby energie procesů v delším časovém horizontu a podle nich plánovat procesy za účelem jejich zefektivnění.
 
 \section{Očekávaný přínos}
 
-%Cílem této práce je vytvoření matematického modelu průmyslového robotického manipulátoru za účelem modelování jeho spotřeby elektrické energie při výkonu daných robotických operací. Tato data by poté měla sloužit pro další identifikaci.
+Cílem této práce je vytvoření matematického modelu průmyslového robotického manipulátoru za účelem modelování jeho spotřeby elektrické energie při výkonu daných robotických operací. 
 
-%Modelování průmyslových robotů již bylo předmětem mnoha prací a projektů a to už od jejich návrhu a prvních použití. Nejčastěji tyto modely slouží pro návrh řízení robota nebo jeho optimalizaci. Tato práce je zaměřena na modelování robota a identifikaci z hlediska jeho spotřeby elektrické energie. Protože dynamické parametry robota často nejsou známy, je nejprve nutné tyto parametry identifikovat.
+Tento model je následně možné použít pro predikci energetické náročnosti požadovaného procesu, bez nutnosti měření spotřeby na skutečném fyzickém robotu. Dále je možné model využít k optimalizaci robotických úkonů, jako je plánování pohybových trajektorií robota s optimální energetickou náročností. 
 
-%Identifikací dynamických parametrů se již zabývalo několik prací. V článcích \cite{par_iden_rob}\cite{clos_dyn_par} je použita identifikace dynamických parametrů metodou nejmenších čtverců. Práce \cite{dyn_mod_ind}\cite{dyn_ind_mits} se zabývají identifikací touto metodou robota Mitsubishi PA-10. Jiným způsobem se postupuje v článcích \cite{dyn_ind_man} a \cite{akeel}, které se zabývají identifikací systému pomocí 3D modelu. V této práci je k identifikaci je použita metoda identifikace pomocí nejmenších čtverců.
+Pokud jsou k dispozici data o skutečné změřené spotřebě robota, je zde možnost tento model využít inverzně, kdy ze známé spotřeby energie je možné pomocí různých metod určit pohyby, jaké robot vykonával.
 
-%Průmyslové robotické manipulátory jsou dnes již nedílnou součástí průmyslové sféry. Na rozdíl od jednoduchých jednoúčelových průmyslových strojů, které jsou úzce specializované jen na jeden typ operace, jsou průmyslové roboty víceúčelové a jsou schopny vykovávat téměř libovolnou operaci. Jsou omezeny jen vlastní geometrií, uspořádáním pracovního prostoru ve které se provozují a mechanickými vlastnostmi aktuátorů a jednotlivých prvků robota. Díky těmto vlastnostem je jeden průmyslový robot schopen vykovávat operace, ke kterým by jinak bylo potřeba více strojů, a to jen změnou programu.
+Modelování průmyslových robotů již bylo předmětem několika prací. Nejčastěji tyto odvozené modely slouží pro návrh řízení robota nebo jeho optimalizaci. Tato práce je zaměřena na modelování robota a jeho identifikaci z hlediska jeho spotřeby elektrické energie. 
 
-%Dnes se roboty v průmyslu používají pro mnoho typů operací. Patří mezi ně svařování, montáž, manipulace s materiálem, lakování, vrtání a mnoho dalších.
+Protože dynamické parametry robota potřebné pro vytvoření modelu často nejsou známy, je nezbytné tyto parametry identifikovat. Identifikací parametrů se již zabývalo několik prací. V článcích \cite{par_iden_rob}\cite{clos_dyn_par} je použita identifikace dynamických parametrů z dynamických rovnic pomocí metody nejmenších čtverců. Práce \cite{dyn_mod_ind}\cite{dyn_ind_mits} se zabývají identifikací touto metodou robota Mitsubishi PA-10. Jiným způsobem se postupuje v článcích \cite{dyn_ind_man} a \cite{akeel}, které se zabývají identifikací systému pomocí 3D modelu. V této práci jsou k identifikaci použity obě metody, které jsou následně porovnány.
+
+V průmyslu je používaná široká škála robotických manipulátorů od různých výrobců, lišicích se počtem os, celkovou geometrií, použitými pohony a dynamickými parametry. Tato práce se proto snaží vytvořit standardizovanou metodiku pro vytvoření energetického modelu, kterou by bylo možné použít na libovolného sériového průmyslového robota.
 
 
 

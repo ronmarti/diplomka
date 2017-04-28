@@ -41,7 +41,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="252.41853"
+     inkscape:cx="-46.58147"
      inkscape:cy="317.17253"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -63,7 +63,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -332,7 +332,7 @@
          id="tspan5425"
          x="-13.773584"
          y="496.17349"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:27.5px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">  měřící</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:27.5px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">  měřicí</tspan><tspan
          sodipodi:role="line"
          x="-13.773584"
          y="530.54846"
@@ -361,7 +361,7 @@
          x="199.8611"
          y="618.22595"
          id="tspan5449"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:27.08334351px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">  řídící</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:27.08334351px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">  řídicí</tspan><tspan
          sodipodi:role="line"
          x="199.8611"
          y="652.08014"
