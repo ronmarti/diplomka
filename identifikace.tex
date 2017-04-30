@@ -36,7 +36,7 @@ Navíc z 3D modelu není možné získat informace o koeficientech tření v jed
 \label{z_rovnic_sec}
 Neznámé dynamické parametry je možné přesně vypočítat pomocí dynamických rovnic robota. 
 
-Přestože jsou dynamické rovnice robota \ref{celkova_dyn_rovnice_eq} nelineární vůči jednotlivým zobecněným souřadnicím, jsou lineární vůči jednotlivým složkám dynamických parametrů [\cite{}][\cite{}]. Proto je tyto rovnice možné je přepsat do tvaru
+Přestože jsou dynamické rovnice robota \ref{celkova_dyn_rovnice_eq} nelineární vůči jednotlivým zobecněným souřadnicím, jsou lineární vůči jednotlivým složkám dynamických parametrů [\cite{clos_dyn_par}][\cite{dyn_mod_ind}]. Proto je tyto rovnice možné je přepsat do tvaru
 
 \begin{equation}
 T(t) = H(\ddot{\theta}(t),\dot{\theta}(t),\theta(t))P
@@ -164,4 +164,6 @@ Tyto vektory a matice jsou poté předány solveru \texttt{lsqlin}, který vypo�
 
 Odvozené parametry je možné v další části hned odsimulovat a porovnat se skutečnými změřenými trajektoriemi.
 
-V poslední části je provedena analýza vlivu odchylek v hodnotách parametrů na přesnost energetického modelu robotu.
+V poslední části je provedena analýza vlivu odchylek v hodnotách parametrů na přesnost energetického modelu robotu. Analýza vlivu odchylek je provedena pomocí metody Monte Carlo. Model je v cyklu odsimulován 200 krát pokaždé s jinou náhodně vygenerovanou hodnotou přičtenou k parametru. Poté je vypočítána střední odchylka mezi simulací a měřením. Toto je v cyklu opakováno pro všechny identifikované parametry. Následuje vyhodnocení těchto výsledku a nalezení nejhorších případů.
+Ve skriptu je možné upravovat počet simulací a rozsah odchylek parametrů.  
+

@@ -9,7 +9,7 @@ V případě 6-ti osového manipulátoru se jedná o systém se šesti stupni vo
 
 \section{Pohybové rovnice}
 \label{pohybove_rovnice_sec}
-K odvození pohybových rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu. 
+K odvození pohybových rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu [\cite{rob_mod_control}]. 
 
 Newton-Eulerova metoda je založena na přístupu k systému jako k soustavě jednotlivých jeho částí a vyžaduje určení pohybových rovnic každé jednotlivé osy. Protože jsou jednotlivé osy vzájemně kinematicky propojeny, jsou i pohybové rovnice jednotlivých os závislé na pohybu ostatních os. 
 
@@ -58,7 +58,7 @@ Momentové konstanty jednotlivých motorů je možné zjistit v jejich dokumenta
 
 Odvozené rovnice dynamiky robota popsané výše v sekci \ref{pohybove_rovnice_sec} popisují pouze ideální model, ve kterém nedochází k žádným ztrátám energie. V reálných motorech a převodovkách ale dochází k energetickým ztrátám v důsledku tření v ložiscích motorů, rotačních os a tření v převodovkách.
 
-Kompletní popis tření os je relativně komplikovaný. Proto se zpravidla pro jeho modelování používá zjednodušený model popisující tření jako kombinaci viskózního a Coulombova tření \cite{}. 
+Kompletní popis tření os je relativně komplikovaný. Proto se zpravidla pro jeho modelování používá zjednodušený model popisující tření jako kombinaci viskózního a Coulombova tření \cite{fric_eff_analysis}. 
 
 Viskózní tření je tření, které je lineárně závislé na rychlosti rotace. Při nulové rychlosti je třecí moment síly nulový a s rostoucí rychlostí se zvyšuje.
 
@@ -103,7 +103,7 @@ kde
 
 \section{Elektrický výkon}
 \label{el_vykon_ch}
-Výkon je obecně definován jako práce vykonaná za jednotku času a platí rovnice
+Výkon je obecně definován jako práce vykonaná za jednotku času [\cite{zemanek}] a platí rovnice
 
 \begin{equation}
 P = \frac{W}{t}
@@ -163,7 +163,7 @@ kde $U,V,W$ jsou jednotlivé fáze v třífázové soustavě.
 
 \subsection{Elektrický výkon synchronního motoru}
 
-V případě výpočtu výkonu elektrického motoru je potřeba vytvořit model jeho vinutí. Synchronní motor s permanentními magnety je možné zjednodušeně modelovat jako stejnosměrný (DC) motor. Jeho elektrické schéma je na obrázku \ref{schema_motoru_pic}.  
+V případě výpočtu výkonu elektrického motoru je potřeba vytvořit model jeho vinutí. Synchronní motor s permanentními magnety je možné zjednodušeně modelovat jako stejnosměrný (DC) motor [\cite{sbornik}]. Jeho elektrické schéma je na obrázku \ref{schema_motoru_pic}.  
 
 \begin{figure}[ht]
 \includegraphics[width=0.55\textwidth]{obvod_motoru}

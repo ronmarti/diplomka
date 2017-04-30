@@ -9,7 +9,7 @@ Pro porovnání modelu pro výpočet výkonu s reálnými naměřenými hodnotam
 Při tomto pohybu robota byl v řídícím systému robota spuštěn nástroj TRACE zaznamenávající průběh poloh, úhlových rychlostí a úhlových zrychlení potřebný pro model výkonu. Zároveň bylo spuštěno měřicí PLC ukládající naměřený výkon na napájecím vedení robota. 
 
 \section{Dosažitelná přesnost}
-
+\label{dosaz_presnost_sec}
 Pro účely srovnání bylo v nástroji TRACE nastaveno i měření efektivních proudů protékajících vinutími motorů na jednotlivých osách. Momenty sil na jednotlivých osách v jsou nástroji TRACE vypočítány ze změřených proudů, podle vzorce \ref{torque_current_eq}, jejich vynásobením příslušnými momentovými konstantami. Proto v případě, že by byly parametry modelu identifikovány naprosto přesně, byl by průběh výkonu vypočítaný pomocí tohoto modelu totožný s výkonem vypočítaným z měření proudů. Výkon spočítaný pomocí těchto změřených proudů představuje maximální možnou hranici přesnosti, které je možné pomocí modelu dosáhnout. 
 
 \begin{figure}[ht]
