@@ -3,11 +3,11 @@
 
 \chapter{Identifikované parametry}
 \label{identifikovane_parametry_ch}
-Postupem popsaným v sekci \ref{postup_identifikace_ch} se byly identifikovány všechny neznámé parametry. Identifikované parametry jsou uvedeny v tabulce \ref{tab_ind_hodnot}. V následující tabulce \ref{tab_ind_hodnot_3d} jsou pro srovnání vypsané hodnoty identifikované z 3D modelu robota (viz sekce \ref{z_3d_modelu_sec}). Hodnoty v tabulkách jsou uvedeny v základních jednotkách SI. 
+Postupem popsaným v sekci \ref{postup_identifikace_ch} byly identifikovány všechny neznámé parametry. Identifikované parametry jsou uvedeny v tabulce \ref{tab_ind_hodnot}. V následující tabulce \ref{tab_ind_hodnot_3d} jsou pro srovnání vypsané hodnoty identifikované z 3D modelu robotu (viz sekce \ref{z_3d_modelu_sec}). Hodnoty v tabulkách jsou uvedeny v základních jednotkách SI. 
 \\
 \begin{table}[htbp]
   \centering
-  \caption{Tabulka identifikovaných parametrů z rovnic}
+  \caption{Tabulka parametrů identifikovaných z rovnic}
     \begin{tabular}{c|cccccccccc}
     \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$I_{xx}$} & \multicolumn{1}{c}{$I_{yy}$} & \multicolumn{1}{c}{$I_{zz}$} & \multicolumn{1}{c}{$d_x$} & \multicolumn{1}{c}{$d_y$} & \multicolumn{1}{c}{$d_z$} & \multicolumn{1}{c}{$m$} & \multicolumn{1}{c}{$f_v$} & \multicolumn{1}{c}{$f_c$} \\
     \hline
@@ -23,7 +23,7 @@ Postupem popsaným v sekci \ref{postup_identifikace_ch} se byly identifikovány 
 
 \begin{table}[htbp]
   \centering
-  \caption{Tabulka identifikovaných parametrů z 3D modelu}
+  \caption{Tabulka parametrů identifikovaných z 3D modelu}
     \begin{tabular}{c|cccccccccc}
     \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$I_{xx}$} & \multicolumn{1}{c}{$I_{yy}$} & \multicolumn{1}{c}{$I_{zz}$} & \multicolumn{1}{c}{$d_x$} & \multicolumn{1}{c}{$d_y$} & \multicolumn{1}{c}{$d_z$} & \multicolumn{1}{c}{$m$} & \multicolumn{1}{c}{$f_v$} & \multicolumn{1}{c}{$f_c$} \\
     \hline
@@ -37,15 +37,15 @@ Postupem popsaným v sekci \ref{postup_identifikace_ch} se byly identifikovány 
   \label{tab_ind_hodnot_3d}%
 \end{table}%
 
-Porovnáním hodnot v obou tabulkách je patrné, že se většina parametrů, snad jen s výjimkou hmotností ramen, poměrně výrazně liší. Dalším rozdílem je, že z 3D modelu není možné získat informace o koeficientech tření v jednotlivých osách, zatímco odvození z rovnic s třením počítá. Jak bude patrné ze simulace odvozených parametrů, tření má na dynamiku nezanedbatelný vliv.
+Porovnáním hodnot v obou tabulkách je patrné, že se většina parametrů, s výjimkou hmotností ramen, poměrně výrazně liší. Dalším rozdílem je, že z 3D modelu není možné získat informace o koeficientech tření v jednotlivých osách, zatímco identifikace z rovnic se třením počítá. Vliv tření na přesnost modelu je analyzován v další části.
 
 \section{Simulace odvozených parametrů}
 
 Na následujících obrázcích (obr. \ref{osa_1_sim_pic} až \ref{osa_6_sim_pic}) jsou odsimulované průběhy točivých momentů s odvozenými parametry všech šesti os. Jsou v nich odsimulované průběhy s parametry odvozenými pomocí rovnic a z 3D modelu. 
 
-Simulace je provedena tak, že se s robotem vykonal pohyb po určité trajektorii. Přitom byly měřeny průběhy pozic, úhlových rychlostí, úhlových zrychlení a momentů sil. Polohy, rychlosti a zrychlení byly následně dosazeny do odvozených identifikovaných modelů a výsledné momenty sil byly porovnány se změřenými.
+Simulace je provedena tak, že se nejprve s robotem vykonal pohyb po určité trajektorii. Přitom byly měřeny průběhy poloh, úhlových rychlostí, úhlových zrychlení a momentů sil. Polohy, rychlosti a zrychlení byly následně dosazeny do odvozených identifikovaných modelů a výsledné momenty sil byly porovnány se změřenými.
 
-Protože z 3D modelu není možné získat koeficienty tření os, je zde možnost uvažovat tyto koeficienty jako nulové a tím je v modelu zanedbat. Tento model je ale velmi nepřesný (viz průběhy níže). Na průbězích je vidět, že vychází opravdu velmi vysoké odchylky od naměřených dat. Tření os hraje v dynamice robota významnou roli, proto ho není možné tímto způsobem zanedbat.
+Protože z 3D modelu není možné získat koeficienty tření os, je zde možnost uvažovat tyto koeficienty jako nulové a tím je v modelu zanedbat. Tento model je ale velmi nepřesný (viz průběhy \ref{osy_sim_pic}). Na průbězích je vidět, že vychází opravdu velmi vysoké odchylky od naměřených dat. Tření os hraje v dynamice robota významnou roli, proto ho není možné tímto způsobem zanedbat.
 
 Odvozené parametry z 3D modelu je možné využít tak, že se budou v dynamických rovnicích uvažovat jako známé a z rovnic se odvodí pouze neznámé koeficienty tření. Na průbězích níže jsou pro srovnání odsimulované průběhy s parametry získanými tímto způsobem. 
 
@@ -93,9 +93,9 @@ Odvozené parametry z 3D modelu je možné využít tak, že se budou v dynamick
     \caption{Srovnání měření se simulacemi s odvozenými parametry}\label{osy_sim_pic}
 \end{figure}
 
-Z výše uvedených průběhů je patrné, že v případě zanedbání tření os je získaný model robota nepoužitelný. Nejlepších výsledků tento model dosahuje na ose 2 kde mají na dynamiku kromě tření velký vliv také hmotnosti a pozice těžišť následujících ramen, jejichž hmotnost osa 2 nese. Naopak například pro osy 4 a 6 je vliv ostatních parametrů vůči tření na této trajektorii zanedbatelný, proto jsou predikované momenty na těchto osách téměř nulové. Z toho důvodu se nadále již model se zanedbaným třením neuvažuje.
+Z výše uvedených průběhů je patrné, že v případě zanedbání tření os je získaný model robota nepoužitelný. Nejlepších výsledků tento model dosahuje na ose 2 kde mají na dynamiku kromě tření velký vliv také hmotnosti a polohy těžišť následujících ramen, jejichž hmotnost osa 2 nese. Naopak například pro osy 4 a 6 je vliv ostatních parametrů vůči tření na této trajektorii zanedbatelný, proto jsou predikované momenty na těchto osách téměř nulové. Z toho důvodu se nadále již model se zanedbaným třením neuvažuje.
 
-Naopak modely s identifikovanými parametry z rovnic a z 3D modelu se třením dávají poměrně přesné předpovědi. Ve většině případů jsou predikované hodnoty z modelu téměř totožné s těmi změřenými. Na následujících obrázcích (\ref{osa_1_odch_pic} až \ref{osa_6_odch_pic}) je srovnání přesností obou modelů. V grafech je znázorněna okamžitá a průměrná odchylka mezi modely a měřením.
+Naopak model s identifikovanými parametry z rovnic a z 3D modelu se třením poskytuje poměrně přesné předpovědi. Ve většině případů jsou predikované hodnoty z modelu téměř totožné s těmi změřenými. Na následujících obrázcích (\ref{osa_1_odch_pic} až \ref{osa_6_odch_pic}) je srovnání přesností obou modelů. V grafech je znázorněna okamžitá a průměrná odchylka mezi modely a měřením.
 
 \begin{figure}[h]
     \centering
@@ -155,6 +155,6 @@ Z grafů je patrné, že oba modely jsou podobně přesné. Na osách 1, 5 a 6 s
   \label{tab_srov_odch}%
 \end{table}%
 
-Porovnáním odchylek těchto dvou metod identifikace v tabulce \ref{tab_srov_odch} je možné říct, že obě metody dávají srovnatelné modely. Podle předpokladů má metoda identifikace z rovnic nižší odchylky od změřených hodnot na většině osách. Výjimkou je osa 2. Odchylky na osách 5 a 6 jsou prakticky stejné pro obě metody. Největší nepřesnost je na ose 2, kde model identifikovaný z 3D modelu dosahuje lepších výsledků. Důvodem větší nepřesnosti metody z rovnic může být pro osu 2 nedostatečně excitující identifikační trajektorie.
+Porovnáním odchylek těchto dvou metod identifikace v tabulce \ref{tab_srov_odch} je možné říct, že obě metody dávají srovnatelné modely. Podle předpokladů má metoda identifikace z rovnic nižší odchylky od změřených hodnot na většině osách. Výjimkou je osa 2. Odchylky na osách 5 a 6 jsou prakticky stejné pro obě metody. Největší nepřesnost je na ose 2, kde model identifikovaný z 3D modelu dosahuje lepších výsledků. Důvodem větší nepřesnosti metody z rovnic může být nedostatečně excitující identifikační trajektorie pro osu 2.
 
 Identifikace z rovnic pomocí excitační trajektorie tedy obecně dává přesnější model robota. Navíc k tomu aby metoda identifikace z 3D modelu dávala rozumně přesný model, je k němu nutné pomocí rovnic identifikovat koeficienty tření. Proto je dále pro modelování spotřeby robota použit model identifikovaný pomocí rovnic.

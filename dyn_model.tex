@@ -223,17 +223,17 @@ kde $U,V,W$ jsou jednotlivé fáze v třífázové soustavě.
 
 \section{Solver ReDySim}
 
-Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim)\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat rovnice pro libovolný počet os a to jak pro rotační, tak lineární osy. 
+Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim)\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat pohybové dynamické rovnice robotu s libovolným počtem os a to jak pro rotační, tak lineární osy. 
 
-Jeho vstupními parametry jsou modifikované DH (Denavit-Hartenbergovy) parametry robota a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté skript pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robota.  
+Vstupními parametry solveru ReDySim jsou modifikované DH (Denavit-Hartenbergovy) parametry robotu a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté skript pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robotu.  
 
 \section{Modifikované DH parametry robota}
 
-Modifikované Denavit-Hartenbergovy (DH) parametry jsou parametry, pomocí nichž je možné kompletně popsat geometrii a kinematiku sériového robota. Jedná se o čtyři parametry pro každou osu robota, které definují vzájemnou polohu a konfiguraci sousedících os. 
+Modifikované Denavit-Hartenbergovy (DH) parametry jsou parametry, pomocí nichž je možné kompletně popsat geometrii a kinematiku sériového robotu. Jedná se o čtyři parametry pro každou osu robotu, které definují vzájemnou polohu a konfiguraci sousedících os. 
 
 Parametr $a_i [m]$ popisuje délku ramena $i$, $b_i [m]$ udává odsazení ramena $i$ podél osy rotace ramena $i-1$, parametr $\alpha_i [\si{\degree}]$ určuje vzájemný úhel natočení mezi osou $i+1$ a osou $i$ a poslední parametr $\theta_i [\si{\degree}]$ udává okamžitý úhel natočení osy $i$.
 
-V tabulce č.\ref{tab_DH_kuka} je DH parametrizace robota KUKA KR5 Arc použita v nástroji ReDySim.
+V tabulce \ref{tab_DH_kuka} je DH parametrizace robotu KUKA KR5 Arc použita v nástroji ReDySim pro vygenerování jeho dynamických rovnic.
 
 \begin{table}[htbp]
   \centering
@@ -251,9 +251,9 @@ V tabulce č.\ref{tab_DH_kuka} je DH parametrizace robota KUKA KR5 Arc použita 
   \label{tab_DH_kuka}%
 \end{table}% 
 
-Přesné délky jednotlivých ramen a vzájemné polohy jednotlivých os robota je možné nalézt v jeho dokumentaci.
+Přesné délky jednotlivých ramen a vzájemné polohy jednotlivých os robotu je možné nalézt v jeho dokumentaci.
 
-Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cite{roboanalyzer}], který byl vyvinut společně se solverem ReDySim pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat dopředné a zpětné kinematické a dynamické úlohy. Dále umožňuje simulovat jednoduché pohyby robota s až 7 osami a vykreslovat průběhy stavů jako jsou polohy, rychlosti, zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
+Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cite{roboanalyzer}], který byl vyvinut společně se solverem ReDySim pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat dopředné a zpětné kinematické a dynamické úlohy. Dále umožňuje simulovat jednoduché pohyby robotu s až 7 osami a vykreslovat průběhy jeho stavů jako jsou polohy, úhlové rychlosti, úhlová zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
 \\
 \begin{figure}[ht]
 \includegraphics[width=0.95\textwidth]{pic_dh_kuka}

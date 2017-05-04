@@ -7,7 +7,7 @@ U robotického manipulátoru zpravidla nejsou zcela známy informace o dynamick�
 
 \section{Způsoby identifikace}
 
-Protože zpravidla nejsou známy všechny dynamické parametry, je pro vytvoření dynamického modelu nutné tyto parametry nějakým způsobem získat nebo odvodit. Toho je možné docílit několika způsoby.
+Protože obvykle nejsou známy všechny dynamické parametry, je pro vytvoření dynamického modelu nutné tyto parametry nějakým způsobem získat nebo odvodit. Toho je možné docílit několika způsoby.
 
 \subsection{Z přímého měření součástí robota}
 
@@ -19,17 +19,22 @@ Další nevýhodou je nemožnost zobecnění tohoto způsobu na více typů robo
 
 \subsection{Z 3D modelu}
 
-Výrobci často poskytují ke stažení 3D modely svých robotů. Ty je možné analyzovat v nástrojích CAD jako je například AutoCAD nebo Siemens NX, které jsou schopny počítat momenty setrvačnosti a hmotnosti libovolně složitých objektů. Výhodou tohoto postupu je jeho rychlost a jednoduchost. Navíc je takto možné získat požadované parametry i bez nutnosti přístupu k opravdovému fyzickému robotu. Tento postup je také možné zobecnit na libovolný typ robota. Stačí k němu jen mít jeho odpovídající 3D model. 3D model robota KUKA KR5 Arc v prostředí Siemens NX 10.0 je na obrázku \ref{kuka_3d_pic}.
+Výrobci často poskytují ke stažení 3D modely svých robotů. Obvykle tyto modely slouží pro účely vytvoření počítačových simulací nebo modelů výrobních linek. 
+3D modely je možné použít ke zjištění neznámých dynamických parametrů jejich analýzou v nástrojích CAD, jako je například AutoCAD nebo Siemens NX. Tyto nástroje jsou schopny z geometrie objektů počítat jejich objemy, momenty setrvačnosti, polohy těžišť a hmotnosti.
+
+Výhodou tohoto postupu je jeho rychlost a jednoduchost. Navíc je takto možné získat požadované parametry i bez nutnosti přístupu k opravdovému fyzickému robotu. Tento postup je také možné zobecnit na libovolný typ robotického manipulátoru. Stačí k němu jen mít jeho odpovídající 3D model. 3D model robotu KUKA KR5 Arc v prostředí Siemens NX 10.0 je na obrázku \ref{kuka_3d_pic}.
 
 \begin{figure}[ht]
     \includegraphics[width=0.8\textwidth]{kuka_3d}
-    \caption{3D model robota KUKA KR5 Arc v prostředí Siemens NX 10.0.}
+    \caption{3D model robotu KUKA KR5 Arc v prostředí Siemens NX 10.0.}
     \label{kuka_3d_pic}
 \end{figure}
 
-3D model ale zpravidla popisuje pouze povrchovou geometrii jednotlivých komponent robota a neobsahuje informace o jejich vnitřní konstrukci ani typu použitých materiálů, jejich skutečné hmotnosti nebo jejich hustoty. Je sice možné považovat jednotlivá ramena robota za homogenní a hmotnost odhadnout z celkové hmotnosti robota udávané v jeho datasheetu, tento postup ale dává jen velmi hrubý odhad dynamických parametrů. 
+3D model ale zpravidla popisuje pouze povrchovou geometrii jednotlivých komponent robota a neobsahuje informace o jejich vnitřní konstrukci, typech použitých materiálů, jejich skutečných hmotnostech nebo hustotách. Je zde možnost považovat jednotlivé součásti robotu za tělesa s homogenní hustotou a hmotnosti odhadnout z celkové hmotnosti robotu, která bývá udávána v jeho datasheetu. Tento postup ale dává jen velmi hrubý odhad dynamických parametrů. 
 
-Navíc z 3D modelu není možné získat informace o koeficientech tření v jednotlivých osách. Tento postup je zde použit pouze pro účely porovnání určených hodnot.
+Navíc z 3D modelu není možné získat informace o koeficientech tření v jednotlivých osách. 
+
+Tento způsob identifikace je v této práci použit pouze pro účely porovnání určených hodnot s hodnotami odvozenými metodou popsanou v sekci \ref{z_rovnic_sec}.
 \label{z_3d_modelu_sec}
 
 \subsection{Z rovnic}
@@ -61,11 +66,11 @@ kde
 \item[$f_{ci}$] je koeficient Coulombova tření linku $i$
 \end{description}
 
-Neznámých parametrů pro jedno rameno odpovídá počtu složek vektoru $P_i$. Ten je roven 12. U průmyslového manipulátoru se šesti rotačními osami je tedy neznámých parametrů celkem 72. 
+Počet neznámých parametrů pro jedno rameno robotu odpovídá počtu složek vektoru $P_i$. Ten je roven 12. U sériového průmyslového manipulátoru se šesti rotačními osami je tedy neznámých parametrů celkem 72. 
 
-Počet neznámých parametrů je možné zredukovat. Je to dáno tím, že některé parametry dynamiku robota neovlivní. Důvodem je to, že se některé linky mohou otáčet pouze kolem některé z os. Příkladem může být osa 1 (spojená se zemí, viz schéma \ref{kuka_kr5_axes_pic}), která se v prostoru může otáčet jen kolem vertikální osy. Tím je možné zanedbat momenty setrvačnosti mimo tuto vertikální osu a také její hmotnost a polohu jejího těžiště. Zároveň je možné si model zjednodušit uvažováním pouze prvků na hlavní diagonále tenzorů setrvačnosti a zanedbáním prvků mimo ni.
+Počet neznámých parametrů je možné zredukovat. Je to možné díky tomu, že některé parametry dynamiku robota neovlivní nebo je jejich vliv zanedbatelný. Důvodem je to, že se některé linky mohou otáčet pouze kolem některé z os. Příkladem může být osa 1 (spojená se zemí, viz schéma \ref{kuka_kr5_axes_pic}), která se v prostoru může otáčet jen kolem vertikální osy. Tím je možné zanedbat momenty setrvačnosti mimo tuto vertikální osu. Dále je možné zanedbat její hmotnost a polohu jejího těžiště. Zároveň je možné model dále zjednodušit uvažováním pouze prvků na hlavní diagonále tenzorů setrvačnosti a zanedbáním prvků mimo ni.
 
-Díky tomu klesne počet neznámých parametrů v případě šestiosového robota na číslo 48. V následující tabulce (tabulka \ref{tab_hled_param}) je přehled výsledných neznámých dynamických parametrů robota KUKA KR5 Arc.
+Díky tomu klesne počet neznámých parametrů v případě šestiosového robotu z čísla 72 na číslo 48. V následující tabulce (tabulka \ref{tab_hled_param}) je přehled výsledných neznámých dynamických parametrů robota KUKA KR5 Arc.
 \\
 
 \begin{table}[ht]
@@ -91,26 +96,27 @@ P = H\big(\ddot{\theta}(t),\dot{\theta}(t),\theta(t)\big)^{-1}T(t)
 \label{eq_lin_par_inv}
 \end{equation}
 
-K výpočtu vektoru $P$ neznámých parametrů je nejprve potřebné vykonat pohyb na robotu po nějaké trajektorii a měřit polohy, úhlové rychlostí, úhlová zrychlení a momenty sil na jednotlivých osách. Do matice $H$ se poté dosadí polohy, úhlové rychlosti a úhlová zrychlení jednotlivých os v čase $t$ a do vektoru $T(t)$ změřené momenty sil v čase $t$. 
+K výpočtu vektoru $P$ neznámých parametrů je nejprve potřebné s robotem vykonat pohyb po nějaké trajektorii a měřit polohy, úhlové rychlostí, úhlová zrychlení a momenty sil na jednotlivých osách. Do matice $H\big(\ddot{\theta}(t),\dot{\theta}(t),\theta(t)\big)$ se poté dosadí tyto změřené polohy, úhlové rychlosti a úhlová zrychlení jednotlivých os v čase $t$ a do vektoru $T(t)$ změřené momenty sil v čase $t$. 
 
-Protože je ale neznámých parametrů více než rovnic, nelze tuto rovnici vyřešit jednoznačně. Tento problém lze jednoduše vyřešit naměřením na trajektorii více bodů a jejich následným dosazením do rovnice \ref{eq_lin_par_inv} v různých časech. Důležité je na trajektorii mít tolik bodů, aby z této rovnice vznikla rovnice přeurčená. Takovou rovnici je poté možné řešit například použitím metody nejmenších čtverců, která minimalizuje střední odchylku mezi skutečnými a odhadnutými parametry a navíc je schopna eliminovat vliv šumu měření. 
+Protože je ale neznámých parametrů více než rovnic, nelze tuto rovnici vyřešit jednoznačně. Tento problém lze jednoduše vyřešit naměřením více bodů na trajektorii v různých časech a jejich následným dosazením do rovnice \ref{eq_lin_par_inv}. Důležité je na trajektorii mít změřen takový počet bodů, aby z této rovnice vznikla rovnice přeurčená. Takovou přeurčenou rovnici je poté možné řešit například použitím metody nejmenších čtverců, která minimalizuje střední odchylku mezi skutečnými a odhadnutými parametry a navíc je schopna eliminovat vliv šumu měření. 
 
 \subsection{Excitační trajektorie}
 
-Odhadované parametry vypočítané výše popsaným postupem jsou ale silně závislé na zvolené trajektorii, na které jsou měřeny dynamické veličiny. 
+Neznámé parametry identifikované postupem popsaným v sekci \ref{eq_lin_par} jsou silně závislé na zvolené trajektorii, na které jsou měřeny průběhy dynamických veličin. 
 
-Aby se tímto způsobem správně odhadly všechny neznámé parametry, je potřeba s robotem provést pohyby po takové trajektorii, na které by byly vybuzeny všechny dynamické složky robota, tzn. aby se do dynamiky promítly všechny neznámé parametry. Nedostatečně excitující trajektorie sice dá nějaké výsledky, ty budou ale platit pouze pro pohyby po této trajektorii nebo jejím okolí.
+Aby tímto způsobem bylo možné správně odhadnout hodnoty všech neznámých parametrů, je potřeba s robotem vykonat pohyby po takové trajektorii, na které by byly vybuzeny všechny dynamické složky robota. Trajektorie musí být zvolena tak, aby se do dynamiky pohybu promítly všechny neznámé parametry. Identifikace z nedostatečně budící (excitující) trajektorie sice také odhadne všechny neznámé parametry, model s nimi ale bude přesný pouze pro pohyby po této trajektorii nebo jejím okolí.
 
-Ve vědeckých článcích a v jiných publikacích např. \cite{clos_dyn_par}\cite{dyn_mod_ind}\cite{dyn_ind_mits} se na jednotlivých osách doporučují trajektorie, které je možné popsat konečnou Fourierovou řadou. Jejich výhodou je, že díky vlastnostem harmonické funkce jsou poté jednotlivé polohy, rychlosti i zrychlení rovněž kombinací harmonických průběhů. Tím se maximalizuje vliv hledaných dynamických parametrů a minimalizuje vliv šumu měření. 
+Ve vědeckých článcích a publikacích např. \cite{dyn_mod_ind}\cite{dyn_ind_mits}\cite{clos_dyn_par} se na jednotlivých osách jako excitační trajektorie doporučují trajektorie, které je možné popsat konečnou Fourierovou řadou. Jejich výhodou je, že díky vlastnostem harmonických funkcí jsou poté jednotlivé polohy, rychlosti i zrychlení rovněž kombinací harmonických průběhů. Tím je maximalizován vliv hledaných dynamických parametrů a minimalizován vliv šumu měření. 
 
-Protože se průmyslové manipulátory používají převážně pro polohování, jejich řídicí systémy zpravidla neumožňují na osách provádět čistě harmonické průběhy. Řídicí systém robota KUKA KR5 Arc umožňuje pouze nastavit sadu požadovaných poloh os, kterých musí osy dosáhnout a rychlosti/zrychlení, s jakými se má tento pohyb vykonat. Z toho důvodu je nutné robotu poskytnout sérii bodů popisujících harmonický průběh. Výsledná trajektorie robota je poté pouze aproximací harmonického průběhu.  
+Protože se průmyslové manipulátory používají převážně pro polohování, jejich řídicí systémy zpravidla neumožňují na osách provádět čistě harmonické průběhy. Řídicí systém robota KUKA KR5 Arc umožňuje zadat požadovanou trajektorii dvěma hlavními způsoby. První způsob je zadání trajektorie jako sady požadovaných poloh os, kterých musí osy dosáhnout a rychlosti/zrychlení, s jakými se má tento pohyb vykonat. Druhou možností je zadání požadovaných poloh a rychlostí koncového efektoru v kartézských souřadnicích. Řídicí systém následně sám tyto zadané polohy aproximuje hladkou trajektorií. 
 
+Z tohoto důvodu je nutné robotu poskytnout sérii bodů popisujících harmonický průběh. Výsledná trajektorie robota je poté pouze aproximací harmonického průběhu.  
 
 \section{Postup identifikace}
 
 Při identifikaci parametrů robota KUKA KR5 Arc se postupovalo způsobem popsaným výše v sekci \ref{z_rovnic_sec}. 
 
-Pomocí nástroje ReDySim se vygenerovala soustava šesti rovnic dynamiky robota. Protože ReDySim neuvažuje tření na jednotlivých osách, bylo nutné toto tření do vygenerovaných rovnic doplnit ručně. Výsledná soustava rovnic se poté převedla do maticového tvaru lineárního vůči neznámým dynamickým parametrům (rovnice \ref{eq_lin_par}). 
+Pomocí nástroje ReDySim byla vygenerována soustava šesti rovnic dynamiky robota. Protože ReDySim v rovnicích neuvažuje tření na jednotlivých osách, bylo nutné toto tření do vygenerovaných rovnic ručně doplnit. Výsledná soustava rovnic se poté převedla do maticového tvaru lineárního vůči neznámým dynamickým parametrům (rovnice \ref{eq_lin_par}). 
 
 Za vektor $P$ neznámých parametrů byl zvolen vektor s parametry všech šesti os
 \[\addtolength{\arraycolsep}{-1.5pt}
@@ -122,48 +128,49 @@ P &=
 \end{split}
 \]
 
-Do matic $H\big(\ddot{\theta}(t),\dot{\theta}(t),\theta(t)\big)$ a $T(t)$ se dosadily jednotlivé polohy, úhlové rychlosti, úhlová zrychlení a momenty sil naměřené v různých časech na identifikační trajektorii. Vektor neznámých parametrů $P$ se poté vypočítal z rovnice \ref{eq_lin_par_inv} metodou nejmenších čtverců. 
+Do matic $H\big(\ddot{\theta}(t),\dot{\theta}(t),\theta(t)\big)$ a $T(t)$ se dosadily jednotlivé polohy os, úhlové rychlosti, úhlová zrychlení a momenty sil naměřené v různých časech na identifikační trajektorii. Vektor neznámých parametrů $P$ se poté vypočítal z rovnice \ref{eq_lin_par_inv} metodou nejmenších čtverců. 
 
 Protože jsou dynamické rovnice robota silně nelineární, může se stát, že řešitel metody nejmenších čtverců nenalezne globálně optimální řešení, ale skončí v některém z lokálních minim. Je také možné, že řešitel nalezne řešení, které bude správně matematicky, fyzikálně ale nebude dávat smysl (záporné hmotnosti ramen, apod.). Z tohoto důvodu je vhodné nějakým způsobem omezit prostor, ve kterém se má řešení hledat.
 
-V této práci byl pro řešení metody nejmenších čtverců v MATLABu použit solver \texttt{lsqlin}, který umožňuje specifikovat hranice, ve kterých se má řešení hledat. První z podmínek bylo, že všechny hmotnosti a momenty setrvačnosti mají mít kladné hodnoty. Dále se nastavilo omezení na hledané polohy těžiště ramen tak, aby tato těžiště neležela mimo fyzický objem ramen. Posledním omezením bylo nastavení přesných hmotností ramen, které se bylo možné nalézt ve zdrojových datech robota.
+V této práci byl pro řešení metody nejmenších čtverců v MATLABu použit solver \texttt{lsqlin}, který umožňuje specifikovat hranice, ve kterých se má hledat řešení. První z omezujících podmínek bylo, že všechny hmotnosti a momenty setrvačnosti mají mít kladné hodnoty. Dále se nastavilo omezení na hledané polohy těžiště ramen tak, aby tato těžiště neležela mimo fyzický objem ramen. Posledním z požadovaných omezení bylo nastavení přesných hmotností ramen, které bylo možné dohledat ve zdrojových datech robotu.
 
 \label{postup_identifikace_ch}
 
 \subsection{Identifikační trajektorie}
 
-Protože je prostor kolem robota omezen, není možné s robotem provádět pohyby v plném rozsahu. Proto bylo nutné tomu identifikační trajektorii přizpůsobit. Identifikační trajektorie byla vytvořena složením několika nezávislých trajektorií. 
+Protože je prostor kolem robotu omezen, není možné s robotem provádět pohyby v jeho plném rozsahu. Proto tomu bylo nutné přizpůsobit identifikační trajektorii. Identifikační trajektorie byla vytvořena složením několika nezávislých trajektorií. 
 
-V první části se pohybovalo pouze s posledními třemi osami (osa 6, osa 5 a osa 4). Ostatní osy byly v pevně zafixované pozici. Nejprve se opakovaně pohybovalo pouze poslední šestou osou v maximálním možném rozsahu v obou směrech otáčení. K tomu se následně přidal obdobný pohyb páté osy a nakonec se stejným způsobem přidal i pohyb čtvrté osy. Tímto se pokryla maximální možná škála pohybů posledních tří os.
+V první části trajektorie se pohybovalo pouze s posledními třemi osami (osa 6, osa 5 a osa 4). Ostatní osy byly v pevně zafixované pozici. Nejprve se opakovaně pohybovalo pouze poslední šestou osou v jejím maximálním možném rozsahu v obou směrech otáčení. K tomu se následně přidal obdobný pohyb páté osy a nakonec se stejným způsobem přidal i pohyb čtvrté osy. Tímto se pokryla maximální možná škála pohybů posledních tří os.
 
-Následovala část pro identifikaci prvních tří os. U těchto os je problém v tom, že osa 2 a osa 3 mají vzájemně rovnoběžné osy otáčení (viz obrázek \ref{kuka_kr5_axes_pic}). Proto je obtížné nezávisle identifikovat některé jejich parametry. Příkladem může být identifikace momentů setrvačnosti vzhledem k osám kolmým na osy jejich rotace. Osou 3 není možné kolem těchto os otáčet, aniž by se zároveň kolem stejné osy neotáčela osa 2 a naopak.    
+Následovala část trajektorie pro identifikaci parametrů prvních tří os. U těchto os je situace zkomplikovaná tím, že osa 2 a osa 3 mají vždy vzájemně rovnoběžné osy otáčení (viz obrázek \ref{kuka_kr5_axes_pic}). Proto je obtížné nezávisle identifikovat některé z jejich parametrů. Příkladem může být identifikace momentů setrvačnosti vzhledem k osám kolmým na osy jejich rotace. Osou 3 není možné kolem těchto os otáčet, aniž by se zároveň kolem stejné osy neotáčela osa 2 a naopak.    
 
-V tomto případě se postupovalo nejprve hýbáním osou 3 v plném rozsahu a zafixováním os 1 a 2. Následně se zafixovala osa 3 a hýbalo se osou 2. Tímto se pokryly pohyby nezávislé na rotaci kolem osy 1.
+V tomto případě se postupovalo nejprve opakovaným pohybem osy 3 v jejím plném rozsahu a zafixováním os 1 a 2. Následně se zafixovala osa 3 a stejným způsobem se pohybovalo osou 2. Tímto se pokryly pohyby nezávislé na rotaci kolem osy 1. 
 
-Pohyby závislé na rotaci kolem osy 1 se provedly tak, že se nejprve hýbalo s osou 1 s rameny os 2 a 3 pevně zafixovanými ve vertikální poloze. Poté se stejné pohyby provedly s ramenem osy 3 ve vodorovné poloze a následně s oběma rameny (2 a 3) ve vodorovné poloze.
+Trajektorie závislá na pohybu osy 1 byla vytvořena tak, že se nejprve několikrát pohybovalo osou 1 s rameny os 2 a 3 pevně zafixovanými ve vertikální poloze. Poté se stejné pohyby provedly s ramenem osy 3 v horizontální poloze a následně s oběma rameny 2 a 3 v horizontální poloze.
 
-Výsledná identifikační trajektorie byla vytvořena spojením těchto dvou trajektorií v jednu. Nástroj TRACE byl nastaven tak, aby prováděl měření poloh, úhlových rychlostí, úhlových zrychlení, momentů sil a proudů na všech osách. 
+Výsledná identifikační trajektorie byla vytvořena spojením těchto tří trajektorií v jednu. Nástroj TRACE přitom byl nastaven tak, aby prováděl měření poloh, úhlových rychlostí, úhlových zrychlení, momentů sil a proudů na všech osách. 
 
 \section{Skript pro MATLAB}
 
-Pro účely identifikace robota KUKA KR5 Arc byl vytvořen skript pro použití v MATLABu, který umožňuje vytvoření dynamického modelu, načtení trajektorií, identifikaci parametrů a simulaci výsledků.
+Pro účely identifikace robota KUKA KR5 Arc byl vytvořen skript pro použití v MATLABu, který umožňuje vytvoření dynamického modelu, načtení změřených trajektorií, identifikaci neznámých parametrů, simulaci a srovnání výsledků a analýzu vlivu nepřesnosti odhadnutých parametrů na přesnost modelu.
 
-Skript je rozdělen na několik po sobě jdoucích podprogramů, které jde spouštět vcelku nebo po jednotlivých částech. Komentáře ve skriptu jsou psány v anglickém jazyce pro případné rozšíření jeho použití.
+Skript je rozdělen na několik po sobě jdoucích podprogramů, které je možné spouštět vcelku nebo po jednotlivých částech. Komentáře ve skriptu jsou psány v anglickém jazyce pro případné rozšíření jeho použití.
 
-První část je univerzální pro libovolného robota s rotačními osami. Určují se zde základní parametry robota, jako je počet os, délky jednotlivých ramen, parametry převodovek a počet měřených veličin. Dále se zde zadávají vlastnosti motorů, mezi něž patří momentové konstanty a odpory a indukčnosti vinutí. 
+První část je univerzální pro libovolného sériového robota s rotačními osami. Definují se zde základní parametry robotu, jako je počet os, délky jednotlivých ramen, převodní poměry převodovek a počet měřených veličin. Dále se zde zadávají parametry motorů, mezi něž patří momentové konstanty a odpory a indukčnosti vinutí. 
 
-Další část je částečně závislá na použitém robotu. V této části se načítá změřená trajektorie robota. Robot KUKA KR5 Arc používá k měření trajektorií nástroj TRACE. Tento nástroj ukládá data ve speciální struktuře ve formátu .r64. Tu je potřeba rozložit na jednotlivé měřené složky a ty dále vynásobit převodními koeficienty měření. Jiné typy robotů, obzvláště roboti od jiných výrobců budou pravděpodobně mít změřené trajektorie uložené v jiných formátech a jiným způsobem. Proto je potřeba v případě použití jiného robota skript upravit nebo doplnit pro správné načítání těchto dat. Výsledkem této části je matice naměřených trajektorií pro jednotlivé osy a veličiny. 
+Další část je částečně závislá na použitém robotu. V této části je importována změřená trajektorie robota. Robot KUKA KR5 Arc používá k měření trajektorií nástroj TRACE. Tento nástroj ukládá změřená data ve speciální struktuře ve formátu .r64. Tu je potřeba rozložit na jednotlivé měřené složky a ty dále vynásobit převodními koeficienty měření. Jiné typy robotů, obzvláště roboty od jiných výrobců budou pravděpodobně mít změřené trajektorie ukládány jiným způsobem a v jiných formátech. Proto je potřeba, v případě použití jiného robotu, skript upravit nebo doplnit pro správné importování těchto dat. Výsledkem této části je trojrozměrná matice naměřených trajektorií pro jednotlivé osy a veličiny. 
 
-Následující části jsou již zcela nezávislé a univerzální pro použití pro libovolného robota.  
+Následující části jsou již zcela nezávislé na robotické platformě a jsou univerzální pro použití pro libovolného robota.  
 
 Nejprve je vytvořen vektor $P$ parametrů v symbolickém tvaru. Následuje načtení vygenerovaných rovnic z nástroje ReDySim, jejich převod do symbolického tvaru a uložení do matice rovnic. Z té je poté vygenerovaná matice $H_i\big(\ddot{\theta}(t),\dot{\theta}(t),\theta(t)\big)$ se symbolickými proměnnými, do kterých je možné dosazovat změřená data.
 
 Postupným dosazováním naměřených bodů na trajektorii (polohy, úhlové rychlosti a úhlová zrychlení) do matice $H_t\big(\ddot{\theta}(t),\dot{\theta}(t),\theta(t)\big)$ je vytvořena matice $H$. Současně je vytvořen vektor $T$ s dosazenými změřenými momenty sil.
 
-Tyto vektory a matice jsou poté předány solveru \texttt{lsqlin}, který vypočte vektor $P$ řešením rovnice \ref{eq_lin_par_inv} metodou nejmenších čtverců. Zároveň je zde možné nastavit horní i spodní hranice jednotlivých parametrů vektoru $P$ ve kterých má solver řešení hledat.
+Tyto vektory a matice jsou poté předány solveru \texttt{lsqlin}, který vypočte vektor $P$ vyřešením rovnice \ref{eq_lin_par_inv} metodou nejmenších čtverců. Zároveň je zde možné nastavit horní i spodní hranice jednotlivých parametrů vektoru $P$ ve kterých má solver řešení hledat.
 
-Odvozené parametry je možné v další části hned odsimulovat a porovnat se skutečnými změřenými trajektoriemi.
+Model s odvozenými parametry je možné v další části hned odsimulovat a porovnat se skutečnými změřenými trajektoriemi.
 
-V poslední části je provedena analýza vlivu odchylek v hodnotách parametrů na přesnost energetického modelu robotu. Analýza vlivu odchylek je provedena pomocí metody Monte Carlo. Model je v cyklu odsimulován 200 krát pokaždé s jinou náhodně vygenerovanou hodnotou přičtenou k parametru. Poté je vypočítána střední odchylka mezi simulací a měřením. Toto je v cyklu opakováno pro všechny identifikované parametry. Následuje vyhodnocení těchto výsledku a nalezení nejhorších případů.
-Ve skriptu je možné upravovat počet simulací a rozsah odchylek parametrů.  
+V poslední části je provedena analýza vlivu odchylek v hodnotách parametrů na přesnost energetického modelu robotu. Analýza vlivu odchylek je provedena pomocí metody Monte Carlo. Model je v cyklu odsimulován 200 krát pokaždé s jinou náhodně vygenerovanou hodnotou přičtenou k parametru. Poté je vypočítána střední odchylka mezi simulací a měřením. Tento postup je v cyklu opakován pro všechny identifikované parametry. 
+
+Následuje vyhodnocení těchto výsledku a nalezení případů, kdy byla odchylka mezi modelem a změřenými hodnotami největší. Ve skriptu je možné upravovat počet simulací a rozsah odchylek parametrů.  
 
