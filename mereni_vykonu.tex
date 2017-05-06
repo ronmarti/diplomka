@@ -1,5 +1,5 @@
 \chapter{Měření elektrického výkonu}
-
+\label{mereni_el_vykonu_sec}
 Správnost odvozeného a identifikovaného modelu robota je potřeba ověřit a porovnat se skutečným měřením elektrického výkonu. Měření výkonu bylo provedeno podle schématu na obrázku \ref{mereni_vykonu_pic}. Měřicí sestava je připojena na svorky napájecího vedení mezi elektrickou zásuvkou a skříní s řídicím systémem a napájením robota. Sestava je tvořena měřicí kartou WAGO-I/O-SYSTEM 750 připojenou k průmyslovému PLC Siemens S7-300 CPU 315-2PN/DP. Měřicí karta WAGO obsahuje svorky pro měření napětí a proudu v třífázové síti. 
 
 \begin{figure}[ht]
@@ -32,7 +32,7 @@ Průmyslové PLC Siemens S7-300 CPU 315-2PN/DP [\cite{siemens_plc}] zpracovává
 
 Všechna přečtená data s příslušnými identifikátory jsou poté spojena do jedné zprávy, která je navíc ještě opatřena časovou známkou udávající čas o tom, kdy byla data vytvořena. Celá zpráva je nakonec odeslána jako jeden paket pomocí protokolu UDP v síti Profinet.  
 
-Kompletní program pro sběr měřených dat a jejich odesílání v síti Profinet byl vytvořen Ing. Vojtěchem Pavlíkem v rámci jeho diplomové práce [\cite{vojtech_pavlik}]. 
+Kompletní měřicí systém a program pro sběr měřených dat a jejich odesílání v síti Profinet byl vytvořen Ing. Vojtěchem Pavlíkem v rámci jeho diplomové práce [\cite{vojtech_pavlik}]. 
 
 Programování a konfigurace PLC je prováděna pomocí nástroje TIA Portal společnosti SIEMENS. Podrobné informace k PLC S7-300 jsou k dispozici v jeho dokumentaci [\cite{siemens_plc}].  
 
