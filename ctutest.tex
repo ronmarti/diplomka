@@ -129,6 +129,7 @@ V Praze, dne \ctufield{day}.~\monthinlanguage{title}~\ctufield{year}\\
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{float}
+\usepackage{changepage}   
 
 \graphicspath{{./img/}}
 
@@ -200,15 +201,20 @@ V Praze, dne \ctufield{day}.~\monthinlanguage{title}~\ctufield{year}\\
 
 %\begin{proof}\begin{enumerate} \item[8] Bla \item Blo \end{enumerate} \end{proof}
 
-%\appendix
 
-%\printindex
-
-%\appendix
 
 \bibliographystyle{abbrvnat}
 \renewcommand{\bibname}{Reference}
 \bibliography{ctutest}
+
+\appendix
+\input{priloha_1}
+
+
+
+%\printindex
+
+%\appendix
 
 %\ctutemplate{specification.as.chapter}
 

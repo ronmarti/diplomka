@@ -1,5 +1,23 @@
 \chapter{Závěr}
 
-\section{Výsledky práce}
+V této práci byly prostudovány způsoby vytvoření modelu šestiosého průmyslového robotu a identifikace jeho dynamických parametrů. Důraz byl kladen na vytvoření metodiky identifikace, kterou by bylo možné použít na široké spektrum typů robotu. 
+
+Tento model by měl sloužit pro modelování spotřeby elektrické energie robotického systému. Z modelu je možné z pohybu při požadovaných robotických operacích predikovat, jaké množství energie tato operace spotřebuje a díky tomu daný proces optimalizovat.
+
+Z hlediska standardizace identifikace dynamických parametrů byly prostudovány a vzájemně porovnány dva postupy, identifikace z 3D modelu robotu a z jeho rovnic. Byly popsány postupy obou způsobů identifikace a analyzovány jejich výhody a nevýhody. 
+
+Dynamické parametry byly také analyzovány z hlediska jejich vlivu na přesnost dynamického modelu robotu. Díky tomu je možné určit, které dynamické parametry mají hrají v přesnosti modelu největší roli a tedy, které parametry je vhodné identifikovat s co nejvyšší přesností.
+
+Pro identifikaci dynamických parametrů z rovnic robotu byl vytvořen skript pro MATLAB, který je schopen vytvořit matematický model, identifikovat jeho parametry, simulovat výsledky a porovnat je s měřením. Skript také umožňuje provádět analýzu vlivu odchylek odhadnutých parametrů na přesnost modelu. 
+
+Data získaná pomocí odvozeného modelu byla porovnána se skutečným reálným měřením. Dále byla provedena analýza důvodů odchylek mezi predikcí a měřením a navrženy způsoby, jak je eliminovat.  
+
+V poslední řadě byla vytvořena aplikace sloužící k exportu dat z databáze dlouhodobého měření energetické spotřeby robotické buňky. Aplikace je schopna provádět zálohu, čištění a export dat z databáze. Byla vytvořena pro zjednodušení a zefektivnění přípravy dat z databáze měření energetické spotřeby robotické buňky používané v závodu společnosti ŠKODA AUTO a.s. v Kvasinách. 
 
 \section{Práce do budoucna}
+
+Za účelem snížení odchylky mezi daty predikovanými pomocí vytvořeného matematického modelu a daty naměřenými způsobem popsaným v této práci je potřeba provést některé úpravy, započítávající vliv frekvenčních měničů a dalších elektrických součástí v rozvaděči robotického systému. 
+
+Jednou z možných úprav je doplnění do modelu robotu rovnic popisujících elektrickou část frekvenčních měničů řídících motory robotu, stabilizátorů napájení a dalších elektrických prvků v elektrickém systému robotu.
+
+Druhou možností je úprava způsobu měření reálné spotřeby robotu tak, aby energie těchto elektrických zařízení nebyla v měření započítána.
