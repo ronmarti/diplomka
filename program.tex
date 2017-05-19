@@ -14,7 +14,7 @@ Aby bylo možné dále uložená data analyzovat, například po dlouhodobém m�
 
 Aplikace MongoDB data exporter slouží jako správce databáze dlouhodobého měření energetické spotřeby robotické buňky. Kromě exportu naměřených dat ve zvoleném formátu, umožňuje vytváření záloh dat, jejich správu a čištění. 
 
-Aplikace je napsaná v programovacím jazyce C. Pro přístup a komunikaci s databází MongoDB využívá volně dostupnou knihovnu MongoDB C Driver [\cite{mongocdriver}]. Protože aplikace nevyužívá žádné platformě závislé knihovny a příkazy, je možné ji zkompilovat a používat na UNIX-ových platformách i na platformě MS Windows. Aplikace nevyžaduje instalaci. 
+Aplikace je napsaná v programovacím jazyce C. Pro přístup a komunikaci s databází MongoDB využívá volně dostupnou knihovnu MongoDB C Driver \cite{mongocdriver}. Protože aplikace nevyužívá žádné platformě závislé knihovny a příkazy, je možné ji zkompilovat a používat na UNIX-ových platformách i na platformě MS Windows. Aplikace nevyžaduje instalaci. 
 
 MongoDB data exporter se spouští pomocí terminálu nebo příkazového řádku. Pro jeho ovládání je použito textové uživatelské rozhraní. Během běhu programu jsou uživateli kladeny otázky, na které uživatel odpovídá ano/ne. Uživatelské rozhraní je napsáno v anglickém jazyce, pro případné rozšíření použití aplikace. Ukázka textového uživatelského rozhraní je na obrázku \ref{ukazka_run_pic}.
 \\
@@ -36,4 +36,4 @@ Veškerá konfigurační data jako je adresa a název databáze, použitá kolek
 
 Aby bylo možné aplikaci používat v prostředí MS Windows je nezbytné k aplikaci přiložit dynamicky linkované knihovny (DLL) potřebné pro funkci POSIXových vláken a knihoven pro práci s databází MongoDB. Tyto knihovny jsou distribuovány společně s programem.
 
-Aplikace obsahuje standardní nápovědu (help), kterou je možné spustit použitím parametru -h pri spuštění aplikace. Popis funkce a použití aplikace MongoDB data exporter je popsána v příloze \ref{appendix1}.
+Aplikace obsahuje standardní nápovědu (help), kterou je možné spustit použitím parametru \texttt{-h} pri spuštění aplikace. Popis funkce a použití aplikace MongoDB data exporter je popsána v příloze \ref{appendix1}.

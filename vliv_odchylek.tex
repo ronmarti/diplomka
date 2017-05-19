@@ -8,11 +8,11 @@ Z tohoto důvodu je analýza vlivu odchylek v hodnotách parametrů na přesnost
 
 \section{Metoda Monte Carlo}
 
-Metody Monte Carlo jsou založeny na vykonání mnoha opakovaných experimentů nebo simulací s náhodně generovanými vstupními parametry za účelem získání numerických výsledků [\cite{monte_carlo_ref}]. Obdrženou sadu výsledků je poté možné analyzovat analytickými nebo stochastickými metodami. Základní myšlenkou metod Monte Carlo je použití nahodilosti k řešení problémů, které mohou být v principu deterministické.
+Metody Monte Carlo jsou založeny na vykonání mnoha opakovaných experimentů nebo simulací s náhodně generovanými vstupními parametry za účelem získání numerických výsledků \cite{monte_carlo_ref}. Obdrženou sadu výsledků je poté možné analyzovat analytickými nebo stochastickými metodami. Základní myšlenkou metod Monte Carlo je použití nahodilosti k řešení problémů, které mohou být v principu deterministické.
 
 Tyto metody jsou používány k řešení problémů, u kterých je obtížné nebo dokonce nemožné požít některou z analytických metod. Nejčastěji jsou tyto metody používány pro simulace systémů s mnoha stupni volnosti (kapaliny, systémy s rozprostřenými parametry, propojené systémy), výpočet vícerozměrných určitých integrálů, vyhodnocování rizik v ekonomii a mnoho dalších. 
 
-Analýza vlivu odchylek v identifikovaných parametrech pomocí metody Monte Carlo byla provedena tak, že ke každému z identifikovaných parametrů $P_i$ byla náhodně přičtena hodnota z rozsahu $p \in [-P_i,P_i]$, se kterou byla provedena simulace a vypočítaná střední odchylka mezi simulací a změřenými průběhy. Pro každý parametr bylo takto provedeno 200 simulací, pokaždé s náhodně vygenerovanou hodnotou. Ostatní hodnoty parametrů zůstaly nezměněné. 
+Analýza vlivu odchylek v identifikovaných parametrech pomocí metody Monte Carlo byla provedena tak, že ke každému z identifikovaných parametrů $R_i$ byla náhodně přičtena hodnota z rozsahu $p \in [-R_i,R_i]$, se kterou byla provedena simulace a vypočítaná střední odchylka mezi simulací a změřenými průběhy. Pro každý parametr bylo takto provedeno 200 simulací, pokaždé s náhodně vygenerovanou hodnotou. Ostatní hodnoty parametrů zůstaly nezměněné. 
 
 Po vykonání simulací pro všechny parametry bylo vyhodnoceno, při jakých odchylkách parametrů byl největší rozdíl mezi simulovaným a změřeným průběhem. 
 

@@ -5,60 +5,59 @@
 
 Pro výpočet a predikci spotřeby elektrické energie robotického manipulátoru je nezbytné vytvořit matematický model robotu popisující jeho dynamiku.
 
-Robot KUKA KR5 Arc je mechanický systém tvořený šesti sériově spojenými rameny. Každé rameno se může nezávisle na ostatních otáčet otáčet kolem své vlastní osy rotace. Okamžitou konfiguraci ramen robotu i pozici koncového efektoru v prostoru je tak možné popsat šesti souřadnicemi odpovídajícími úhlům natočení jednotlivých os. Jedná tak o systém se šesti stupni volnosti. K popisu jeho dynamiky je proto potřeba celkem 6 rovnic druhého řádu. Celkově se tedy jedná o dynamický systém dvanáctého řádu. 
+Robot KUKA KR5 Arc je mechanický systém tvořený šesti sériově spojenými rameny. Každé rameno se může nezávisle na ostatních otáčet kolem své vlastní osy rotace. Okamžitou konfiguraci ramen robotu i pozici koncového efektoru v prostoru je tak možné popsat šesti souřadnicemi odpovídajícími úhlům natočení jednotlivých os. Jedná se tak o systém se šesti stupni volnosti. K popisu jeho dynamiky je proto potřeba celkem 6 diferenciálních rovnic druhého řádu. Celkově se tedy jedná o dynamický systém 12. řádu. 
 
 \section{Pohybové rovnice}
 \label{pohybove_rovnice_sec}
-K odvození pohybových rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu [\cite{rob_mod_control}]. 
+K odvození pohybových rovnic je možné použít jeden ze dvou základních přístupů a to Newton-Eulerovu metodu nebo Euler-Lagrangeovu metodu \cite{rob_mod_control}. 
 
 Newton-Eulerova metoda je založena na přístupu k systému jako k soustavě jednotlivých jeho součástí a vyžaduje určení pohybových rovnic každé jednotlivé komponenty. Výsledná dynamika je poté součtem dynamik všech dílčích komponent systému. Protože jsou jednotlivé osy sériových robotických manipulátorů vzájemně kinematicky propojeny, jsou i pohybové rovnice jednotlivých jejich os závislé na pohybu ostatních os. 
 
 Euler-Lagrangeova metoda naopak přistupuje k systému jako k celku a je založena na určení Lagrangianu, který je definován jako rozdíl celkové kinetické a potenciální energie systému. Dynamické rovnice systému je poté možné odvodit vypočtením Lagrangeových rovnic druhého druhu pro všechny stupně volnosti systému.
 
-Oba přístupy nakonec vedou ke stejným rovnicím. Protože je pohyb a dynamika systému popisována pomocí úhlů na jednotlivých osách a jejich derivací, vyskytují se v jeho rovnicích nelineární goniometrické členy. Výsledné rovnice systému jsou proto silně nelineární. 
-
-V případě robota KUKA KR5 Arc se jedná o soustavu 6 rovnic o celkem 24 neznámých  - moment síly, poloha, úhlová rychlost a úhlové zrychlení pro každou z šesti os. Pro zlepšení přehlednosti rovnic systému je možné tyto rovnice zapsat v následujícím maticovém tvaru jako 
+Oba přístupy nakonec vedou ke stejným rovnicím. Protože jsou pohyb a dynamika systému popisovány pomocí úhlů a jejich derivací na jednotlivých osách, vyskytují se v jejich rovnicích nelineární goniometrické členy. Výsledné rovnice systému jsou proto silně nelineární. Pro zlepšení přehlednosti rovnic systému je možné tyto rovnice zapsat v následujícím maticovém tvaru jako 
 
 \begin{equation}
-T = M(\dot{\theta},\theta)\ddot{\theta} + C(\dot{\theta},\theta)\dot{\theta} + G(\theta)
+\vect{T} = \mathbb{M}(\vect{\dot{\theta}},\vect{\theta})\vect{\ddot{\theta}} + \mathbb{C}(\vect{\dot{\theta}},\vect{\theta})\vect{\dot{\theta}} + \mathbb{G}(\vect{\theta}),
 \label{dyn_rovnice_eq}
 \end{equation}
 
 kde
 
 \begin{description}
-\item[$T = {\big[T_1  \dotsm  T_n\big]}^{T}$] je vektor momentů sil působících na jednotlivé osy robota
-\item[$\ddot \theta = {\big[\ddot \theta_1  \dotsm  \ddot \theta_n\big]}^{T}$] je vektor úhlových zrychlení na jednotlivých osách
-\item[$\dot \theta = {\big[\dot \theta_1  \dotsm  \dot \theta_n\big]}^{T}$] je vektor úhlových rychlostí na jednotlivých osách
-\item[$M\big(\dot \theta, \theta\big)$] je matice setrvačnosti tvořena tenzory setrvačnosti jednotlivých os
-\item[$C\big(\dot \theta, \theta\big)$] je matice Coriolisových a odstředivých momentů sil působících na jednotlivé osy
-\item[$G\big(\theta\big)$] je matice gravitačních sil působících na jednotlivé osy
-\item[$n$] je počet os
+\item[$\vect{T} = {\big[T_1, T_2,  \dotsm  T_n\big]}^{T}$] je vektor momentů sil působících na jednotlivé osy robotu,
+\item[$\vect{\theta} = {\big[\theta_1, \theta_2, \dotsm \theta_n\big]}^{T}$] je vektor úhlů na jednotlivých osách,
+\item[$\vect{\dot\theta} = {\big[\dot \theta_1, \dot \theta_2,  \dotsm  \dot \theta_n\big]}^{T}$] je vektor úhlových rychlostí na jednotlivých osách,
+\item[$\vect{\ddot\theta} = {\big[\ddot \theta_1, \ddot \theta_2,  \dotsm  \ddot \theta_n\big]}^{T}$] je vektor úhlových zrychlení na jednotlivých osách,
+\item[$\mathbb{M}\big(\vect{\dot\theta}, \vect{\theta}\big)$] je matice setrvačnosti tvořena tenzory setrvačnosti jednotlivých os,
+\item[$\mathbb{C}\big(\vect{\dot\theta}, \vect{\theta}\big)$] je matice Coriolisových a odstředivých momentů sil působících na jednotlivé osy,
+\item[$\mathbb{G}\big(\vect{\theta}\big)$] je matice gravitačních sil působících na jednotlivé osy,
+\item[$n$] je počet os.
 \end{description}
 
-K výpočtu okamžité spotřeby elektrické energie je nutné řešit inverzní dynamickou úlohu (rovnice \ref{dyn_rovnice_eq}), kdy se z okamžitých poloh, úhlových rychlostí a úhlových zrychlení na jednotlivých osách robota vypočítají točivé momenty, kterými působí motory. 
+K výpočtu okamžité spotřeby elektrické energie je nutné řešit inverzní dynamickou úlohu (viz rovnice \eqref{dyn_rovnice_eq}), kdy se z okamžitých poloh, úhlových rychlostí a úhlových zrychlení na jednotlivých osách robota vypočítají točivé momenty, kterými na osy působí motory. 
 
-Moment síly motoru je závislý na proudu protékajícím jeho vinutím. Tuto závislost je obvykle možné aproximovat lineární závislostí [\cite{sbornik}] a psát jako
+Moment síly motoru je závislý na proudu protékajícím jeho vinutím. Tuto závislost je obvykle možné aproximovat lineární závislostí \cite{sbornik} a psát jako
 \begin{equation}
-T\big(t\big) = KI\big(t\big)
+T\big(t\big) = KI\big(t\big),
 \label{torque_current_eq}
 \end{equation}
 
 kde
 
 \begin{description}
-\item[$T\big(t\big) {\big[Nm\big]}$] je moment síly motoru 
-\item[$K {\big[Nm/A\big]}$] je momentová konstanta 
-\item[$I\big(t\big) {\big[A\big]}$] je proud protékající motorem 
+\item[$T\big(t\big) {\big[Nm\big]}$] je moment síly motoru, 
+\item[$K {\big[Nm/A\big]}$] je momentová konstanta, 
+\item[$I\big(t\big) {\big[A\big]}$] je proud protékající motorem. 
 \end{description}
 
-Nástroj TRACE robotu KUKA KR5 Arc tímto způsobem počítá točivé momenty jednotlivých motorů. Momentové konstanty jednotlivých motorů jsou obvykle poskytovány výrobci a je možné je dohledat v jejich dokumentaci. 
+Nástroj TRACE robotu KUKA KR5 Arc tímto způsobem počítá točivé momenty jednotlivých motorů. Momentové konstanty jednotlivých motorů jsou obvykle poskytovány výrobci a je možné je dohledat v jejich dokumentaci \cite{motor1}\cite{motor2}\cite{motor3}. 
 
 \section{Tření}
 
 Odvozené rovnice dynamiky robota popsané výše v sekci \ref{pohybove_rovnice_sec} popisují pouze ideální model, ve kterém nedochází k žádným energetickým ztrátám. V reálných motorech ale kromě elektrických ztrát v jejich vinutích dochází také k energetickým ztrátám v důsledku tření v ložiscích motorů, rotačních os a tření v převodovkách.
 
-Úplný popis tření v rotačních systémech je relativně komplikovaný, protože se jedná o silně nelineární děj, který navíc obecně bývá závislý na čase a na okolních podmínkách. Proto se zpravidla pro modelování tření používá zjednodušený model popisující tření jako kombinaci viskózního a Coulombova tření \cite{fric_eff_analysis}. 
+Úplný popis tření v rotačních systémech je relativně komplikovaný, protože se jedná o silně nelineární děj, který navíc obecně bývá závislý na čase a na okolních podmínkách. Proto je výhodné použít zjednodušený model popisující tření jako kombinaci viskózního a Coulombova tření \cite{fric_eff_analysis}, který značně zjednodušuje popis systému. 
 
 Viskózní tření motoru je moment síly působící proti otáčení motoru, který je lineárně závislý na jeho rychlosti rotace. Při nulové rychlosti je třecí moment síly nulový a s rostoucí rychlostí se zvyšuje. Při změně směru otáčení motoru se mění i směr působení třecího momentu. 
 
@@ -67,16 +66,16 @@ Coulombovo tření je naopak na rychlosti rotace nezávislé. V systému je př�
 Tento použitý popis tření je popsán rovnicí 
 
 \begin{equation}
-T_f = f_v\dot{\theta} + f_csign(\dot{\theta})
+T_f = f_v\dot{\theta} + f_csign(\dot{\theta}),
 \label{fric_eq}
 \end{equation}
 
 kde
 
 \begin{description}
-\item[$T_f$] je moment síly generovaný třením 
-\item[$f_v$] je koeficient viskózního tření 
-\item[$f_c$] je koeficient Coulombova tření 
+\item[$T_f$] je moment síly generovaný třením, 
+\item[$f_v$] je koeficient viskózního tření, 
+\item[$f_c$] je koeficient Coulombova tření. 
 \end{description}
 
 Na následujícím obrázku (obr. \ref{treni_pic}) je znázorněn použitý model tření včetně jeho jednotlivých složek. Na vodorovné ose je uvedena úhlová rychlost otáčení, na svislé ose je generovaný třecí moment síly.
@@ -84,124 +83,87 @@ Na následujícím obrázku (obr. \ref{treni_pic}) je znázorněn použitý mode
 \newpage
 \begin{figure}[ht]
 \includegraphics[width=0.65\textwidth]{treni}
-\caption{Model tření os}
+\caption{Model tření na osách robotu}
 \label{treni_pic}
 \end{figure}
 
-Doplněním rovnic tření \ref{fric_eq} do dynamických rovnic robota \ref{dyn_rovnice_eq} se získají celkové rovnice dynamiky robota ve tvaru
+Doplněním rovnic tření \eqref{fric_eq} do dynamických rovnic robotu \eqref{dyn_rovnice_eq} jsou odvozeny celkové rovnice dynamiky robotu ve tvaru
 
 \begin{equation}
-T = M(\dot{\theta},\theta)\ddot{\theta} + C(\dot{\theta},\theta)\dot{\theta} + G(\theta) + F_v\dot{\theta} + F_csign(\dot{\theta})
+\vect{T_r} = \mathbb{M}(\vect{\dot{\theta}},\vect{\theta})\vect{\ddot{\theta}} + \mathbb{C}(\vect{\dot{\theta}},\vect{\theta})\vect{\dot{\theta}} + \mathbb{G}(\vect{\theta)} + \vect{F_v}\vect{\dot{\theta}} + \vect{F_c}sign(\vect{\dot{\theta}}),
 \label{celkova_dyn_rovnice_eq}
 \end{equation}
 
 kde
 
 \begin{description}
-\item[$F_v = {\big[F_{v1}  \dotsm  F_{vn}\big]}^{T}$] je vektor koeficientů viskózního tření v jednotlivých osách
-\item[$F_c = {\big[F_{c1}  \dotsm  F_{cn}\big]}^{T}$] je vektor koeficientů Coulombova tření v jednotlivých osách
+\item[$\vect{T_r} = {\big[T_{r1}, T_{r2},  \dotsm  T_{rn}\big]}^{T}$] je vektor celkových momentů sil působících na jednotlivé osy robotu,
+\item[$\vect{F_v} = {\big[F_{v1}, F_{v2},  \dotsm  F_{vn}\big]}^{T}$] je vektor koeficientů viskózního tření v jednotlivých osách,
+\item[$\vect{F_c} = {\big[F_{c1}, F_{c2},  \dotsm  F_{cn}\big]}^{T}$] je vektor koeficientů Coulombova tření v jednotlivých osách.
 \end{description}
 
 \section{Elektrický výkon a spotřeba elektrické energie}
 \label{el_vykon_ch}
-Výkon je obecně definován jako práce $W$ vykonaná za jednotku času [\cite{zemanek}]. Pro okamžitý výkon platí rovnice
+Výkon je obecně definován jako práce $W$ vykonaná za jednotku času \cite{zemanek}. Pro okamžitý výkon platí rovnice
 
 \begin{equation}
-p(t) = \frac{dW}{dt}
+p(t) = \frac{dW}{dt}.
 \end{equation}
 
 Protože se v tomto případě jedná o elektrickou práci, resp. práci elektromagnetického pole, je tato práce definovaná jako element náboje $dq$ přenesený mezi dvěma místy s napětím $u$. Po jejím dosazení platí vztah
 
 \begin{equation}
-p(t) = \frac{u(t)dq}{dt}
+p(t) = \frac{u(t)dq}{dt}.
 \end{equation}
 
 Protože element náboje $dq$ přenesený za čas $dt$ odpovídá okamžitému proudu, je možné vzorec pro okamžitý výkon upravit na
 
 \begin{equation}
-p(t) = u(t)\frac{dq}{dt} = u(t)i(t)
+p(t) = u(t)\frac{dq}{dt} = u(t)i(t).
 \end{equation}
 
-Spotřebovaná elektrická energie je definovaná jako celková elektrická práce, která byla vykonaná spotřebičem za čas $t$. Platí pro ni vztah
+Střední spotřebovaná elektrická energie je definovaná jako celková elektrická práce, která byla vykonaná spotřebičem za daný čas $t$. Platí pro ni vztah
 
 \begin{equation}
-W = Pt
+W = Pt.
 \end{equation}
 
 Pro její okamžitou hodnotu lze tento vzorec upravit následovně
 
 \begin{equation}
-w(t) = p(t)\frac{dt}{dt} = p(t)
+\frac{dW}{dt} = p(t).
 \end{equation}  
 
-Z tohoto vztahu vyplývá, že okamžitá spotřeba elektrické energie spotřebiče odpovídá jeho elektrickému výkonu. Pro účely modelování spotřeby elektrické energie robotického manipulátoru tedy stačí modelovat robota z hlediska jeho okamžitého elektrického výkonu.  
-
-\subsection{Elektrický výkon robotu}
-
-Celkový elektrický výkon robotického manipulátoru je závislý na elektrickém výkonu jednotlivých jeho součástí. Elektrická část robotu je tvořena pohony ramen robotu, senzory poloh, teplot a dalších veličin a jeho centrální řídicí jednotkou. 
-
-Je možné předpokládat, že spotřebovaný výkon jednotlivých senzorů a hlavní řídicí jednotky bude přibližně konstantní, protože musí pracovat stejně ze všech podmínek. Tato složka výkonu $P_s$ bude přispívat k celkovému výkonu robotického systému, nebude ale závislá na jeho dynamice. Celkový výkon robotu bude tedy tvořen touto stálou složkou $P_s$ a elektrickým výkonem pohonů robotu.
-
-Osy robotu jsou poháněny elektrickými synchronními servomotory s permanentními magnety. K výpočtu výkonu elektrických motorů je potřeba vytvořit model jejich vinutí. Přestože se jedná o třífázové motory, nejsou k dispozici informace o průbězích napětí a proudu na jednotlivých fázích. Řídicí systém robotu KUKA KR5 Arc poskytuje pouze informace o celkovém efektivím proudu motoru. Z tohoto důvodu je možné synchronní motory s permanentními magnety zjednodušeně modelovat jako stejnosměrné (DC) motory [\cite{sbornik}] tvořené odporem a indukčností v sérii. Elektrické schéma stejnosměrného motoru na obrázku \ref{schema_motoru_pic}.  
-
-\newpage
-\begin{figure}[ht]
-\includegraphics[width=0.55\textwidth]{obvod_motoru}
-\caption{Elektrické schéma vinutí synchronního motoru.}
-\label{schema_motoru_pic}
-\end{figure}
-
-$R$ je vnitřní elektrický odpor vinutí a $L$ je jeho indukčnost. Tyto hodnoty jsou zpravidla udávány v datasheetech k motorům.
-
-Pro okamžité napětí $u(t)$ ze schématu platí vztah
-
-\begin{equation}
-u(t) = i(t)R + L\frac{di(t)}{dt}
-\label{motor_voltage_eq}
-\end{equation}  
-
-Okamžitý elektrický výkon motoru je poté možné z měření okamžité efektivní hodnoty proudu vypočítat jako
- 
-\begin{equation}
-p(t) = i(t)u(t) = i(t)\left(i(t)R + L\frac{di(t)}{dt}\right)
-\label{motor_power_eq}
-\end{equation} 
-
-Celkový okamžitý elektrický výkon při pohybu robota je poté dán jako součet okamžitých výkonů na všech jeho motorech a stálé složky výkonu $P_s$.
-\begin{equation}
-P(t) = \sum_{i=1}^{n} p_i(t) + P_s
-\label{robot_motor_power_eq}
-\end{equation} 
-kde $n$ je počet motorů.
+Při zanedbání energetických ztrát v mechanické a elektrické části robotického systému a zanedbání vlivu napájení jeho elektronických součástí je možné očekávat rovnost mechanického výkonu s elektrickým výkonem.
 
 \subsection{Elektrický výkon v třífázové soustavě}
 
-Celý robotický systém je napájen z třífázové sítě elektrické energie. Třífázová soustava napájení je tvořena třemi fázovými vodiči a jedním centrálním nulovým vodičem. Na všech třech fázových vodičích je střídavé napětí se stejnou efektivní hodnotou. Každá ze tří fází má průběh napětí proti sousedním fázím fázově posunut o $120$ elektrických stupňů. 
+Celý robotický systém je napájen z třífázové sítě. Třífázová soustava napájení je tvořena třemi fázovými vodiči a jedním centrálním nulovým vodičem. Na všech třech fázových vodičích je střídavé napětí se stejnou efektivní hodnotou. Každá ze tří fází má průběh napětí proti sousedním fázím fázově posunut o $120$ stupňů. 
 
 V třífázových sítích jsou na jednotlivých fázích střídavá napětí a proudy. Jejich průběh je popisován harmonickou funkcí. Pro okamžité hodnoty střídavého napětí a proudu platí rovnice
 
 \begin{equation}
 \begin{split}
-u\big(t\big) = U_m cos\big(\omega t + \phi\big) \\
-i\big(t\big) = I_m cos\big(\omega t + \phi + \psi\big)
+u\big(t\big) = U_m cos\big(\omega t + \phi\big), \\
+i\big(t\big) = I_m cos\big(\omega t + \phi + \psi\big),
 \end{split}
 \label{harm_curr_volt_eq}
 \end{equation}  
 kde
 \begin{description}
-\item[$U_m$] je maximální amplituda napětí
-\item[$I_m$] je maximální amplituda proudu
-\item[$\omega$] je úhlová frekvence
-\item[$\phi$] je počáteční fáze proudu a napětí
-\item[$\psi$] je fázový posun mezi napětím a proudem
+\item[$U_m$] je maximální amplituda napětí,
+\item[$I_m$] je maximální amplituda proudu,
+\item[$\omega$] je úhlová frekvence,
+\item[$\phi$] je počáteční fáze proudu a napětí,
+\item[$\psi$] je fázový posun mezi napětím a proudem.
 \end{description}
 
 Pokud je fázový posun $\psi$ mezi střídavým napětím a proudem nenulový, například v důsledku induktivního nebo kapacitního charakteru zátěže, je potřeba rozdělit elektrický výkon na jeho činnou a jalovou složku. 
 
-Činná složka výkonu $P$ je výkon, který je přenášen ze zdroje do spotřebiče a který je schopen ve spotřebiči konat užitečnou práci. Pro činnou složku výkonu platí následující vztah
+Činná složka výkonu $P$ je výkon, který je přenášen ze zdroje do spotřebiče a který je schopen ve spotřebiči konat užitečnou práci. Pro střední hodnotu činné složky výkonu platí následující vztah
 
 \begin{equation}
-P = \frac{1}{T} \int_{t_0}^{t_0 + T} p(t)dt = UIcos(\phi)
+P = \frac{1}{T} \int_{t_0}^{t_0 + T} u(t)i(t)dt = UIcos(\phi),
 \label{act_power_eq}
 \end{equation}  
 
@@ -209,23 +171,59 @@ kde $U$ je efektivní hodnota napětí a $I$ je efektivní hodnota proudu.
 
 Jalová složka výkonu $Q$ je část výkonu, která je spotřebičem vracená zpět do zdroje a ve spotřebiči tedy žádnou práci nevykonává.
 
-Pro potřeby modelování spotřeby elektrické energie, tedy elektrického výkonu, robotu je důležité určit právě činnou složku výkonu, protože je to ta část výkonu, která je využita k funkci robotu a jeho pohybu. 
+Pro potřeby modelování spotřeby elektrické energie robotu je důležité určit právě činnou složku výkonu, protože je to ta část výkonu, která je využita k funkci robotu a jeho pohybu. 
 
 V případě třífázové soustavy je její celkový činný výkon roven součtu činných výkonů na všech třech jednotlivých fázích. Platí tedy
 
 \begin{equation}
-P = P_U + P_V + P_W
+p(t) = p_U(t) + p_V(t) + p_W(t),
 \label{3ph_power_eq}
 \end{equation}  
 
 kde $U,V,W$ jsou jednotlivé fáze v třífázové soustavě.
 
+\subsection{Elektrický výkon robotu}
+
+Celkový elektrický výkon robotického manipulátoru je závislý na elektrickém výkonu jednotlivých jeho součástí. Elektrická část robotu je tvořena pohony ramen robotu, senzory poloh, teplot a dalších veličin a jeho centrální řídicí jednotkou. 
+
+Je možné předpokládat, že spotřebovaný výkon jednotlivých senzorů a hlavní řídicí jednotky bude přibližně konstantní, protože musí pracovat stejně ze všech podmínek. Tato složka výkonu $P_s$ bude přispívat k celkovému výkonu robotického systému, nebude ale závislá na jeho dynamice. Celkový výkon robotu bude tedy tvořen touto stálou složkou $P_s$ a elektrickým výkonem pohonů robotu.
+
+Celkový okamžitý elektrický výkon při pohybu robotu je poté dán jako součet okamžitých výkonů na jeho jednotlivých motorech a stálé složky výkonu $P_s$.
+\begin{equation}
+P(t) = \sum_{i=1}^{n} p_i(t) + P_s,
+\label{robot_motor_power_eq}
+\end{equation} 
+kde $n$ je počet motorů.
+
+Osy robotu jsou poháněny elektrickými synchronními servomotory s permanentními magnety. K výpočtu výkonu elektrických motorů je potřeba vytvořit model jejich vinutí. Řídicí systém robotu KUKA KR5 Arc poskytuje pouze informace o celkovém efektivím proudu motoru. Z tohoto důvodu je možné synchronní motory s permanentními magnety zjednodušeně modelovat jako stejnosměrné (DC) motory [\cite{sbornik}] tvořené odporem a indukčností v sérii. Elektrické schéma stejnosměrného motoru na obrázku \ref{schema_motoru_pic}.  
+
+\begin{figure}[ht]
+\includegraphics[width=0.55\textwidth]{obvod_motoru}
+\caption{Elektrické schéma vinutí synchronního motoru.}
+\label{schema_motoru_pic}
+\end{figure}
+
+$R$ je vnitřní elektrický odpor vinutí a $L$ je jeho indukčnost. Tyto hodnoty jsou zpravidla udávány v dokumentaci k motorům.
+
+Pro okamžité napětí $u(t)$ ze schématu platí vztah
+
+\begin{equation}
+u(t) = i(t)R + L\frac{di(t)}{dt}.
+\label{motor_voltage_eq}
+\end{equation}  
+
+Okamžitý elektrický výkon motoru je poté možné z měření okamžité efektivní hodnoty proudu vypočítat jako
+ 
+\begin{equation}
+p(t) = i(t)u(t) = i(t)\left(i(t)R + L\frac{di(t)}{dt}\right).
+\label{motor_power_eq}
+\end{equation} 
 
 \section{Solver ReDySim}
 
-Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim)\cite{redysim}. Tento nástroj byl vyvinut na univerzitě v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. Je schopen generovat pohybové dynamické rovnice robotu s libovolným počtem os a to jak pro rotační, tak lineární osy. 
+Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim) \cite{redysim}. Tento nástroj byl vyvinut na Indickém technologickém institutu v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. K dispozici je bez zdrojových kódů. Je schopen generovat pohybové dynamické rovnice robotu s libovolným počtem os a to jak pro rotační, tak lineární osy. 
 
-Vstupními parametry solveru ReDySim jsou modifikované DH (Denavit-Hartenbergovy) parametry robotu a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté skript pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robotu.  
+Vstupními parametry solveru ReDySim jsou modifikované DH (Denavit-Hartenbergovy) parametry robotu a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté funkce pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robotu.  
 
 \section{Modifikované DH parametry robota}
 
@@ -253,7 +251,7 @@ V tabulce \ref{tab_DH_kuka} je DH parametrizace robotu KUKA KR5 Arc použita v n
 
 Přesné délky jednotlivých ramen a vzájemné polohy jednotlivých os robotu je možné nalézt v jeho dokumentaci.
 
-Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer [\cite{roboanalyzer}], který byl vyvinut společně se solverem ReDySim pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat dopředné a zpětné kinematické a dynamické úlohy. Dále umožňuje simulovat jednoduché pohyby robotu s až 7 osami a vykreslovat průběhy jeho stavů jako jsou polohy, úhlové rychlosti, úhlová zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
+Pro vizualizaci DH parametrizace je možné použít nástroj RoboAnalyzer \cite{roboanalyzer}. Tento nástroj byl vyvinut stejným týmem, jako solver ReDySim, na univerzitě v Dillí pro účely vizualizace a simulace. RoboAnalyzer umožňuje simulovat dopředné a zpětné kinematické a dynamické úlohy. Dále umožňuje simulovat jednoduché pohyby robotu s až 7 osami a vykreslovat průběhy jeho stavů jako jsou polohy, úhlové rychlosti, úhlová zrychlení a momenty sil na jednotlivých osách. Vizualizace použité DH parametrizace pro robota KUKA KR5 Arc v prostředí RoboAnalyzer je na obrázku \ref{dh_kuka_pic}.
 \\
 \begin{figure}[ht]
 \includegraphics[width=0.95\textwidth]{pic_dh_kuka}
