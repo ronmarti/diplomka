@@ -6,7 +6,7 @@ Pro predikci výkonu byly vypočítané momenty sil na jednotlivých osách pře
 
 \section{Dosažitelná přesnost modelu}
 \label{dosaz_presnost_sec}
-Momenty sil na jednotlivých osách v jsou nástroji TRACE vypočítány ze změřených proudů, podle vzorce \eqref{torque_current_eq}, jejich vynásobením příslušnými momentovými konstantami. Proto v případě, že by byly parametry modelu identifikovány naprosto přesně, byl by průběh výkonu vypočítaný pomocí tohoto modelu totožný s výkonem vypočítaným z měření proudů. Výkon spočítaný pomocí těchto změřených proudů představuje maximální možnou hranici přesnosti, které je možné pomocí modelu dosáhnout. 
+Momenty sil na jednotlivých osách v jsou nástroji TRACE vypočítány ze změřených proudů, podle vzorce \eqref{torque_current_eq}, jejich vynásobením příslušnými momentovými konstantami. Pokud by byly parametry modelu identifikovány naprosto přesně, byl by, s přihlédnutím k aproximacím a zjednodušením použitým při odvození modelu, průběh výkonu vypočítaný pomocí tohoto modelu totožný s výkonem vypočítaným z měření proudů. Výkon spočítaný pomocí těchto změřených proudů představuje maximální možnou hranici přesnosti, které je možné pomocí použitého modelu dosáhnout. 
 
 \begin{figure}[h!]
 \includegraphics[width=0.9\textwidth]{model_vs_trace}
@@ -14,7 +14,7 @@ Momenty sil na jednotlivých osách v jsou nástroji TRACE vypočítány ze změ
 \label{model_vs_trace_pic}
 \end{figure}
 
-Na obrázku \ref{model_vs_trace_pic} je zobrazen průběh výkonu vypočítaného z modelu a z přímého měření proudů pomocí nástroje TRACE. Je patrné, že si oba průběhy poměrně odpovídají. Střední absolutní odchylka mezi oběma průběhy je 4,08 W, což odpovídá relativní střední odchylce 15,79\%. Přesnost odvozeného modelu se tedy blíží maximální možné dosažitelné přesnosti modelování a identifikace z rovnic systému.
+Na obrázku \ref{model_vs_trace_pic} je zobrazen průběh výkonu vypočítaného z modelu a z přímého měření proudů pomocí nástroje TRACE. Je patrné, že si oba průběhy poměrně odpovídají. Střední absolutní odchylka mezi oběma průběhy je 4,08 W, což odpovídá relativní střední odchylce 15,79\%. Přesnost odvozeného modelu se tedy blíží maximální možné dosažitelné přesnosti použitého modelu a jeho identifikace z rovnic systému.
 
 \section{Srovnání modelu výkonu s reálným měřením}
 
@@ -49,7 +49,7 @@ Odchylky mezi hodnotami změřeného a predikovaného výkonu mohou být způsob
 
 Z výsledků v sekci \ref{dosaz_presnost_sec} je vyplývá, že se přesnost identifikovaného modelu blíží maximální možné dosažitelné přesnosti. Nedokonale identifikované parametry modelu sice způsobí odchylku oproti měření, ta ale nebude tak velká, aby mohla odpovídat odchylce z obrázku \ref{model_vs_mereni_pic}.
 
-Odchylka mezi měřením a modelem je tedy pravděpodobně způsobena nesprávným měřením výkonu. Nepřesnost měřicího systému s měřicí kartou WAGO-I/O-SYSTEM 750 je možné vyloučit, protože tento systém je úspěšně používán v průmyslovém prostředí \cite{vojtech_pavlik}. Je rovněž možné vyloučit nepřesnost měření proudu v řídicím systému robotu KUKA KR5 Arc. Řídicí systém robotu ovládá otáčení motorů regulací proudu protékajícího jejich vinutí. Nepřesnost měření proudu by tedy měla za následek i nepřesnost v řízení pohybu robotu. 
+Odchylka mezi měřením a modelem je tedy pravděpodobně způsobena nesprávným měřením výkonu. Jednou z možností je nepřesnost měřicího systému s měřicí kartou WAGO-I/O-SYSTEM 750. Tento měřicí systém byl vytvořen Ing. Vojtěchem Pavlíkem v rámci jeho diplomové práce \cite{vojtech_pavlik}. Použitá měřicí karta byla nakonfigurována v souladu s její dokumentací a celý systém otestován. Následně byl tento systém úspěšně použit v průmyslovém prostředí. Je rovněž možné vyloučit nepřesnost měření proudu v řídicím systému robotu KUKA KR5 Arc. Řídicí systém robotu ovládá otáčení motorů regulací proudu protékajícího jejich vinutí. Nepřesnost měření proudu by tedy měla za následek i nepřesnost v řízení pohybu robotu. 
 
 Druhou možností je nesprávný způsob měření. Měření skutečného výkonu je prováděno způsobem popsaným v sekci \ref{mereni_el_vykonu_sec}. Reálný výkon je měřen přímo na napájecím vedení celého robotického systému. Výkon predikovaný odvozeným modelem je ale vztažen k elektrickému výkonu ve vinutí motorů robotu. 
 
@@ -57,7 +57,7 @@ Motory robotu jsou řízeny frekvenčními měniči umístěnými v rozvaděči 
 
 V dokumentaci robotu KUKA KR5 Arc nejsou žádné informace o použitých frekvenčních měničích pohánějících servomotory robotu. Moderní frekvenční měniče jsou komplexní samostatné systémy, často s vlastními řídicími jednotkami a složitou elektronikou. Jsou navrhovány tak, aby byly schopny generovat vysoké výstupní výkony a nedocházelo k velkému poklesu napájecího napětí motorů při krátkých proudových impulsech. Dále bývá jejich řídící logika navržena tak, aby eliminovala příliš vysoké proudové špičky za účelem snížení zátěže mechanických částí motoru.
 
-Na obrázku \ref{fazovy_posun_pic} je průběh fázového posunu mezi napětím a proudem na napájecím vedení robotického systému. Tento fázový posun byl vypočítán z měření činného a zdánlivého výkonu. 
+Na obrázku \ref{fazovy_posun_pic} je průběh fázového posunu mezi napětím a proudem na napájecím vedení robotického systému při vykonávání určité trajektorie. Tento fázový posun byl vypočítán z měření činného a zdánlivého výkonu. 
 
 \begin{figure}[h!]
 \includegraphics[width=0.9\textwidth]{fazovy_posun}
@@ -81,4 +81,4 @@ Z grafů je patrné, že průběh obou proudů je velmi podobný. Kromě vyšš�
 
 Dále je možné předpokládat, že v rozvaděči celého robotického systému jsou kromě frekvenčních měničů také další elektronické prvky sloužící ke stabilizaci napájení jednotlivých jeho částí. 
 
-Z těchto důvodů by pro snížení odchylky mezi změřeným a predikovaným výkonem bylo potřeba model výkonu robotu doplnit o modely frekvenčních měničů napájejících motory robotu a dalších prvků v jeho rozvaděči. Druhou možností je upravit způsob měření reálného výkonu tak, aby měřil výkony přímo na motorech robotu.
+Z těchto důvodů by pro snížení odchylky mezi změřeným a predikovaným výkonem bylo potřeba model výkonu robotu doplnit o modely frekvenčních měničů napájejících motory robotu a dalších prvků v jeho rozvaděči. Druhou možností je upravit způsob měření reálného výkonu tak, aby měřil výkony přímo na motorech robotu. Jednalo by se ale o intrusivní měření, kterému se tato práce snaží vyhnout.

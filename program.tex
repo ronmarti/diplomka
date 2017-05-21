@@ -1,10 +1,10 @@
 \chapter{Příprava dat z databáze měření energetické spotřeby}
 
-Data o měření energetické energie jsou pro pozdější analýzu nepřetržitě ukládána pomocí aplikace DEPO (kapitola \ref{aplikacedepo}) do databáze. Protože jsou data ukládána jako dlouhý řetězec znaků bez žádné pevné struktury a s proměnlivou délkou, byla pro tyto účely vybrána databáze MongoDB. 
+Data o měření spotřeby elektrické energie robotu jsou pro pozdější analýzu nepřetržitě ukládána pomocí aplikace DEPO do databáze (sekce \ref{aplikacedepo}). Protože jsou data ukládána jako dlouhý řetězec znaků bez žádné pevné struktury a s proměnlivou délkou, byla pro tyto účely vybrána databáze MongoDB. Tato uložená data je možné následně analyzovat a použít pro optimalizační účely.
 
 \section{Databáze MongoDB}
 
-MongoDB je bezplatná otevřená a platformě nezávislá databáze. Na rozdíl od většiny jiných známých typů databází pracujících s SQL příkazy, se řadí mezi takzvané NoSQL databáze. Data v databázi nejsou ukládána jako tabulky se vzájemnými relacemi, ale vkládají se jako dokumenty ve speciálním formátu podobnému formátu JSON se schématy. Díky tomu je možné do databáze vkládat data různých formátů a délek bez potřeby vytváření speciálních struktur. 
+MongoDB je bezplatná (licence GNU AGPL v3.0) otevřená a platformě nezávislá databáze. Na rozdíl od většiny jiných známých typů databází pracujících s SQL příkazy se řadí mezi takzvané NoSQL databáze. Data v databázi nejsou ukládána jako tabulky se vzájemnými relacemi, ale vkládají se jako dokumenty ve speciálním formátu podobnému formátu JSON se schématy. Díky tomu je možné do databáze vkládat data různých formátů a délek bez potřeby vytváření speciálních struktur. 
 
 K databázi je možné přistupovat pomocí příkazů zadávaných do integrovaného terminálu, nástrojů s grafickým uživatelským rozhraním nebo použitím uživatelem vytvořených skriptů. Ke komunikaci s databází MongoDB je také možné použít sady knihoven, které jsou k dispozici pro většinu rozšířených programovacích jazyků jako jsou C, C++, Java, Python, RUBY a mnoho dalších.     
 
@@ -16,7 +16,7 @@ Aplikace MongoDB data exporter slouží jako správce databáze dlouhodobého m�
 
 Aplikace je napsaná v programovacím jazyce C. Pro přístup a komunikaci s databází MongoDB využívá volně dostupnou knihovnu MongoDB C Driver \cite{mongocdriver}. Protože aplikace nevyužívá žádné platformě závislé knihovny a příkazy, je možné ji zkompilovat a používat na UNIX-ových platformách i na platformě MS Windows. Aplikace nevyžaduje instalaci. 
 
-MongoDB data exporter se spouští pomocí terminálu nebo příkazového řádku. Pro jeho ovládání je použito textové uživatelské rozhraní. Během běhu programu jsou uživateli kladeny otázky, na které uživatel odpovídá ano/ne. Uživatelské rozhraní je napsáno v anglickém jazyce, pro případné rozšíření použití aplikace. Ukázka textového uživatelského rozhraní je na obrázku \ref{ukazka_run_pic}.
+MongoDB data exporter se spouští pomocí terminálu nebo příkazového řádku. Pro jeho ovládání je použito textové uživatelské rozhraní. Za běhu programu jsou uživateli kladeny otázky, na které uživatel odpovídá ano/ne. Uživatelské rozhraní je napsáno v anglickém jazyce, pro případné rozšíření použití aplikace. Ukázka textového uživatelského rozhraní je na obrázku \ref{ukazka_run_pic}.
 \\
 \begin{figure}[ht]
     \includegraphics[width=0.9\textwidth]{ukazka_run}
@@ -26,14 +26,22 @@ MongoDB data exporter se spouští pomocí terminálu nebo příkazového řádk
 
 Protože jsou data, pro která je aplikace určena, zpravidla získávaná dlouhodobým měřením spotřeby (v horizontu dní až měsíců), může se jejich velikost pohybovat v rámci jednotek až desítek gigabajtů. Zpracování takového množství dat může trvat dlouhou dobu. 
 
-Pro účely urychlení a zefektivnění zpracování dat, je aplikace vytvořena jako vícevláknová. Díky tomu je možné optimalizovat využití prostředků na počítačích s vícevláknovými a vícejádrovými procesory. Každému vláknu spuštěné aplikace je přidělen svůj úsek dat, které zpracovává. Tím je docíleno paralelního zpracování několika dat současně. O přidělování prostředků a synchronizaci jednotlivých vláken se stará operační systém. Jsou použita standardní POSIXová vlákna. Počet vláken si může uživatel zvolit sám při spuštění aplikace. Aplikace podporuje až 16 vláken.       
+Pro účely urychlení a zefektivnění zpracování dat, je aplikace vytvořena jako vícevláknová. Díky tomu je možné optimalizovat využití prostředků na počítačích s vícevláknovými a vícejádrovými procesory. Každému vláknu spuštěné aplikace je přidělen svůj úsek dat, který zpracovává. Tím je docíleno paralelního zpracování několika dat současně. O přidělování prostředků a synchronizaci jednotlivých vláken se stará operační systém. Jsou použita standardní POSIXová vlákna. Počet vláken si může uživatel zvolit sám při spuštění aplikace. Aplikace podporuje až 16 vláken.       
 
-Uživatel má dále možnosti zvolit si časový úsek, ze kterého chce data exportovat. Čas a datum od kterého a do kdy chce uživatel data exportovat se zadává s přesností na minuty. 
+Uživatel má dále možnosti zvolit si časový úsek dat o měření, ze kterého chce data exportovat. Čas a datum od kterého a do kdy chce uživatel data exportovat se zadává s přesností na minuty. 
+
+Vývojový diagram běhu aplikace MongoDB data exporter je zobrazen na obrázku \ref{diagram_program_pic}.
+
+\begin{figure}[ht]
+    \includegraphics[width=0.45\textwidth]{diagram_program}
+    \caption{Diagram aplikace MongoDB data exporter.}
+    \label{diagram_program_pic}
+\end{figure}
 
 Data jsou standardně exportována ve formátu CSV, ale je možné použít i jiné textové formáty. Název souboru si volí uživatel. K názvu jsou dále přidané údaje o časovém úseku ze kterého jsou data exportována.
-
+\newpage
 Veškerá konfigurační data jako je adresa a název databáze, použitá kolekce, počet použitých vláken, název a formát výstupního souboru pro extrakci dat a časový úsek exportovaných dat jsou čtena z textového konfiguračního souboru. Uživatel má možnost při spuštění aplikace definovat umístění a název tohoto konfiguračního souboru. 
 
-Aby bylo možné aplikaci používat v prostředí MS Windows je nezbytné k aplikaci přiložit dynamicky linkované knihovny (DLL) potřebné pro funkci POSIXových vláken a knihoven pro práci s databází MongoDB. Tyto knihovny jsou distribuovány společně s programem.
+Aby bylo možné aplikaci používat v prostředí MS Windows je nezbytné k aplikaci přiložit dynamicky linkované knihovny (DLL) potřebné pro funkci POSIXových vláken (licence GNU LGPL v2.1) a knihoven pro práci s databází MongoDB (licence Apache License v2.0). Tyto knihovny jsou distribuovány společně s programem.
 
 Aplikace obsahuje standardní nápovědu (help), kterou je možné spustit použitím parametru \texttt{-h} pri spuštění aplikace. Popis funkce a použití aplikace MongoDB data exporter je popsána v příloze \ref{appendix1}.

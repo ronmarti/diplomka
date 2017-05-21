@@ -187,7 +187,7 @@ kde $U,V,W$ jsou jednotlivé fáze v třífázové soustavě.
 Celkový elektrický výkon robotického manipulátoru je závislý na elektrickém výkonu jednotlivých jeho součástí. Elektrická část robotu je tvořena pohony ramen robotu, senzory poloh, teplot a dalších veličin a jeho centrální řídicí jednotkou. 
 
 Je možné předpokládat, že spotřebovaný výkon jednotlivých senzorů a hlavní řídicí jednotky bude přibližně konstantní, protože musí pracovat stejně ze všech podmínek. Tato složka výkonu $P_s$ bude přispívat k celkovému výkonu robotického systému, nebude ale závislá na jeho dynamice. Celkový výkon robotu bude tedy tvořen touto stálou složkou $P_s$ a elektrickým výkonem pohonů robotu.
-
+\newpage
 Celkový okamžitý elektrický výkon při pohybu robotu je poté dán jako součet okamžitých výkonů na jeho jednotlivých motorech a stálé složky výkonu $P_s$.
 \begin{equation}
 P(t) = \sum_{i=1}^{n} p_i(t) + P_s,
@@ -219,13 +219,14 @@ p(t) = i(t)u(t) = i(t)\left(i(t)R + L\frac{di(t)}{dt}\right).
 \label{motor_power_eq}
 \end{equation} 
 
+\newpage
 \section{Solver ReDySim}
 
 Pro usnadnění odvození soustavy rovnic pro robota o 6 stupních volnosti a pro případnou standardizaci metody pro použití i pro jiné typy robotů byl použit skript pro matematický nástroj MATLAB využívající solver Recursive Dynamic Simulator (ReDySim) \cite{redysim}. Tento nástroj byl vyvinut na Indickém technologickém institutu v Dillí a je bezplatně k dispozici ke stažení a použití v MATLABu. K dispozici je bez zdrojových kódů. Je schopen generovat pohybové dynamické rovnice robotu s libovolným počtem os a to jak pro rotační, tak lineární osy. 
 
 Vstupními parametry solveru ReDySim jsou modifikované DH (Denavit-Hartenbergovy) parametry robotu a dynamické parametry s numerickými nebo symbolickými hodnotami. Výstupem je poté funkce pro MATLAB s vygenerovanými pohybovými rovnicemi zadaného robotu.  
 
-\section{Modifikované DH parametry robota}
+\section{Modifikované DH parametry robotu}
 
 Modifikované Denavit-Hartenbergovy (DH) parametry jsou parametry, pomocí nichž je možné kompletně popsat geometrii a kinematiku sériového robotu. Jedná se o čtyři parametry pro každou osu robotu, které definují vzájemnou polohu a konfiguraci sousedících os. 
 

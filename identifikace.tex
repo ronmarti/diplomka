@@ -68,7 +68,7 @@ kde
 
 Počet neznámých parametrů pro jedno rameno robotu odpovídá počtu složek vektoru $\vect{R_i}$. Ten je roven 12. U sériového průmyslového manipulátoru se šesti rotačními osami je tedy neznámých parametrů celkem 72. 
 
-Počet neznámých parametrů je možné zredukovat. Je to možné díky tomu, že některé parametry dynamiku robota neovlivní nebo je jejich vliv zanedbatelný. Důvodem je to, že se některé linky mohou otáčet pouze kolem některé z os. Příkladem může být osa 1 (spojená se zemí, viz schéma \ref{kuka_kr5_axes_pic}), která se v prostoru může otáčet jen kolem vertikální osy. Tím je možné zanedbat momenty setrvačnosti mimo tuto vertikální osu. Dále je možné zanedbat její hmotnost a polohu jejího těžiště. Zároveň je možné model dále zjednodušit uvažováním pouze prvků na hlavní diagonále tenzorů setrvačnosti a zanedbáním prvků mimo ni. Touto aproximací je snížena přesnost modelu ale zároveň se tím významně zjednoduší model.
+Počet neznámých parametrů je možné zredukovat. Je to možné díky tomu, že některé parametry dynamiku robota neovlivní nebo je jejich vliv zanedbatelný. Důvodem je to, že se některé linky mohou otáčet pouze kolem některé z os. Příkladem může být osa 1 (spojená se zemí, viz schéma \ref{kuka_kr5_axes_pic}), která se v prostoru může otáčet jen kolem vertikální osy. Tím je možné zanedbat momenty setrvačnosti mimo tuto vertikální osu. Zároveň je možné model dále zjednodušit uvažováním pouze prvků na hlavní diagonále tenzorů setrvačnosti a zanedbáním prvků mimo ni. Touto aproximací je snížena přesnost modelu, ale zároveň se tím významně zjednoduší model. Dále jsou některé dynamické parametry robotu jsou sdruženy. Příkladem může být moment setrvačnosti a poloha těžiště osy 1 nebo polohy těžišť os 3 a 4.
 
 Díky tomu klesne počet neznámých parametrů v případě šestiosového robotu z čísla 72 na číslo 48. V tabulce \ref{tab_hled_param} je přehled výsledných neznámých dynamických parametrů robota KUKA KR5 Arc.
 \\
@@ -118,6 +118,7 @@ Identifikaci parametrů robota KUKA KR5 Arc byla provedena způsobem popsaným v
 
 Pomocí nástroje ReDySim byla vygenerována soustava šesti rovnic dynamiky robota. Protože ReDySim v rovnicích neuvažuje tření na jednotlivých osách, bylo nutné toto tření do vygenerovaných rovnic ručně doplnit. Výsledná soustava rovnic poté byla převedena do maticového tvaru lineárního vůči neznámým dynamickým parametrům (rovnice \eqref{eq_lin_par}). 
 
+\newpage
 Za vektor $\vect{R}$ neznámých parametrů byl zvolen vektor s parametry všech šesti os
 
 $\vect{R} = [\begin{matrix} \vect{R_i}, & \vect{R_{md}}, & \vect{R_f} \end{matrix}]^{T},$
@@ -176,13 +177,13 @@ Pro účely identifikace robota KUKA KR5 Arc byl vytvořen skript pro použití 
 
 Skript je rozdělen na několik po sobě jdoucích podprogramů, které je možné spouštět vcelku nebo po jednotlivých částech. Komentáře ve skriptu jsou psány v anglickém jazyce pro případné rozšíření jeho použití. Diagram znázorňující jednotlivé podprogramy ve skriptu je na obrázku \ref{diagram_pic}.
 
+První část je univerzální pro libovolného sériového robota s rotačními osami. Definují se zde základní parametry robotu, jako je počet os, délky jednotlivých ramen, převodní poměry převodovek a počet měřených veličin. Dále se zde zadávají parametry motorů, mezi něž patří momentové konstanty a odpory a indukčnosti vinutí. 
+
 \begin{figure}[ht]
     \includegraphics[width=0.25\textwidth]{diagram}
-    \caption{Diagram jednotlivý podprogramů identifikačního skriptu}
+    \caption{Diagram funkce identifikačního skriptu}
     \label{diagram_pic}
 \end{figure}
-
-První část je univerzální pro libovolného sériového robota s rotačními osami. Definují se zde základní parametry robotu, jako je počet os, délky jednotlivých ramen, převodní poměry převodovek a počet měřených veličin. Dále se zde zadávají parametry motorů, mezi něž patří momentové konstanty a odpory a indukčnosti vinutí. 
 
 Další část je částečně závislá na použitém robotu. V této části je importována změřená trajektorie robota. Robot KUKA KR5 Arc používá k měření trajektorií nástroj TRACE. Tento nástroj ukládá změřená data ve speciální struktuře ve formátu .r64. Tu je potřeba rozložit na jednotlivé měřené složky a ty dále vynásobit převodními koeficienty měření. Jiné typy robotů, obzvláště roboty od jiných výrobců budou pravděpodobně mít změřené trajektorie ukládány jiným způsobem a v jiných formátech. Proto je potřeba, v případě použití jiného robotu, skript upravit nebo doplnit pro správné importování těchto dat. Výsledkem této části je trojrozměrná matice naměřených trajektorií pro jednotlivé osy a veličiny. 
 
@@ -192,6 +193,7 @@ Nejprve je vytvořen vektor $\vect{R}$ parametrů v symbolickém tvaru. Následu
 
 Postupným dosazováním naměřených bodů na trajektorii (polohy, úhlové rychlosti a úhlová zrychlení) do matice $\mathbb{H}_i\big(\vect{\ddot{\theta}},\vect{\dot{\theta}},\vect{\theta}\big)$ je vytvořena matice $\mathbb{H}$. Současně je vytvořen vektor $\vect{T}$ s dosazenými změřenými momenty sil.
 
+\newpage
 Tyto vektory a matice jsou poté předány solveru \texttt{lsqlin}, který vypočte vektor $\vect{R}$ vyřešením rovnice \eqref{eq_lin_par_inv} metodou nejmenších čtverců. Zároveň je zde možné nastavit horní i spodní hranice jednotlivých parametrů vektoru $\vect{R}$ ve kterých má solver řešení hledat.
 
 Model s odvozenými parametry je možné v další části hned odsimulovat a porovnat se skutečnými změřenými trajektoriemi.

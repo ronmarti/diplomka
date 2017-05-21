@@ -1,8 +1,6 @@
 \chapter{Měření elektrického výkonu}
 \label{mereni_el_vykonu_sec}
-Správnost odvozeného a identifikovaného modelu robota je potřeba ověřit a porovnat se skutečným měřením elektrického výkonu. 
-
-Měření je prováděno dvěma způsoby. První způsob je měření proudu protékajícího vinutím jednotlivých motorů pomocí nástroje TRACE řídicího systému robotu. Z tohoto měřeného proudu je poté vypočítán elektrický výkon jednotlivých motorů. Druhý způsob je měření skutečného spotřebovaného výkonu celého robotického systému.    
+Pro ověření přesnosti odvozeného modelu spotřeby robotu je potřeba provést srovnání jeho predikovaných hodnot s reálným měřením. Měření je prováděno dvěma způsoby. První způsob je měření proudu protékajícího vinutím jednotlivých motorů pomocí nástroje TRACE řídicího systému robotu. Z tohoto měřeného proudu je poté vypočítán elektrický výkon jednotlivých motorů. Druhý způsob je měření skutečného spotřebovaného výkonu celého robotického systému.    
 
 Měření reálného spotřebovaného výkonu bylo provedeno podle schématu na obrázku \ref{schema_mereni_vykonu_pic}. Měřicí sestava je připojena na svorky napájecího vedení mezi elektrickou zásuvkou a skříní s řídicím systémem a napájením robota. Sestava je tvořena měřicí kartou WAGO-I/O-SYSTEM 750 připojenou k průmyslovému PLC Siemens S7-300 CPU 315-2PN/DP. Měřicí karta WAGO obsahuje svorky pro měření napětí a proudu v třífázové síti. 
 
@@ -48,13 +46,15 @@ Aplikace přijímá data odesílaná měřicím PLC přes protokol UDP. Přijat�
 
 Pro správnou funkci aplikace je nutné správně nastavit adresu IP měřícího PLC a číslo portu, na kterém má aplikace odesílaná data číst. Nastavení funkčnosti aplikace DEPO se provádí pomocí konfiguračního souboru. Ten obsahuje informace o IP adrese a portu na kterém má data přijímat a dále adresu, název a kolekci databáze, do které se mají data ukládat.
 
+Protože je aplikace napsaná v interpretovaném skriptovacím jazyce RUBY, je možné jí spouštět na libovolném operačním systému, který podporuje spouštění RUBY skriptů. 
+
+Diagram zpracování dat měření výkonu je zobrazen na obrázku \ref{schema_mereni_pic}.
+
 \begin{figure}[ht]
-\includegraphics[width=1\textwidth]{schema_mereni}
+\includegraphics[width=0.9\textwidth]{schema_mereni}
 \caption{Diagram zpracování dat měření výkonu.}
 \label{schema_mereni_pic}
 \end{figure}
 
-Protože je aplikace napsaná v interpretovaném skriptovacím jazyce RUBY, je možné jí spouštět na libovolném operačním systému, který podporuje spouštění RUBY skriptů. 
 
-Diagram zpracování dat měření výkonu je zobrazen na obrázku \ref{schema_mereni_pic}.
 

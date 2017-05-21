@@ -12,13 +12,13 @@ Metody Monte Carlo jsou založeny na vykonání mnoha opakovaných experimentů 
 
 Tyto metody jsou používány k řešení problémů, u kterých je obtížné nebo dokonce nemožné požít některou z analytických metod. Nejčastěji jsou tyto metody používány pro simulace systémů s mnoha stupni volnosti (kapaliny, systémy s rozprostřenými parametry, propojené systémy), výpočet vícerozměrných určitých integrálů, vyhodnocování rizik v ekonomii a mnoho dalších. 
 
-Analýza vlivu odchylek v identifikovaných parametrech pomocí metody Monte Carlo byla provedena tak, že ke každému z identifikovaných parametrů $R_i$ byla náhodně přičtena hodnota z rozsahu $p \in [-R_i,R_i]$, se kterou byla provedena simulace a vypočítaná střední odchylka mezi simulací a změřenými průběhy. Pro každý parametr bylo takto provedeno 200 simulací, pokaždé s náhodně vygenerovanou hodnotou. Ostatní hodnoty parametrů zůstaly nezměněné. 
+Analýza vlivu odchylek v identifikovaných parametrech pomocí metody Monte Carlo byla provedena tak, že ke každému z identifikovaných parametrů $R_i$ byla náhodně přičtena hodnota z rozsahu $p \in [-0.2R_i,0.2R_i]$, se kterou byla provedena simulace a vypočítaná střední odchylka mezi simulací a změřenými průběhy. Pro každý parametr bylo takto provedeno 150 simulací, pokaždé s náhodně vygenerovanou hodnotou. Ostatní hodnoty parametrů zůstaly nezměněné. Rozsah přičítaných hodnot $p \in [-0.2R_i,0.2R_i]$ byl zvolen v okolí nominální hodnoty parametru, aby se pohyboval pouze v okolí lokálního minima.
 
 Po vykonání simulací pro všechny parametry bylo vyhodnoceno, při jakých odchylkách parametrů byl největší rozdíl mezi simulovaným a změřeným průběhem. 
 
 \section{Vyhodnocení}
 
-Vyhodnocené maximální odchylky mezi simulacemi a změřenými průběhy jsou uvedeny v tabulce \ref{tab_odch_parametru}. Hodnoty v tabulce jsou vztaženy ke střední odchylce mezi výkonem vypočítaným pomocí identifikovaného modelu a určeným pomocí měření proudů (viz sekce \ref{dosaz_presnost_sec}). Hodnoty udávají, o kolik se zvýší odchylka ve wattech mezi modelem a měřením vůči původnímu identifikovanému modelu.
+Vyhodnocené maximální relativní odchylky mezi simulacemi a změřenými průběhy jsou uvedeny v tabulce \ref{tab_odch_parametru}. Hodnoty v tabulce jsou vztaženy ke střední odchylce mezi výkonem vypočítaným pomocí identifikovaného modelu a určeným pomocí měření proudů (viz sekce \ref{dosaz_presnost_sec}). Hodnoty udávají, o kolik se zvýší odchylka ve wattech mezi modelem a měřením vůči původnímu identifikovanému modelu.
 
 \begin{table}[htbp]
   \centering
@@ -26,17 +26,17 @@ Vyhodnocené maximální odchylky mezi simulacemi a změřenými průběhy jsou 
     \begin{tabular}{c|cccccccccc}
     \multicolumn{1}{c|}{Osa} & \multicolumn{1}{c}{$I_{xx}$} & \multicolumn{1}{c}{$I_{yy}$} & \multicolumn{1}{c}{$I_{zz}$} & \multicolumn{1}{c}{$d_x$} & \multicolumn{1}{c}{$d_y$} & \multicolumn{1}{c}{$d_z$} & \multicolumn{1}{c}{$m$} & \multicolumn{1}{c}{$f_v$} & \multicolumn{1}{c}{$f_c$} \\
     \hline
-    1  & 0     & 0     & 0.349 & 0     & 0     & 0     & 0     & 18.960 & 0.612 \\
-    2  & 0.004 & 0.046 & 0.319 & 1.016 & 0.103 & 0     & 0.022 & 17.824 & 0.506 \\
-    3  & 0.003 & 0.171 & 0.726 & 2.320 & 0.824 & 0.087 & 8.202 &  0.568 & 0.053 \\
-    4  & 0.811 & 0.043 & 0.041 & 0.586 & 0.055 & 0.047 & 7.963 &  0.094 & 0.002 \\
-    5  & 0.033 & 0.018 & 0.029 & 0.427 & 0.004 & 0.044 & 1.394 &  0.078 & 0.021 \\
-    6  & 0.065 & 0.027 & 0.002 & 0     & 0     & 0.016 & 0.250 &  0     & 0     \\
+    1  & 0     & 0     & 0.349 & 0     & 0     & 0     & 0     &  7.080 & 0.271 \\
+    2  & 0.018 & 0.022 & 0.145 & 0.392 & 0.461 & 0     & 0.050 &  6.941 & 0.585 \\
+    3  & 0.001 & 0.068 & 0.100 & 0.722 & 0.695 & 0.147 & 5.202 &  0.247 & 0.021 \\
+    4  & 0.033 & 0.106 & 0.011 & 0.267 & 0.044 & 0.044 & 6.269 &  0.160 & 0.005 \\
+    5  & 0.003 & 0.004 & 0.046 & 0.381 & 0.002 & 0.024 & 0.876 &  0.004 & 0.001 \\
+    6  & 0.007 & 0.046 & 0.001 & 0     & 0     & 0.045 & 0.246 &  0     & 0     \\
     \end{tabular}%
   \label{tab_odch_parametru}%
 \end{table}%
 
-Z hodnot v tabulce je možné vypozorovat, že největší vliv na přesnost modelu mají koeficienty viskózního tření ($f_v$) osy 1 a 2 a hmotnosti ramen ($m$) os 3 a 4. Na obrázcích \ref{vliv_odch_1} až \ref{vliv_odch_4} jsou znázorněny vlivy jednotlivých odchylek těchto parametrů na celkovou odchylku modelu vůči měření. Na svislé ose je odchylka, o kterou se zvýší střední odchylka modelu vůči měření v závislosti na změně parametru. Na vodorovné ose je pak odchylka v identifikovaném parametru. 
+Z hodnot v tabulce je možné vypozorovat, že největší vliv na přesnost modelu mají koeficienty viskózního tření ($f_v$) osy 1 a 2 a hmotnosti ramen ($m$) os 3 a 4. Na obrázcích \ref{vliv_odch_1} až \ref{vliv_odch_4} jsou znázorněny vlivy jednotlivých odchylek těchto parametrů na celkovou odchylku modelu vůči měření. Na svislé ose je relativní odchylka, o kterou se zvýší střední odchylka modelu vůči měření v závislosti na změně parametru. Na vodorovné ose je pak odchylka v identifikovaném parametru. 
 
 \begin{figure}[h]
     \centering
@@ -65,6 +65,4 @@ Z hodnot v tabulce je možné vypozorovat, že největší vliv na přesnost mod
 
 \clearpage
 
-Z obrázků je patrné, že metoda identifikace parametrů (viz sekce \ref{z_rovnic_sec}) nalezla optimální řešení, protože zvýšení i snížení identifikovaných parametrů vede na větší střední odchylku mezi modelem a měřením. 
-
-Největší vliv na přesnost modelu mají tedy koeficienty tření, hmotnosti a polohy těžišť prvních tří os. Z toho důvodu je vhodné identifikovat tyto parametry co nejpřesněji.   
+Největší vliv na přesnost modelu mají tedy koeficienty tření, hmotnosti a polohy těžišť prvních tří os. Z tohoto důvodu je vhodné si při identifikaci těchto parametrů dát větší pozor a přizpůsobit identifikační excitační trajektorii tak, aby byly identifikovány s co největší přesností.   

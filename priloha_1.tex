@@ -14,9 +14,9 @@ Aplikace je používána k exportu dat z databáze MongoDB měření elektrické
 
 Umožňuje uživateli správu záloh databáze (mazání starých záloh, vytvoření nových), export dat ze specifikované databáze a kolekce do určeného souboru a nakonec její čištění.
 
-Aplikaci je možné použít jako vícevláknovou. Uživatel má možnost si zvolit počet vláken použitých pro převod a export dat za účelem zrychlení zpracování velkého množství dat. Každé vlákno poté zpracovává svůj vlastní úsek dat u ukládá jej do samostatného souboru který je označován jako pn (n ... počet vláken). Aplikace podporuje až 16 současně spuštěných vláken. 
+Aplikaci je možné použít jako vícevláknovou. Uživatel má možnost si zvolit počet vláken použitých pro převod a export dat za účelem zrychlení zpracování velkého množství dat. Každé vlákno poté zpracovává svůj vlastní úsek dat a ukládá jej do samostatného souboru který je označován jako pn (n ... počet vláken). Aplikace podporuje až 16 současně spuštěných vláken. 
 
-Uživatel má dále možnost specifikovat časový úsek, ze kterého chce data exportovat. Prosím vezměte na vědomí, že případě velkého množství dat může určení hranic pro export dat trvat delší dobu. Požadované hranice časového úseku jsou poté přidány do názvu výstupního souboru, aby z názvu souboru bylo možné poznat, jaká data se v něm nachází.
+Uživatel má dále možnost specifikovat časový úsek měření, ze kterého chce data exportovat. Prosím vezměte na vědomí, že případě velkého množství dat může určení hranic pro export dat trvat delší dobu. Požadované hranice časového úseku jsou poté přidány do názvu výstupního souboru, aby z názvu souboru bylo možné poznat, jaká data se v něm nachází.
 
 Aplikace se spouští spuštěním souboru \texttt{cl.exe}. Tento soubor je možné spouštět samostatně nebo s následujícími parametry.
 
@@ -28,13 +28,13 @@ Vstupní parametry:
 -h \hspace{0.5cm} - \hspace{0.5cm} Zobrazí nápovědu\newline
 -c \hspace{0.5cm} - \hspace{0.5cm} Specifikuje umístění konfiguračnoho soubou
 
-\hspace{0.5cm}Příklad: \hspace{0.5cm} \texttt{run -c C:/files/data/config.conf}
+\hspace{0.5cm}Příklad: \hspace{0.5cm} \texttt{data\_exporter -c C:/files/data/config.conf}
 
 \hspace{0.5cm}přečte konfigurační soubor \texttt{config.conf} umístěný v \texttt{C:/files/data/}
 
 \setlength{\leftskip}{2cm}
 
-V případě, že není uživatelem poskytnuto umístění konfiguračního souboru, je použito výchozí nastavení - \texttt{config.conf} v adresáři souboru \texttt{run}
+V případě, že není uživatelem poskytnuto umístění konfiguračního souboru, je použito výchozí nastavení - \texttt{config.conf} v adresáři souboru \texttt{data\_exporter}
 
 \setlength{\leftskip}{1cm}
 \noindent
@@ -55,13 +55,13 @@ Otázky:
 
 \setlength{\leftskip}{2cm}
 \noindent
-Příklad: \hspace{0.5cm} \texttt{run -a YnYn}
+Příklad: \hspace{0.5cm} \texttt{data\_exporter -a YnYn}
 
 \noindent    
 Aplikace spuštěná s těmito parametry smaže staré záložní databáze, nevytvoří nové zálohy, exportuje data a nevyčistí vybranou databázi           
 
 \noindent
-Pokud nejsou parametry specifikovány žádné odpovědi, aplikace se spustí normálně a zeptá se na tyto otázky během jejího běhu
+Pokud nejsou parametry specifikovány žádné odpovědi, aplikace se spustí normálně a zeptá se na tyto otázky během svého běhu
 
 \setlength{\leftskip}{0cm}
 \noindent
